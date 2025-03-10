@@ -1,4 +1,4 @@
-package com.getirApp.getirAppBackend.core;
+package com.getirApp.getirAppBackend.service.modelMapper;
 
 public interface ModelMapperService {
 

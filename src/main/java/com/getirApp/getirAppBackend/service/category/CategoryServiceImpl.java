@@ -1,8 +1,9 @@
-package com.getirApp.getirAppBackend.service;
+package com.getirApp.getirAppBackend.service.category;
 
 import com.getirApp.getirAppBackend.entity.Category;
 import com.getirApp.getirAppBackend.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+    @Transactional
     @Override
     public Category save(Category category) {
         return this.categoryRepository.save(category);
@@ -22,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category get(int id) {
-        return this.categoryRepository.findById(id).orElseThrow();
+        return this.categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
     }
 
     @Override
@@ -30,12 +32,14 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findAll();
     }
 
+    @Transactional
     @Override
     public Category update(Category category) {
         this.get(category.getId());
         return this.categoryRepository.save(category);
     }
 
+    @Transactional
     @Override
     public void delete(int id) {
         Category category = this.get(id);

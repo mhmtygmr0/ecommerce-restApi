@@ -1,4 +1,4 @@
-package com.getirApp.getirAppBackend.service;
+package com.getirApp.getirAppBackend.service.category;
 
 import com.getirApp.getirAppBackend.entity.Category;
 

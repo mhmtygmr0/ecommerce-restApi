@@ -1,4 +1,4 @@
-package com.getirApp.getirAppBackend.core;
+package com.getirApp.getirAppBackend.core.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.getirApp.getirAppBackend.core;
+package com.getirApp.getirAppBackend.service.modelMapper;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
