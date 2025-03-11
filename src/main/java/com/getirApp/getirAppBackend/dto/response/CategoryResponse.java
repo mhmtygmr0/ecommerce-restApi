@@ -3,13 +3,15 @@ package com.getirApp.getirAppBackend.dto.response;
 public class CategoryResponse {
     private int id;
     private String name;
+    private String imageUrl;
 
     public CategoryResponse() {
     }
 
-    public CategoryResponse(int id, String name) {
+    public CategoryResponse(int id, String name, String imageUrl) {
         this.id = id;
         this.name = name;
+        this.imageUrl = imageUrl;
     }
 
     public int getId() {
@@ -26,5 +28,13 @@ public class CategoryResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

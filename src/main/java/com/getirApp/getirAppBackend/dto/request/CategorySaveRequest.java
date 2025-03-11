@@ -8,11 +8,14 @@ public class CategorySaveRequest {
     @NotEmpty(message = "Category name cannot be empty")
     private String name;
 
+    private String imageUrl;
+
     public CategorySaveRequest() {
     }
 
-    public CategorySaveRequest(String name) {
+    public CategorySaveRequest(String name, String imageUrl) {
         this.name = name;
+        this.imageUrl = imageUrl;
     }
 
     public String getName() {
@@ -21,5 +24,13 @@ public class CategorySaveRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

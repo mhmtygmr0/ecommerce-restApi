@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getCategoryList() {
-        return categoryRepository.findAll();
+        return categoryRepository.findAllByOrderByIdAsc();
     }
 
     @Transactional
