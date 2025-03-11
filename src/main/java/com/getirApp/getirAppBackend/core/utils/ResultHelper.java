@@ -18,7 +18,7 @@ public class ResultHelper {
         return new Result(true, Msg.SUCCESS, "200");
     }
 
-    public static Result notFoundError() {
-        return new Result(false, Msg.NOT_FOUND, "404");
+    public static Result notFoundError(String msg) {
+        return new Result(false, msg, "404");
     }
 }
