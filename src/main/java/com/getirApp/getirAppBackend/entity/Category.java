@@ -2,6 +2,9 @@ package com.getirApp.getirAppBackend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "category")
 public class Category {
@@ -17,13 +20,17 @@ public class Category {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
+
     public Category() {
     }
 
-    public Category(int id, String name, String imageUrl) {
+    public Category(int id, String name, String imageUrl, List<Product> products) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
+        this.products = products;
     }
 
     public int getId() {
@@ -48,5 +55,13 @@ public class Category {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

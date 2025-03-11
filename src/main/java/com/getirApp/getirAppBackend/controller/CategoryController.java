@@ -48,7 +48,7 @@ public class CategoryController {
     public ResultData<List<CategoryResponse>> getAll() {
         List<Category> categoryList = this.categoryService.getCategoryList();
 
-        List<CategoryResponse> categoryResponses = categoryList.stream().map(category -> new CategoryResponse(category.getId(), category.getName(), category.getImageUrl())).collect(Collectors.toList());
+        List<CategoryResponse> categoryResponses = categoryList.stream().map(category -> new CategoryResponse(category.getId(), category.getName(), category.getImageUrl(), category.getProducts())).collect(Collectors.toList());
 
         return ResultHelper.success(categoryResponses);
     }

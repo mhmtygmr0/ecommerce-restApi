@@ -7,6 +7,8 @@ public class StockSaveRequest {
     @NotNull(message = "Stock quantity cannot be null")
     private int quantity;
 
+    private int productId;
+
     public StockSaveRequest() {
     }
 

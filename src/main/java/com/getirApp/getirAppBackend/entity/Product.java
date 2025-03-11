@@ -23,7 +23,7 @@ public class Product {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stock;
 

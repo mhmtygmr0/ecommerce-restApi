@@ -25,7 +25,6 @@ public class Stock {
     @PrePersist
     @PreUpdate
     void onUpdate() {
-        // Veritabanına kaydederken zaman formatını "yyyy-MM-dd HH:mm" formatında saklamak
         this.updatedAt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
     }
 
@@ -64,4 +63,5 @@ public class Stock {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }
