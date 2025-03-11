@@ -1,28 +1,21 @@
-package com.getirApp.getirAppBackend.dto.request;
+package com.getirApp.getirAppBackend.dto.request.category;
 
-public class CategoryUpdateRequest {
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-    private int id;
-
+public class CategorySaveRequest {
+    @NotNull(message = "Category name cannot be null")
+    @NotEmpty(message = "Category name cannot be empty")
     private String name;
 
     private String imageUrl;
 
-    public CategoryUpdateRequest() {
+    public CategorySaveRequest() {
     }
 
-    public CategoryUpdateRequest(int id, String name, String imageUrl) {
-        this.id = id;
+    public CategorySaveRequest(String name, String imageUrl) {
         this.name = name;
         this.imageUrl = imageUrl;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
