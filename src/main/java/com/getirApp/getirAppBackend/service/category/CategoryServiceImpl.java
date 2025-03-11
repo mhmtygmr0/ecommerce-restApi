@@ -1,5 +1,6 @@
 package com.getirApp.getirAppBackend.service.category;
 
+import com.getirApp.getirAppBackend.core.exception.NotFoundException;
 import com.getirApp.getirAppBackend.entity.Category;
 import com.getirApp.getirAppBackend.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category get(int id) {
-        return this.categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Kategori bulunamadı: " + id));
     }
 
     @Override
