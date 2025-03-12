@@ -8,14 +8,14 @@ public class CategoryResponse {
     private String imageUrl;
     private List<ProductResponse> productList;
 
-    public CategoryResponse() {
-    }
-
     public CategoryResponse(int id, String name, String imageUrl, List<ProductResponse> productList) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.productList = productList;
+    }
+
+    public CategoryResponse() {
     }
 
     public int getId() {

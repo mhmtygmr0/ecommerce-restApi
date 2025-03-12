@@ -39,9 +39,11 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Transactional
     public ResultData<CategoryResponse> get(@PathVariable("id") int id) {
         Category category = this.categoryService.get(id);
-        return ResultHelper.success(this.modelMapper.forResponse().map(category, CategoryResponse.class));
+        CategoryResponse categoryResponse = modelMapper.mapCategoryWithProducts(category);
+        return ResultHelper.success(categoryResponse);
     }
 
     @GetMapping
@@ -49,9 +51,11 @@ public class CategoryController {
     public ResultData<List<CategoryResponse>> getAll() {
         List<Category> categoryList = this.categoryService.getCategoryList();
 
+        // Category'yi ve ilişkili ürünlerini dönüştürmek için yeni metodu kullanıyoruz
         List<CategoryResponse> categoryResponseList = categoryList.stream()
-                .map(category -> modelMapper.forResponse().map(category, CategoryResponse.class))
+                .map(modelMapper::mapCategoryWithProducts) // mapCategoryWithProducts kullanımı
                 .collect(Collectors.toList());
+
         return ResultHelper.success(categoryResponseList);
     }
 
