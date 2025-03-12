@@ -11,15 +11,18 @@ public class ProductResponse {
 
     private int categoryId;
 
+    private int stockQuantity;
+
     public ProductResponse() {
     }
 
-    public ProductResponse(long id, String name, String description, Double price, int categoryId) {
+    public ProductResponse(long id, String name, String description, Double price, int categoryId, int stockQuantity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.categoryId = categoryId;
+        this.stockQuantity = stockQuantity;
     }
 
     public long getId() {
@@ -60,5 +63,13 @@ public class ProductResponse {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 }
