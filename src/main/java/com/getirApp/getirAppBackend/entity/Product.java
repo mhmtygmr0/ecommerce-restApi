@@ -27,16 +27,21 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @OneToOne
+    @JoinColumn(name = "stock_id", referencedColumnName = "id")
+    private Stock stock;
+
     public Product() {
     }
 
-    public Product(long id, String name, String description, double price, String imageUrl, Category category) {
+    public Product(long id, String name, String description, double price, String imageUrl, Category category, Stock stock) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
         this.category = category;
+        this.stock = stock;
     }
 
     public long getId() {
@@ -85,5 +90,13 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
     }
 }

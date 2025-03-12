@@ -8,9 +8,11 @@ import com.getirApp.getirAppBackend.dto.request.product.ProductUpdateRequest;
 import com.getirApp.getirAppBackend.dto.response.ProductResponse;
 import com.getirApp.getirAppBackend.entity.Category;
 import com.getirApp.getirAppBackend.entity.Product;
+import com.getirApp.getirAppBackend.entity.Stock;
 import com.getirApp.getirAppBackend.service.category.CategoryService;
 import com.getirApp.getirAppBackend.service.modelMapper.ModelMapperService;
 import com.getirApp.getirAppBackend.service.product.ProductService;
+import com.getirApp.getirAppBackend.service.stock.StockService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,22 +27,30 @@ public class ProductController {
     private final ProductService productService;
     private final ModelMapperService modelMapper;
     private final CategoryService categoryService;
+    private final StockService stockService;
 
-    public ProductController(ProductService productService, ModelMapperService modelMapper, CategoryService categoryService) {
+    public ProductController(ProductService productService, ModelMapperService modelMapper, CategoryService categoryService, StockService stockService) {
         this.productService = productService;
         this.modelMapper = modelMapper;
         this.categoryService = categoryService;
+        this.stockService = stockService;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<ProductResponse> save(@Valid @RequestBody ProductSaveRequest productSaveRequest) {
         Product product = this.modelMapper.forRequest().map(productSaveRequest, Product.class);
-
         product.setId(0);
 
         Category category = this.categoryService.get(productSaveRequest.getCategoryId());
         product.setCategory(category);
+
+        Stock stock = new Stock();
+        stock.setQuantity(productSaveRequest.getStockQuantity());
+
+        stockService.save(stock);
+
+        product.setStock(stock);
 
         this.productService.save(product);
 
@@ -58,9 +68,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<ProductResponse>> getAll() {
         List<Product> productList = this.productService.getAll();
-        List<ProductResponse> productResponseList = productList.stream()
-                .map(product -> modelMapper.forResponse().map(product, ProductResponse.class))
-                .collect(Collectors.toList());
+        List<ProductResponse> productResponseList = productList.stream().map(product -> modelMapper.forResponse().map(product, ProductResponse.class)).collect(Collectors.toList());
         return ResultHelper.success(productResponseList);
     }
 
