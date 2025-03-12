@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 
 public class StockUpdateRequest {
 
-    private Long id;
-
     @NotNull(message = "Stock quantity cannot be null")
     private int quantity;
 
@@ -18,18 +16,9 @@ public class StockUpdateRequest {
     public StockUpdateRequest() {
     }
 
-    public StockUpdateRequest(Long id, int quantity, LocalDateTime updatedAt) {
-        this.id = id;
+    public StockUpdateRequest(int quantity, LocalDateTime updatedAt) {
         this.quantity = quantity;
         this.updatedAt = updatedAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public int getQuantity() {

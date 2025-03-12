@@ -11,6 +11,7 @@ import com.getirApp.getirAppBackend.service.category.CategoryService;
 import com.getirApp.getirAppBackend.service.modelMapper.ModelMapperService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,15 +49,17 @@ public class CategoryController {
     public ResultData<List<CategoryResponse>> getAll() {
         List<Category> categoryList = this.categoryService.getCategoryList();
 
-        List<CategoryResponse> categoryResponses = categoryList.stream().map(category -> new CategoryResponse(category.getId(), category.getName(), category.getImageUrl(), category.getProducts())).collect(Collectors.toList());
-
-        return ResultHelper.success(categoryResponses);
+        List<CategoryResponse> categoryResponseList = categoryList.stream()
+                .map(category -> modelMapper.forResponse().map(category, CategoryResponse.class))
+                .collect(Collectors.toList());
+        return ResultHelper.success(categoryResponseList);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<CategoryResponse> update(@Valid @RequestBody CategoryUpdateRequest categoryUpdateRequest) {
+    public ResultData<CategoryResponse> update(@PathVariable int id, @Valid @RequestBody CategoryUpdateRequest categoryUpdateRequest) {
         Category category = this.modelMapper.forRequest().map(categoryUpdateRequest, Category.class);
+        category.setId(id);
         this.categoryService.update(category);
         return ResultHelper.success(this.modelMapper.forResponse().map(category, CategoryResponse.class));
     }

@@ -19,20 +19,15 @@ public class ProductSaveRequest {
     @NotNull(message = "Kategori ID boş olamaz")
     private int categoryId;
 
-    @NotNull(message = "Stok miktarı boş olamaz")
-    @Min(value = 0, message = "Stok miktarı negatif olamaz")
-    private Integer stockQuantity;
-
     public ProductSaveRequest() {
     }
 
-    public ProductSaveRequest(String name, String description, Double price, String imageUrl, int categoryId, Integer stockQuantity) {
+    public ProductSaveRequest(String name, String description, Double price, String imageUrl, int categoryId) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
         this.categoryId = categoryId;
-        this.stockQuantity = stockQuantity;
     }
 
     public String getName() {
@@ -73,13 +68,5 @@ public class ProductSaveRequest {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public Integer getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(Integer stockQuantity) {
-        this.stockQuantity = stockQuantity;
     }
 }

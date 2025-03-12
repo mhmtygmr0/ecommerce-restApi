@@ -17,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public Product save(Product product) {
         return productRepository.save(product);
     }
@@ -34,12 +34,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(long id, Product product) {
+    @Transactional
+    public Product update(Product product) {
         this.get(product.getId());
         return productRepository.save(product);
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         Product product = this.get(id);
         this.productRepository.delete(product);

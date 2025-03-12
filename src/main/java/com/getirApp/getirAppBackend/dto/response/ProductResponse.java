@@ -1,28 +1,33 @@
 package com.getirApp.getirAppBackend.dto.response;
 
 public class ProductResponse {
+    private long id;
+
     private String name;
 
     private String description;
 
     private Double price;
 
-    private String imageUrl;
-
-    private Long categoryId;
-
-    private Integer stockQuantity;
+    private int categoryId;
 
     public ProductResponse() {
     }
 
-    public ProductResponse(String name, String description, Double price, String imageUrl, Long categoryId, Integer stockQuantity) {
+    public ProductResponse(long id, String name, String description, Double price, int categoryId) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.imageUrl = imageUrl;
         this.categoryId = categoryId;
-        this.stockQuantity = stockQuantity;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -49,27 +54,11 @@ public class ProductResponse {
         this.price = price;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public Long getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public Integer getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(Integer stockQuantity) {
-        this.stockQuantity = stockQuantity;
     }
 }

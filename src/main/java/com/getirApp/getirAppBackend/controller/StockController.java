@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/stock")
@@ -47,15 +48,18 @@ public class StockController {
     public ResultData<List<StockResponse>> getAll() {
         List<Stock> stockList = this.stockService.getStockList();
 
-        List<StockResponse> stockResponses = stockList.stream().map(stock -> new StockResponse(stock.getId(), stock.getQuantity(), stock.getUpdatedAt())).toList();
+        List<StockResponse> stockResponseList = stockList.stream()
+                .map(stock -> modelMapper.forResponse().map(stock, StockResponse.class))
+                .collect(Collectors.toList());
 
-        return ResultHelper.success(stockResponses);
+        return ResultHelper.success(stockResponseList);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<StockResponse> update(@Valid @RequestBody StockUpdateRequest stockUpdateRequest) {
+    public ResultData<StockResponse> update(@PathVariable long id, @Valid @RequestBody StockUpdateRequest stockUpdateRequest) {
         Stock stock = this.modelMapper.forRequest().map(stockUpdateRequest, Stock.class);
+        stock.setId(id);
         this.stockService.update(stock);
         return ResultHelper.success(this.modelMapper.forResponse().map(stock, StockResponse.class));
     }

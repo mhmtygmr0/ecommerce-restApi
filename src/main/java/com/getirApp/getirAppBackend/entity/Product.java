@@ -23,10 +23,6 @@ public class Product {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "stock_id", referencedColumnName = "id")
-    private Stock stock;
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -34,13 +30,12 @@ public class Product {
     public Product() {
     }
 
-    public Product(long id, String name, String description, double price, String imageUrl, Stock stock, Category category) {
+    public Product(long id, String name, String description, double price, String imageUrl, Category category) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
-        this.stock = stock;
         this.category = category;
     }
 
@@ -82,14 +77,6 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public Stock getStock() {
-        return stock;
-    }
-
-    public void setStock(Stock stock) {
-        this.stock = stock;
     }
 
     public Category getCategory() {

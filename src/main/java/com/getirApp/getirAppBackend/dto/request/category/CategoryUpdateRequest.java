@@ -2,8 +2,6 @@ package com.getirApp.getirAppBackend.dto.request.category;
 
 public class CategoryUpdateRequest {
 
-    private int id;
-
     private String name;
 
     private String imageUrl;
@@ -11,18 +9,9 @@ public class CategoryUpdateRequest {
     public CategoryUpdateRequest() {
     }
 
-    public CategoryUpdateRequest(int id, String name, String imageUrl) {
-        this.id = id;
+    public CategoryUpdateRequest(String name, String imageUrl) {
         this.name = name;
         this.imageUrl = imageUrl;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
