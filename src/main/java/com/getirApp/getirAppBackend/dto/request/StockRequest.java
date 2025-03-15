@@ -12,8 +12,9 @@ public class StockRequest {
     public StockRequest() {
     }
 
-    public StockRequest(int quantity) {
+    public StockRequest(int quantity, int productId) {
         this.quantity = quantity;
+        this.productId = productId;
     }
 
     public int getQuantity() {
@@ -22,5 +23,13 @@ public class StockRequest {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 }
