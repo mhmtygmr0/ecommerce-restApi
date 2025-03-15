@@ -9,19 +9,19 @@ public class ProductResponse {
 
     private Double price;
 
-    private int categoryId;
+    private String categoryName;
 
     private int stockQuantity;
 
     public ProductResponse() {
     }
 
-    public ProductResponse(long id, String name, String description, Double price, int categoryId, int stockQuantity) {
+    public ProductResponse(long id, String name, String description, Double price, String categoryName, int stockQuantity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.stockQuantity = stockQuantity;
     }
 
@@ -57,12 +57,12 @@ public class ProductResponse {
         this.price = price;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public int getStockQuantity() {
