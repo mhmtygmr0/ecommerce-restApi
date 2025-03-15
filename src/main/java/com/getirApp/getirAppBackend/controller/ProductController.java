@@ -73,9 +73,25 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResultData<ProductResponse> update(@PathVariable long id, @Valid @RequestBody ProductRequest productRequest) {
-        Product product = this.modelMapper.forRequest().map(productRequest, Product.class);
-        product.setId(id);
+        Product product = this.productService.get(id);
+
+        product.setName(productRequest.getName());
+        product.setPrice(productRequest.getPrice());
+
+        Category category = this.categoryService.get(productRequest.getCategoryId());
+        product.setCategory(category);
+
+        Stock stock = product.getStock();
+        if (stock == null) {
+            stock = new Stock();
+        }
+        stock.setQuantity(productRequest.getStockQuantity());
+        this.stockService.save(stock);
+
+        product.setStock(stock);
+
         this.productService.update(product);
+
         return ResultHelper.success(this.modelMapper.forResponse().map(product, ProductResponse.class));
     }
 
