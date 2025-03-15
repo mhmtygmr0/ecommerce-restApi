@@ -1,18 +1,18 @@
-package com.getirApp.getirAppBackend.dto.request.stock;
+package com.getirApp.getirAppBackend.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 
-public class StockSaveRequest {
+public class StockRequest {
 
     @NotNull(message = "Stock quantity cannot be null")
     private int quantity;
 
     private int productId;
 
-    public StockSaveRequest() {
+    public StockRequest() {
     }
 
-    public StockSaveRequest(int quantity) {
+    public StockRequest(int quantity) {
         this.quantity = quantity;
     }
 

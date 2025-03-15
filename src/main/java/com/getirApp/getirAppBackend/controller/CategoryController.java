@@ -3,8 +3,7 @@ package com.getirApp.getirAppBackend.controller;
 import com.getirApp.getirAppBackend.core.utils.Result;
 import com.getirApp.getirAppBackend.core.utils.ResultData;
 import com.getirApp.getirAppBackend.core.utils.ResultHelper;
-import com.getirApp.getirAppBackend.dto.request.category.CategorySaveRequest;
-import com.getirApp.getirAppBackend.dto.request.category.CategoryUpdateRequest;
+import com.getirApp.getirAppBackend.dto.request.CategoryRequest;
 import com.getirApp.getirAppBackend.dto.response.CategoryResponse;
 import com.getirApp.getirAppBackend.entity.Category;
 import com.getirApp.getirAppBackend.service.category.CategoryService;
@@ -31,8 +30,8 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultData<CategoryResponse> save(@Valid @RequestBody CategorySaveRequest categorySaveRequest) {
-        Category category = this.modelMapper.forRequest().map(categorySaveRequest, Category.class);
+    public ResultData<CategoryResponse> save(@Valid @RequestBody CategoryRequest categoryRequest) {
+        Category category = this.modelMapper.forRequest().map(categoryRequest, Category.class);
         this.categoryService.save(category);
         return ResultHelper.created(this.modelMapper.forResponse().map(category, CategoryResponse.class));
     }
@@ -61,8 +60,8 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<CategoryResponse> update(@PathVariable int id, @Valid @RequestBody CategoryUpdateRequest categoryUpdateRequest) {
-        Category category = this.modelMapper.forRequest().map(categoryUpdateRequest, Category.class);
+    public ResultData<CategoryResponse> update(@PathVariable int id, @Valid @RequestBody CategoryRequest categoryRequest) {
+        Category category = this.modelMapper.forRequest().map(categoryRequest, Category.class);
         category.setId(id);
         this.categoryService.update(category);
         return ResultHelper.success(this.modelMapper.forResponse().map(category, CategoryResponse.class));

@@ -1,9 +1,9 @@
-package com.getirApp.getirAppBackend.dto.request.product;
+package com.getirApp.getirAppBackend.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public class ProductUpdateRequest {
+public class ProductRequest {
 
     @NotNull(message = "Ürün adı boş olamaz")
     private String name;
@@ -17,17 +17,22 @@ public class ProductUpdateRequest {
     private String imageUrl;
 
     @NotNull(message = "Kategori ID boş olamaz")
-    private Long categoryId;
+    private int categoryId;
 
-    public ProductUpdateRequest() {
+    @NotNull(message = "Stok miktarı boş olamaz")
+    @Min(value = 0, message = "Stok miktarı negatif olamaz")
+    private int stockQuantity;
+
+    public ProductRequest() {
     }
 
-    public ProductUpdateRequest(String name, String description, Double price, String imageUrl, Long categoryId) {
+    public ProductRequest(String name, String description, Double price, String imageUrl, int categoryId, int stockQuantity) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
         this.categoryId = categoryId;
+        this.stockQuantity = stockQuantity;
     }
 
     public String getName() {
@@ -62,11 +67,19 @@ public class ProductUpdateRequest {
         this.imageUrl = imageUrl;
     }
 
-    public Long getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 }

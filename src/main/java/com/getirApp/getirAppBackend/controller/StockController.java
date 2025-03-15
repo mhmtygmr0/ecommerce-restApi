@@ -3,8 +3,7 @@ package com.getirApp.getirAppBackend.controller;
 import com.getirApp.getirAppBackend.core.utils.Result;
 import com.getirApp.getirAppBackend.core.utils.ResultData;
 import com.getirApp.getirAppBackend.core.utils.ResultHelper;
-import com.getirApp.getirAppBackend.dto.request.stock.StockSaveRequest;
-import com.getirApp.getirAppBackend.dto.request.stock.StockUpdateRequest;
+import com.getirApp.getirAppBackend.dto.request.StockRequest;
 import com.getirApp.getirAppBackend.dto.response.StockResponse;
 import com.getirApp.getirAppBackend.entity.Stock;
 import com.getirApp.getirAppBackend.service.modelMapper.ModelMapperService;
@@ -30,8 +29,8 @@ public class StockController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultData<StockResponse> save(@Valid @RequestBody StockSaveRequest stockSaveRequest) {
-        Stock stock = this.modelMapper.forRequest().map(stockSaveRequest, Stock.class);
+    public ResultData<StockResponse> save(@Valid @RequestBody StockRequest stockRequest) {
+        Stock stock = this.modelMapper.forRequest().map(stockRequest, Stock.class);
         this.stockService.save(stock);
         return ResultHelper.created(this.modelMapper.forResponse().map(stock, StockResponse.class));
     }
@@ -57,8 +56,8 @@ public class StockController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<StockResponse> update(@PathVariable long id, @Valid @RequestBody StockUpdateRequest stockUpdateRequest) {
-        Stock stock = this.modelMapper.forRequest().map(stockUpdateRequest, Stock.class);
+    public ResultData<StockResponse> update(@PathVariable long id, @Valid @RequestBody StockRequest stockRequest) {
+        Stock stock = this.modelMapper.forRequest().map(stockRequest, Stock.class);
         stock.setId(id);
         this.stockService.update(stock);
         return ResultHelper.success(this.modelMapper.forResponse().map(stock, StockResponse.class));

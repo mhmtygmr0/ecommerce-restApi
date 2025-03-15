@@ -3,8 +3,7 @@ package com.getirApp.getirAppBackend.controller;
 import com.getirApp.getirAppBackend.core.utils.Result;
 import com.getirApp.getirAppBackend.core.utils.ResultData;
 import com.getirApp.getirAppBackend.core.utils.ResultHelper;
-import com.getirApp.getirAppBackend.dto.request.product.ProductSaveRequest;
-import com.getirApp.getirAppBackend.dto.request.product.ProductUpdateRequest;
+import com.getirApp.getirAppBackend.dto.request.ProductRequest;
 import com.getirApp.getirAppBackend.dto.response.ProductResponse;
 import com.getirApp.getirAppBackend.entity.Category;
 import com.getirApp.getirAppBackend.entity.Product;
@@ -38,15 +37,15 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResultData<ProductResponse> save(@Valid @RequestBody ProductSaveRequest productSaveRequest) {
-        Product product = this.modelMapper.forRequest().map(productSaveRequest, Product.class);
+    public ResultData<ProductResponse> save(@Valid @RequestBody ProductRequest productRequest) {
+        Product product = this.modelMapper.forRequest().map(productRequest, Product.class);
         product.setId(0);
 
-        Category category = this.categoryService.get(productSaveRequest.getCategoryId());
+        Category category = this.categoryService.get(productRequest.getCategoryId());
         product.setCategory(category);
 
         Stock stock = new Stock();
-        stock.setQuantity(productSaveRequest.getStockQuantity());
+        stock.setQuantity(productRequest.getStockQuantity());
 
         stockService.save(stock);
 
@@ -73,8 +72,8 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResultData<ProductResponse> update(@PathVariable long id, @Valid @RequestBody ProductUpdateRequest productUpdateRequest) {
-        Product product = this.modelMapper.forRequest().map(productUpdateRequest, Product.class);
+    public ResultData<ProductResponse> update(@PathVariable long id, @Valid @RequestBody ProductRequest productRequest) {
+        Product product = this.modelMapper.forRequest().map(productRequest, Product.class);
         product.setId(id);
         this.productService.update(product);
         return ResultHelper.success(this.modelMapper.forResponse().map(product, ProductResponse.class));
