@@ -1,11 +1,13 @@
 package com.getirApp.getirAppBackend.dto.request;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public class ProductRequest {
 
     @NotNull(message = "Ürün adı boş olamaz")
+    @NotEmpty(message = "Ürün adı boş olamaz")
     private String name;
 
     private String description;

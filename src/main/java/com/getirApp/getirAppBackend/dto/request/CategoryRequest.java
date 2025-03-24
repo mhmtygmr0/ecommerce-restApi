@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public class CategoryRequest {
-    @NotNull(message = "Category name cannot be null")
-    @NotEmpty(message = "Category name cannot be empty")
+    @NotNull(message = "Kategori adı boş olamaz")
+    @NotEmpty(message = "Kategori adı boş olamaz")
     private String name;
 
     private String imageUrl;

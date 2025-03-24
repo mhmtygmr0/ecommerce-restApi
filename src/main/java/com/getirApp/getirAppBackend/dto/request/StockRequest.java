@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class StockRequest {
 
-    @NotNull(message = "Stock quantity cannot be null")
+    @NotNull(message = "Stok miktarı boş olamaz")
     private int quantity;
 
     private LocalDateTime updatedAt = LocalDateTime.now();

@@ -26,7 +26,7 @@ public class User {
     private String password;
 
     @Column(name = "phone", nullable = false, unique = true)
-    @Pattern(regexp = "^[0-9]{11}$", message = "Phone number must be 11 digits")
+    @Pattern(regexp = "^[0-9]{11}$", message = "Telefon numarası 11 haneli olmalıdır")
     private String phone;
 
     @Enumerated(EnumType.STRING)

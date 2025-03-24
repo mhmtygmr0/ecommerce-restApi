@@ -1,23 +1,23 @@
 package com.getirApp.getirAppBackend.dto.request;
 
 import com.getirApp.getirAppBackend.entity.UserRole;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 
 public class UserRequest {
 
-    @NotBlank(message = "Name cannot be empty")
+    @NotNull(message = "Kullanıcı adı boş olamaz")
+    @NotEmpty(message = "Kullanıcı adı boş olamaz")
     private String name;
 
-    @Email(message = "Invalid email format")
-    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Geçersiz e-posta biçimi")
+    @NotBlank(message = "E-posta boş olamaz")
     private String email;
 
-    @NotBlank(message = "Password cannot be empty")
+    @NotNull(message = "Şifre boş olamaz")
+    @NotEmpty(message = "Şifre boş olamaz")
     private String password;
 
-    @Pattern(regexp = "^[0-9]{11}$", message = "Phone number must be 11 digits")
+    @Pattern(regexp = "^[0-9]{11}$", message = "Telefon numarası 11 haneli olmalıdır")
     private String phone;
 
     private UserRole role;
