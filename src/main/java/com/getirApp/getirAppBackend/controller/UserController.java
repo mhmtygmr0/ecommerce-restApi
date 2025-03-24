@@ -1,5 +1,6 @@
 package com.getirApp.getirAppBackend.controller;
 
+import com.getirApp.getirAppBackend.core.utils.Result;
 import com.getirApp.getirAppBackend.core.utils.ResultData;
 import com.getirApp.getirAppBackend.core.utils.ResultHelper;
 import com.getirApp.getirAppBackend.dto.request.UserRequest;
@@ -10,6 +11,8 @@ import com.getirApp.getirAppBackend.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -36,5 +39,29 @@ public class UserController {
     public ResultData<UserResponse> get(@PathVariable("id") Long id) {
         User user = this.userService.get(id);
         return ResultHelper.success(modelMapper.forResponse().map(user, UserResponse.class));
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<List<UserResponse>> getAll() {
+        List<User> userList = this.userService.getUserList();
+        List<UserResponse> userResponseList = userList.stream().map(user -> modelMapper.forResponse().map(user, UserResponse.class)).toList();
+        return ResultHelper.success(userResponseList);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<UserResponse> update(@PathVariable Long id, @Valid @RequestBody UserRequest userRequest) {
+        User user = this.modelMapper.forRequest().map(userRequest, User.class);
+        user.setId(id);
+        this.userService.update(user);
+        return ResultHelper.success(this.modelMapper.forResponse().map(user, UserResponse.class));
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Result delete(@PathVariable("id") Long id) {
+        this.userService.delete(id);
+        return ResultHelper.ok();
     }
 }
