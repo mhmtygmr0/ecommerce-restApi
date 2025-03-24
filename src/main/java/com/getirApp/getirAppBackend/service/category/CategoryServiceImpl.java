@@ -25,13 +25,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category get(int id) {
-        return categoryRepository.findById(id)
+        return this.categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Kategori bulunamadı: " + id));
     }
 
     @Override
     public List<Category> getCategoryList() {
-        return categoryRepository.findAllByOrderByIdAsc();
+        return this.categoryRepository.findAllByOrderByIdAsc();
     }
 
     @Transactional
