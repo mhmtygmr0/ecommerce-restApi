@@ -1,23 +1,29 @@
 package com.getirApp.getirAppBackend.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public class AddressRequest {
 
-    @NotBlank(message = "Title cannot be blank")
+    @NotNull(message = "Address title cannot be null")
+    @NotEmpty(message = "Address title cannot be empty")
     private String title;
 
-    @NotBlank(message = "Street cannot be blank")
+    @NotNull(message = "Address street cannot be null")
+    @NotEmpty(message = "Address street cannot be empty")
     private String street;
 
-    @NotBlank(message = "City cannot be blank")
+    @NotNull(message = "Address city cannot be null")
+    @NotEmpty(message = "Address city cannot be empty")
     private String city;
 
-    @NotBlank(message = "District cannot be blank")
+    @NotNull(message = "Address district cannot be null")
+    @NotEmpty(message = "Address district cannot be empty")
     private String district;
 
-    @NotBlank(message = "Postal code cannot be blank")
+    @NotNull(message = "Address postal code cannot be null")
+    @NotEmpty(message = "Address postalCode cannot be empty")
     @Pattern(regexp = "^[0-9]{5}$", message = "Postal code must be exactly 5 digits")
     private String postalCode;
 

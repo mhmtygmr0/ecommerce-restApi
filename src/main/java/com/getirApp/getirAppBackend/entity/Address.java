@@ -12,23 +12,18 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Title cannot be empty")
     @Column(name = "title", nullable = false)
     private String title;
 
-    @NotBlank(message = "Street cannot be empty")
     @Column(name = "street", nullable = false)
     private String street;
 
-    @NotBlank(message = "City cannot be empty")
     @Column(name = "city", nullable = false)
     private String city;
 
-    @NotBlank(message = "District cannot be empty")
     @Column(name = "district", nullable = false)
     private String district;
 
-    @NotBlank(message = "Postal code cannot be empty")
     @Column(name = "postal_code", nullable = false)
     @Pattern(regexp = "^[0-9]{5}$", message = "Postal code must be exactly 5 digits")
     private String postalCode;

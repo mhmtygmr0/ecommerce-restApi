@@ -6,23 +6,26 @@ import jakarta.validation.constraints.NotNull;
 
 public class ProductRequest {
 
-    @NotNull(message = "Ürün adı boş olamaz")
-    @NotEmpty(message = "Ürün adı boş olamaz")
+    @NotNull(message = "Product name cannot be null")
+    @NotEmpty(message = "Product name cannot be empty")
     private String name;
 
     private String description;
 
-    @NotNull(message = "Fiyat boş olamaz")
-    @Min(value = 0, message = "Fiyat negatif olamaz")
+    @NotNull(message = "Product price cannot be null")
+    @NotEmpty(message = "Product price cannot be empty")
+    @Min(value = 0, message = "Price cannot be negative")
     private Double price;
 
     private String imageUrl;
 
-    @NotNull(message = "Kategori ID boş olamaz")
+    @NotNull(message = "Product category id cannot be null")
+    @NotEmpty(message = "Product category id cannot be empty")
     private int categoryId;
 
-    @NotNull(message = "Stok miktarı boş olamaz")
-    @Min(value = 0, message = "Stok miktarı negatif olamaz")
+    @NotNull(message = "Product stock quantity cannot be null")
+    @NotEmpty(message = "Product stock quantity cannot be empty")
+    @Min(value = 0, message = "Product stock quantity cannot be negative")
     private int stockQuantity;
 
     public ProductRequest() {

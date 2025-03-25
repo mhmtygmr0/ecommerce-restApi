@@ -5,19 +5,19 @@ import jakarta.validation.constraints.*;
 
 public class UserRequest {
 
-    @NotNull(message = "Kullanıcı adı boş olamaz")
-    @NotEmpty(message = "Kullanıcı adı boş olamaz")
+    @NotNull(message = "Username cannot be null")
+    @NotEmpty(message = "Username cannot be empty")
     private String name;
 
-    @Email(message = "Geçersiz e-posta biçimi")
-    @NotBlank(message = "E-posta boş olamaz")
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
 
-    @NotNull(message = "Şifre boş olamaz")
-    @NotEmpty(message = "Şifre boş olamaz")
+    @NotNull(message = "Password cannot be null")
+    @NotEmpty(message = "Password cannot be empty")
     private String password;
 
-    @Pattern(regexp = "^[0-9]{11}$", message = "Telefon numarası 11 haneli olmalıdır")
+    @Pattern(regexp = "^[0-9]{11}$", message = "Phone number must be 11 digits")
     private String phone;
 
     private UserRole role;
