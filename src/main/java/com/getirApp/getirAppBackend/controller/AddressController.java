@@ -52,15 +52,18 @@ public class AddressController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AddressResponse> update(@PathVariable Long id, @Valid @RequestBody AddressRequest addressRequest) {
-        Address address = this.modelMapper.forRequest().map(addressRequest, Address.class);
-        address.setId(id);
-        this.addressService.update(address);
-        return ResultHelper.success(this.modelMapper.forResponse().map(address, AddressResponse.class));
+        Address existingAddress = this.addressService.get(id);
+        Address updatedAddress = this.modelMapper.forRequest().map(addressRequest, Address.class);
+        updatedAddress.setId(id);
+        updatedAddress.setUser(existingAddress.getUser()); // Kullanıcı değişimini engelle
+        this.addressService.update(updatedAddress);
+        return ResultHelper.success(this.modelMapper.forResponse().map(updatedAddress, AddressResponse.class));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
+        Address address = this.addressService.get(id);
         this.addressService.delete(id);
         return ResultHelper.ok();
     }

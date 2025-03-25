@@ -90,12 +90,12 @@ public class Address {
         this.district = district;
     }
 
-    public String getPostal_code() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostal_code(String postal_code) {
-        this.postalCode = postal_code;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public User getUser() {
