@@ -4,6 +4,7 @@ import com.getirApp.getirAppBackend.core.exception.NotFoundException;
 import com.getirApp.getirAppBackend.entity.User;
 import com.getirApp.getirAppBackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     @Override
     public User save(User user) {
         return this.userRepository.save(user);
@@ -31,11 +33,14 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findAllByOrderByIdAsc();
     }
 
+    @Transactional
     @Override
     public User update(User user) {
+        this.get(user.getId());
         return this.userRepository.save(user);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         User user = this.get(id);

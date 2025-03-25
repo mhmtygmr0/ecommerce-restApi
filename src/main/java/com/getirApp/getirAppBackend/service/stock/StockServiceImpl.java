@@ -30,7 +30,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public List<Stock> getStockList() {
-        return stockRepository.findAll();
+        return stockRepository.findAllByOrderByIdAsc();
     }
 
     @Transactional

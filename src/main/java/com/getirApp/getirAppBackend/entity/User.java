@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -42,10 +43,13 @@ public class User {
         this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
     }
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses;
+
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, String phone, UserRole role, LocalDateTime createdAt) {
+    public User(Long id, String name, String email, String password, String phone, UserRole role, LocalDateTime createdAt, List<Address> addresses) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -53,6 +57,7 @@ public class User {
         this.phone = phone;
         this.role = role;
         this.createdAt = createdAt;
+        this.addresses = addresses;
     }
 
     public Long getId() {
@@ -109,6 +114,14 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }
 
