@@ -1,6 +1,7 @@
 package com.getirApp.getirAppBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.getirApp.getirAppBackend.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 

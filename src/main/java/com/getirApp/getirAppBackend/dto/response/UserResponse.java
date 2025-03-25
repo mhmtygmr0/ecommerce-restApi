@@ -1,7 +1,7 @@
 package com.getirApp.getirAppBackend.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.getirApp.getirAppBackend.entity.UserRole;
+import com.getirApp.getirAppBackend.enums.UserRole;
 
 import java.time.LocalDateTime;
 

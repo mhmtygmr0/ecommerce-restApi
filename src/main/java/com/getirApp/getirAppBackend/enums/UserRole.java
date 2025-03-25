@@ -1,4 +1,4 @@
-package com.getirApp.getirAppBackend.entity;
+package com.getirApp.getirAppBackend.enums;
 
 public enum UserRole {
     CUSTOMER,

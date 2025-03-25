@@ -2,6 +2,7 @@ package com.getirApp.getirAppBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -16,6 +17,7 @@ public class Stock {
     private Long id;
 
     @Column(name = "quantity", nullable = false)
+    @Min(value = 0, message = "Quantity must be at least 0")
     private int quantity;
 
     @Column(name = "updatedAt", nullable = false)

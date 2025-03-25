@@ -1,6 +1,6 @@
 package com.getirApp.getirAppBackend.dto.request;
 
-import com.getirApp.getirAppBackend.entity.UserRole;
+import com.getirApp.getirAppBackend.enums.UserRole;
 import jakarta.validation.constraints.*;
 
 public class UserRequest {
