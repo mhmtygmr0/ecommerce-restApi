@@ -1,5 +1,6 @@
 package com.getirApp.getirAppBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.getirApp.getirAppBackend.enums.OrderStatus;
 import jakarta.persistence.*;
 
@@ -23,7 +24,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
 
     @ManyToOne
@@ -38,23 +40,10 @@ public class Order {
     private List<OrderItem> orderItems;
 
     @PrePersist
-    public void calculateTotalPrice() {
-        if (orderItems != null) {
-            this.totalPrice = orderItems.stream()
-                    .mapToDouble(OrderItem::getPrice)
-                    .sum();
-        } else {
-            this.totalPrice = 0.0;
-        }
+    protected void onCreate() {
         this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         this.status = OrderStatus.PENDING;
-    }
-
-    @PreUpdate
-    public void updateTotalPrice() {
-        this.totalPrice = orderItems.stream()
-                .mapToDouble(OrderItem::getPrice)
-                .sum();
+        this.totalPrice = 0.0;
     }
 
     public Order() {
