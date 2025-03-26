@@ -38,14 +38,14 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<UserResponse> get(@PathVariable("id") Long id) {
         User user = this.userService.get(id);
-        return ResultHelper.success(modelMapper.forResponse().map(user, UserResponse.class));
+        return ResultHelper.success(this.modelMapper.forResponse().map(user, UserResponse.class));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<UserResponse>> getAll() {
         List<User> userList = this.userService.getUserList();
-        List<UserResponse> userResponseList = userList.stream().map(user -> modelMapper.forResponse().map(user, UserResponse.class)).toList();
+        List<UserResponse> userResponseList = userList.stream().map(user -> this.modelMapper.forResponse().map(user, UserResponse.class)).toList();
         return ResultHelper.success(userResponseList);
     }
 
