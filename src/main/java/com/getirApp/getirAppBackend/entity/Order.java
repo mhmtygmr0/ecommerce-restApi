@@ -39,9 +39,13 @@ public class Order {
 
     @PrePersist
     public void calculateTotalPrice() {
-        this.totalPrice = orderItems.stream()
-                .mapToDouble(OrderItem::getPrice)
-                .sum();
+        if (orderItems != null) {
+            this.totalPrice = orderItems.stream()
+                    .mapToDouble(OrderItem::getPrice)
+                    .sum();
+        } else {
+            this.totalPrice = 0.0;
+        }
         this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         this.status = OrderStatus.PENDING;
     }
