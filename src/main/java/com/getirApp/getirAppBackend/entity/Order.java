@@ -50,6 +50,13 @@ public class Order {
         this.status = OrderStatus.PENDING;
     }
 
+    @PreUpdate
+    public void updateTotalPrice() {
+        this.totalPrice = orderItems.stream()
+                .mapToDouble(OrderItem::getPrice)
+                .sum();
+    }
+
     public Order() {
     }
 
