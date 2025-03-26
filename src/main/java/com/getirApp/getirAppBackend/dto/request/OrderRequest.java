@@ -1,16 +1,13 @@
 package com.getirApp.getirAppBackend.dto.request;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public class OrderRequest {
 
     @NotNull(message = "User id cannot be null")
-    @NotEmpty(message = "User id cannot be empty")
     private Long userId;
 
     @NotNull(message = "Address id cannot be null")
-    @NotEmpty(message = "Address id cannot be empty")
     private Long addressId;
 
     public OrderRequest() {

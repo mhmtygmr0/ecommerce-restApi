@@ -13,18 +13,15 @@ public class ProductRequest {
     private String description;
 
     @NotNull(message = "Product price cannot be null")
-    @NotEmpty(message = "Product price cannot be empty")
     @Min(value = 0, message = "Price cannot be negative")
     private Double price;
 
     private String imageUrl;
 
     @NotNull(message = "Product category id cannot be null")
-    @NotEmpty(message = "Product category id cannot be empty")
     private int categoryId;
 
     @NotNull(message = "Product stock quantity cannot be null")
-    @NotEmpty(message = "Product stock quantity cannot be empty")
     @Min(value = 0, message = "Product stock quantity cannot be negative")
     private int stockQuantity;
 

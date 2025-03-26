@@ -1,21 +1,17 @@
 package com.getirApp.getirAppBackend.dto.request;
 
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public class OrderItemRequest {
 
     @NotNull(message = "Order id cannot be null")
-    @NotEmpty(message = "Order id cannot be empty")
     private Long orderId;
 
     @NotNull(message = "Product id cannot be null")
-    @NotEmpty(message = "Product id cannot be empty")
     private Long productId;
 
     @NotNull(message = "Quantity cannot be null")
-    @NotEmpty(message = "Quantity cannot be empty")
     @Min(value = 0, message = "Quantity must be at least 0")
     private int quantity;
 

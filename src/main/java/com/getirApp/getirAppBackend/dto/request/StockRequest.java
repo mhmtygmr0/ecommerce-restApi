@@ -1,6 +1,5 @@
 package com.getirApp.getirAppBackend.dto.request;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
@@ -8,7 +7,6 @@ import java.time.LocalDateTime;
 public class StockRequest {
 
     @NotNull(message = "Stock quantity cannot be null")
-    @NotEmpty(message = "Stock quantity cannot be empty")
     private int quantity;
 
     private LocalDateTime updatedAt = LocalDateTime.now();
