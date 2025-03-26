@@ -6,8 +6,10 @@ import com.getirApp.getirAppBackend.core.utils.ResultHelper;
 import com.getirApp.getirAppBackend.dto.request.OrderItemRequest;
 import com.getirApp.getirAppBackend.dto.response.OrderItemResponse;
 import com.getirApp.getirAppBackend.entity.OrderItem;
+import com.getirApp.getirAppBackend.entity.Product;
 import com.getirApp.getirAppBackend.service.modelMapper.ModelMapperService;
 import com.getirApp.getirAppBackend.service.orderItem.OrderItemService;
+import com.getirApp.getirAppBackend.service.product.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +22,27 @@ public class OrderItemController {
 
     private final OrderItemService orderItemService;
     private final ModelMapperService modelMapper;
+    private final ProductService productService;
 
-    public OrderItemController(OrderItemService orderItemService, ModelMapperService modelMapper) {
+    public OrderItemController(OrderItemService orderItemService, ModelMapperService modelMapper, ProductService productService) {
         this.orderItemService = orderItemService;
         this.modelMapper = modelMapper;
+        this.productService = productService;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<OrderItemResponse> save(@Valid @RequestBody OrderItemRequest orderItemRequest) {
         OrderItem orderItem = this.modelMapper.forRequest().map(orderItemRequest, OrderItem.class);
+
+        Product product = this.productService.get(orderItemRequest.getProductId());
+        if (product != null) {
+            double price = product.getPrice() * orderItem.getQuantity();
+            orderItem.setPrice(price);
+        }
+
         this.orderItemService.save(orderItem);
+
         return ResultHelper.created(this.modelMapper.forResponse().map(orderItem, OrderItemResponse.class));
     }
 
@@ -45,7 +57,9 @@ public class OrderItemController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<OrderItemResponse>> getAll() {
         List<OrderItem> orderItemList = this.orderItemService.getAll();
-        List<OrderItemResponse> orderItemResponseList = orderItemList.stream().map(orderItem -> this.modelMapper.forResponse().map(orderItem, OrderItemResponse.class)).toList();
+        List<OrderItemResponse> orderItemResponseList = orderItemList.stream()
+                .map(orderItem -> this.modelMapper.forResponse().map(orderItem, OrderItemResponse.class))
+                .toList();
         return ResultHelper.success(orderItemResponseList);
     }
 
@@ -54,6 +68,13 @@ public class OrderItemController {
     public ResultData<OrderItemResponse> update(@PathVariable Long id, @Valid @RequestBody OrderItemRequest orderItemRequest) {
         OrderItem orderItem = this.modelMapper.forRequest().map(orderItemRequest, OrderItem.class);
         orderItem.setId(id);
+
+        Product product = this.productService.get(orderItemRequest.getProductId());
+        if (product != null) {
+            double price = product.getPrice() * orderItem.getQuantity();
+            orderItem.setPrice(price);
+        }
+
         this.orderItemService.update(orderItem);
         return ResultHelper.success(this.modelMapper.forResponse().map(orderItem, OrderItemResponse.class));
     }

@@ -27,11 +27,6 @@ public class OrderItem {
     @Column(name = "price")
     private double price;
 
-    @PrePersist
-    public void calculatePrice() {
-        this.price = this.product.getPrice() * this.quantity;
-    }
-
     public OrderItem() {
     }
 
