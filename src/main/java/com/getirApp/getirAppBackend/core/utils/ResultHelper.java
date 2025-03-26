@@ -21,4 +21,8 @@ public class ResultHelper {
     public static Result notFoundError(String msg) {
         return new Result(false, msg, "404");
     }
+
+    public static Result forbiddenError(String message) {
+        return new Result(false, message, "403");
+    }
 }

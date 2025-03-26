@@ -1,5 +1,6 @@
 package com.getirApp.getirAppBackend.service.order;
 
+import com.getirApp.getirAppBackend.core.exception.ForbiddenException;
 import com.getirApp.getirAppBackend.core.exception.NotFoundException;
 import com.getirApp.getirAppBackend.core.utils.Msg;
 import com.getirApp.getirAppBackend.entity.Address;
@@ -29,13 +30,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order save(Order order, Long userId, Long addressId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "User")));
 
         if (!addressRepository.existsByIdAndUserId(addressId, userId)) {
-            throw new IllegalArgumentException("User does not own this address!");
+            throw new ForbiddenException(Msg.FORBIDDEN);
         }
 
-        Address address = addressRepository.findById(addressId).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Address")));
 
         order.setUser(user);
         order.setAddress(address);
@@ -43,10 +46,10 @@ public class OrderServiceImpl implements OrderService {
         return this.orderRepository.save(order);
     }
 
-
     @Override
     public Order get(long id) {
-        return this.orderRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        return this.orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Order")));
     }
 
     @Override
@@ -59,13 +62,17 @@ public class OrderServiceImpl implements OrderService {
     public Order update(Order order, Long userId, Long addressId) {
         this.get(order.getId());
 
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "User")));
+
         if (!addressRepository.existsByIdAndUserId(addressId, userId)) {
-            throw new IllegalArgumentException("User does not own this address!");
+            throw new ForbiddenException(Msg.FORBIDDEN);
         }
 
-        Address address = addressRepository.findById(addressId).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Address")));
 
-        order.setUser(userRepository.findById(userId).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND)));
+        order.setUser(user);
         order.setAddress(address);
 
         return this.orderRepository.save(order);
