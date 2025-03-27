@@ -11,6 +11,8 @@ public class UserResponse {
 
     private String name;
 
+    private String password;
+
     private String email;
 
     private String phone;
@@ -23,9 +25,10 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public UserResponse(long id, String name, String email, String phone, UserRole role, LocalDateTime createdAt) {
+    public UserResponse(long id, String name, String password, String email, String phone, UserRole role, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
+        this.password = password;
         this.email = email;
         this.phone = phone;
         this.role = role;
@@ -46,6 +49,14 @@ public class UserResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
