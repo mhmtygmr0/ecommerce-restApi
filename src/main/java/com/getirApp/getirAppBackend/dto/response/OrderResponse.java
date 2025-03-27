@@ -1,5 +1,6 @@
 package com.getirApp.getirAppBackend.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.getirApp.getirAppBackend.enums.OrderStatus;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,8 @@ public class OrderResponse {
     private Long id;
     private Double totalPrice;
     private OrderStatus status;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
     private Long userId;
     private Long addressId;
