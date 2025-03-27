@@ -55,7 +55,7 @@ public class AddressController {
         Address existingAddress = this.addressService.getById(id);
         Address updatedAddress = this.modelMapper.forRequest().map(addressRequest, Address.class);
         updatedAddress.setId(id);
-        updatedAddress.setUser(existingAddress.getUser()); // Kullanıcı değişimini engelle
+        updatedAddress.setUser(existingAddress.getUser());
         this.addressService.update(updatedAddress);
         return ResultHelper.success(this.modelMapper.forResponse().map(updatedAddress, AddressResponse.class));
     }
