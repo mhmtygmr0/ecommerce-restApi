@@ -1,3 +1,3 @@
-# ecommerce-app-backend
+# ecommerce restApi
 
-![getir_app_diagram2.png](ecommerce_diagram.png)
+![ecommerce_diagram.png](ecommerce_diagram.png)
