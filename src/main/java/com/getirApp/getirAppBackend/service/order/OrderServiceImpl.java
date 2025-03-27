@@ -48,7 +48,6 @@ public class OrderServiceImpl implements OrderService {
         return this.orderRepository.save(order);
     }
 
-
     @Override
     public Order getById(long id) {
         return this.orderRepository.findById(id)
@@ -93,12 +92,10 @@ public class OrderServiceImpl implements OrderService {
         return this.orderRepository.save(order);
     }
 
-
     @Override
     @Transactional
     public void delete(long id) {
         Order order = this.getById(id);
         this.orderRepository.delete(order);
     }
-
 }
