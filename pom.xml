@@ -6,13 +6,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
-    <groupId>com.getirApp</groupId>
-    <artifactId>getirAppBackend</artifactId>
+    <groupId>com.ecommerceAPI</groupId>
+    <artifactId>ecommerceAPI</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>getirAppBackend</name>
-    <description>Getir App Backend Project</description>
+    <name>ecommerceAPI</name>
+    <description>E-Commerce API Backend Project</description>
     <url/>
     <licenses>
         <license/>
