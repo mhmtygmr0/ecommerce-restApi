@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getById(long id) {
         return this.orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND)));
+                .orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
     @Override

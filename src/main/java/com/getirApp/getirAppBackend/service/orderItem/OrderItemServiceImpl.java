@@ -2,8 +2,14 @@ package com.getirApp.getirAppBackend.service.orderItem;
 
 import com.getirApp.getirAppBackend.core.exception.NotFoundException;
 import com.getirApp.getirAppBackend.core.utils.Msg;
+import com.getirApp.getirAppBackend.entity.Order;
 import com.getirApp.getirAppBackend.entity.OrderItem;
+import com.getirApp.getirAppBackend.entity.Product;
+import com.getirApp.getirAppBackend.entity.Stock;
 import com.getirApp.getirAppBackend.repository.OrderItemRepository;
+import com.getirApp.getirAppBackend.repository.OrderRepository;
+import com.getirApp.getirAppBackend.repository.ProductRepository;
+import com.getirApp.getirAppBackend.repository.StockRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,15 +19,43 @@ import java.util.List;
 public class OrderItemServiceImpl implements OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
+    private final StockRepository stockRepository;
+    private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
-    public OrderItemServiceImpl(OrderItemRepository orderItemRepository) {
+    public OrderItemServiceImpl(OrderItemRepository orderItemRepository, StockRepository stockRepository, ProductRepository productRepository, OrderRepository orderRepository) {
         this.orderItemRepository = orderItemRepository;
+        this.stockRepository = stockRepository;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
     @Transactional
     public OrderItem save(OrderItem orderItem) {
-        return this.orderItemRepository.save(orderItem);
+        Order order = orderRepository.findById(orderItem.getOrder().getId())
+                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Order")));
+
+        Product product = productRepository.findById(orderItem.getProduct().getId())
+                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Product")));
+
+        if (product.getStock() == null) {
+            throw new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Stock for product ID " + product.getId()));
+        }
+
+        Stock stock = stockRepository.findById(product.getStock().getId())
+                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Stock")));
+
+        if (stock.getQuantity() < orderItem.getQuantity()) {
+            throw new IllegalArgumentException(Msg.INSUFFICIENT_STOCK);
+        }
+
+        stock.setQuantity(stock.getQuantity() - orderItem.getQuantity());
+        stockRepository.save(stock);
+
+        orderItem.setOrder(order);
+
+        return orderItemRepository.save(orderItem);
     }
 
     @Override
@@ -45,6 +79,18 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Transactional
     public void delete(long id) {
         OrderItem orderItem = this.getById(id);
+
+        Product product = productRepository.findById(orderItem.getProduct().getId()).orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Product")));
+
+        if (product.getStock() == null) {
+            throw new NotFoundException(Msg.NOT_FOUND);
+        }
+
+        Stock stock = stockRepository.findById(product.getStock().getId()).orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Stock")));
+
+        stock.setQuantity(stock.getQuantity() + orderItem.getQuantity());
+        stockRepository.save(stock);
+
         this.orderItemRepository.delete(orderItem);
     }
 }
