@@ -1,6 +1,5 @@
 package com.getirApp.getirAppBackend.service.order;
 
-import com.getirApp.getirAppBackend.core.exception.ForbiddenException;
 import com.getirApp.getirAppBackend.core.exception.NotFoundException;
 import com.getirApp.getirAppBackend.core.utils.Msg;
 import com.getirApp.getirAppBackend.entity.Address;
@@ -34,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "User")));
 
         if (!this.addressRepository.existsByIdAndUserId(addressId, userId)) {
-            throw new ForbiddenException(Msg.FORBIDDEN);
+            throw new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Address"));
         }
 
         Address address = this.addressRepository.findById(addressId)
@@ -68,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "User")));
 
         if (!this.addressRepository.existsByIdAndUserId(addressId, userId)) {
-            throw new ForbiddenException(Msg.FORBIDDEN);
+            throw new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Address"));
         }
 
         Address address = this.addressRepository.findById(addressId)
