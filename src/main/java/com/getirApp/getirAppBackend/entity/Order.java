@@ -17,7 +17,7 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "total_price", nullable = false)
+    @Column(name = "total_price")
     private Double totalPrice;
 
     @Column(name = "status")

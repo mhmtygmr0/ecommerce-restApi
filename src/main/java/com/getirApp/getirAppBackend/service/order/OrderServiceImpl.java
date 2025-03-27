@@ -30,21 +30,24 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order save(Order order, Long userId, Long addressId) {
-        User user = userRepository.findById(userId)
+        User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "User")));
 
-        if (!addressRepository.existsByIdAndUserId(addressId, userId)) {
+        if (!this.addressRepository.existsByIdAndUserId(addressId, userId)) {
             throw new ForbiddenException(Msg.FORBIDDEN);
         }
 
-        Address address = addressRepository.findById(addressId)
+        Address address = this.addressRepository.findById(addressId)
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Address")));
 
         order.setUser(user);
         order.setAddress(address);
 
+        order.setTotalPrice(0.0);
+
         return this.orderRepository.save(order);
     }
+
 
     @Override
     public Order getById(long id) {
@@ -60,23 +63,36 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order update(Order order, Long userId, Long addressId) {
-        this.getById(order.getId());
+        Order existingOrder = this.getById(order.getId());
 
-        User user = userRepository.findById(userId)
+        User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "User")));
 
-        if (!addressRepository.existsByIdAndUserId(addressId, userId)) {
+        if (!this.addressRepository.existsByIdAndUserId(addressId, userId)) {
             throw new ForbiddenException(Msg.FORBIDDEN);
         }
 
-        Address address = addressRepository.findById(addressId)
+        Address address = this.addressRepository.findById(addressId)
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Address")));
 
         order.setUser(user);
         order.setAddress(address);
 
+        if (order.getTotalPrice() == null) {
+            order.setTotalPrice(existingOrder.getTotalPrice());
+        }
+
+        if (order.getCreatedAt() == null) {
+            order.setCreatedAt(existingOrder.getCreatedAt());
+        }
+
+        if (order.getStatus() == null) {
+            order.setStatus(existingOrder.getStatus());
+        }
+
         return this.orderRepository.save(order);
     }
+
 
     @Override
     @Transactional
@@ -84,4 +100,5 @@ public class OrderServiceImpl implements OrderService {
         Order order = this.getById(id);
         this.orderRepository.delete(order);
     }
+
 }
