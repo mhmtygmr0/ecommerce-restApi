@@ -41,7 +41,7 @@ public class OrderController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<OrderResponse> get(@PathVariable("id") Long id) {
-        Order order = this.orderService.get(id);
+        Order order = this.orderService.getById(id);
         return ResultHelper.success(modelMapper.forResponse().map(order, OrderResponse.class));
     }
 

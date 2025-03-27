@@ -1,6 +1,7 @@
 package com.getirApp.getirAppBackend.service.stock;
 
 import com.getirApp.getirAppBackend.core.exception.NotFoundException;
+import com.getirApp.getirAppBackend.core.utils.Msg;
 import com.getirApp.getirAppBackend.entity.Stock;
 import com.getirApp.getirAppBackend.repository.StockRepository;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public Stock get(long id) {
-        return this.stockRepository.findById(id).orElseThrow(() -> new NotFoundException("Stock bulunamadı: " + id));
+    public Stock getById(long id) {
+        return this.stockRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
     @Override
@@ -36,14 +37,14 @@ public class StockServiceImpl implements StockService {
     @Transactional
     @Override
     public Stock update(Stock stock) {
-        this.get(stock.getId());
+        this.getById(stock.getId());
         return this.stockRepository.save(stock);
     }
 
     @Transactional
     @Override
     public void delete(long id) {
-        Stock stock = this.get(id);
+        Stock stock = this.getById(id);
         this.stockRepository.delete(stock);
     }
 }

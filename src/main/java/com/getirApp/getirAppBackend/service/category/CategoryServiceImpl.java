@@ -1,6 +1,7 @@
 package com.getirApp.getirAppBackend.service.category;
 
 import com.getirApp.getirAppBackend.core.exception.NotFoundException;
+import com.getirApp.getirAppBackend.core.utils.Msg;
 import com.getirApp.getirAppBackend.entity.Category;
 import com.getirApp.getirAppBackend.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,15 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public Category save(Category category) {
         return this.categoryRepository.save(category);
     }
 
     @Override
-    public Category get(int id) {
-        return this.categoryRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Kategori bulunamadı: " + id));
+    public Category getById(int id) {
+        return this.categoryRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
     @Override
@@ -34,17 +34,17 @@ public class CategoryServiceImpl implements CategoryService {
         return this.categoryRepository.findAllByOrderByIdAsc();
     }
 
-    @Transactional
     @Override
+    @Transactional
     public Category update(Category category) {
-        this.get(category.getId());
+        this.getById(category.getId());
         return this.categoryRepository.save(category);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void delete(int id) {
-        Category category = this.get(id);
+        Category category = this.getById(id);
         this.categoryRepository.delete(category);
     }
 }

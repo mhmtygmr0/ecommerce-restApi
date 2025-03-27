@@ -40,7 +40,7 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @Transactional
     public ResultData<CategoryResponse> get(@PathVariable("id") int id) {
-        Category category = this.categoryService.get(id);
+        Category category = this.categoryService.getById(id);
         CategoryResponse categoryResponse = modelMapper.mapCategoryWithProducts(category);
         return ResultHelper.success(categoryResponse);
     }

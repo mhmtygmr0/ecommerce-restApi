@@ -25,7 +25,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public OrderItem get(long id) {
+    public OrderItem getById(long id) {
         return this.orderItemRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
@@ -37,14 +37,14 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     @Transactional
     public OrderItem update(OrderItem orderItem) {
-        this.get(orderItem.getId());
+        this.getById(orderItem.getId());
         return this.orderItemRepository.save(orderItem);
     }
 
     @Override
     @Transactional
     public void delete(long id) {
-        OrderItem orderItem = this.get(id);
+        OrderItem orderItem = this.getById(id);
         this.orderItemRepository.delete(orderItem);
     }
 }

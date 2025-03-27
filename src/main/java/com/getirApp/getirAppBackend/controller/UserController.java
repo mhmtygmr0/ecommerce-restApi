@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<UserResponse> get(@PathVariable("id") Long id) {
-        User user = this.userService.get(id);
+        User user = this.userService.getById(id);
         return ResultHelper.success(this.modelMapper.forResponse().map(user, UserResponse.class));
     }
 

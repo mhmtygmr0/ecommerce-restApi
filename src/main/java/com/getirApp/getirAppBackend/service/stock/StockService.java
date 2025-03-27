@@ -7,7 +7,7 @@ import java.util.List;
 public interface StockService {
     Stock save(Stock stock);
 
-    Stock get(long id);
+    Stock getById(long id);
 
     List<Stock> getStockList();
 

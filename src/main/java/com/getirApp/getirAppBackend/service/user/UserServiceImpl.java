@@ -1,6 +1,7 @@
 package com.getirApp.getirAppBackend.service.user;
 
 import com.getirApp.getirAppBackend.core.exception.NotFoundException;
+import com.getirApp.getirAppBackend.core.utils.Msg;
 import com.getirApp.getirAppBackend.entity.User;
 import com.getirApp.getirAppBackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User get(Long id) {
-        return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("Kullanıcı bulunamadı: " + id));
+    public User getById(Long id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
     @Override
@@ -36,14 +37,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User update(User user) {
-        this.get(user.getId());
+        this.getById(user.getId());
         return this.userRepository.save(user);
     }
 
     @Transactional
     @Override
     public void delete(Long id) {
-        User user = this.get(id);
+        User user = this.getById(id);
         this.userRepository.delete(user);
     }
 }

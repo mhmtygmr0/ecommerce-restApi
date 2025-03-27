@@ -47,9 +47,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order get(long id) {
+    public Order getById(long id) {
         return this.orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Order")));
+                .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND)));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order update(Order order, Long userId, Long addressId) {
-        this.get(order.getId());
+        this.getById(order.getId());
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "User")));
@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void delete(long id) {
-        Order order = this.get(id);
+        Order order = this.getById(id);
         this.orderRepository.delete(order);
     }
 }

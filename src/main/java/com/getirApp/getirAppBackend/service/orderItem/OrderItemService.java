@@ -7,7 +7,7 @@ import java.util.List;
 public interface OrderItemService {
     OrderItem save(OrderItem orderItem);
 
-    OrderItem get(long id);
+    OrderItem getById(long id);
 
     List<OrderItem> getAll();
 

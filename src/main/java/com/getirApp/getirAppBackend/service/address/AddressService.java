@@ -7,7 +7,7 @@ import java.util.List;
 public interface AddressService {
     Address save(Address address);
 
-    Address get(long id);
+    Address getById(long id);
 
     List<Address> getAll();
 

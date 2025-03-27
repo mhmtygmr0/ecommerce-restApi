@@ -41,7 +41,7 @@ public class ProductController {
         Product product = this.modelMapper.forRequest().map(productRequest, Product.class);
         product.setId(0);
 
-        Category category = this.categoryService.get(productRequest.getCategoryId());
+        Category category = this.categoryService.getById(productRequest.getCategoryId());
         product.setCategory(category);
 
         Stock stock = new Stock();
@@ -59,7 +59,7 @@ public class ProductController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<ProductResponse> get(@PathVariable("id") long id) {
-        Product product = this.productService.get(id);
+        Product product = this.productService.getById(id);
         return ResultHelper.success(this.modelMapper.forResponse().map(product, ProductResponse.class));
     }
 
@@ -73,12 +73,12 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResultData<ProductResponse> update(@PathVariable long id, @Valid @RequestBody ProductRequest productRequest) {
-        Product product = this.productService.get(id);
+        Product product = this.productService.getById(id);
 
         product.setName(productRequest.getName());
         product.setPrice(productRequest.getPrice());
 
-        Category category = this.categoryService.get(productRequest.getCategoryId());
+        Category category = this.categoryService.getById(productRequest.getCategoryId());
         product.setCategory(category);
 
         Stock stock = product.getStock();

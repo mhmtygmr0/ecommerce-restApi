@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product get(long id) {
+    public Product getById(long id) {
         return productRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
@@ -36,14 +36,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product update(Product product) {
-        this.get(product.getId());
+        this.getById(product.getId());
         return productRepository.save(product);
     }
 
     @Override
     @Transactional
     public void delete(long id) {
-        Product product = this.get(id);
+        Product product = this.getById(id);
         this.productRepository.delete(product);
     }
 }

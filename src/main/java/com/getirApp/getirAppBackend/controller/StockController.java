@@ -38,7 +38,7 @@ public class StockController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<StockResponse> get(@PathVariable("id") int id) {
-        Stock stock = this.stockService.get(id);
+        Stock stock = this.stockService.getById(id);
         return ResultHelper.success(this.modelMapper.forResponse().map(stock, StockResponse.class));
     }
 

@@ -26,7 +26,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address get(long id) {
+    public Address getById(long id) {
         return this.addressRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
@@ -38,14 +38,14 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public Address update(Address address) {
-        this.get(address.getId());
+        this.getById(address.getId());
         return this.addressRepository.save(address);
     }
 
     @Override
     @Transactional
     public void delete(long id) {
-        Address address = this.get(id);
+        Address address = this.getById(id);
         this.addressRepository.delete(address);
     }
 }

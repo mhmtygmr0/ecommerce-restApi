@@ -7,7 +7,7 @@ import java.util.List;
 public interface ProductService {
     Product save(Product product);
 
-    Product get(long id);
+    Product getById(long id);
 
     List<Product> getAll();
 

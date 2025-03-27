@@ -35,7 +35,7 @@ public class OrderItemController {
     public ResultData<OrderItemResponse> save(@Valid @RequestBody OrderItemRequest orderItemRequest) {
         OrderItem orderItem = this.modelMapper.forRequest().map(orderItemRequest, OrderItem.class);
 
-        Product product = this.productService.get(orderItemRequest.getProductId());
+        Product product = this.productService.getById(orderItemRequest.getProductId());
         if (product != null) {
             double price = product.getPrice() * orderItem.getQuantity();
             orderItem.setPrice(price);
@@ -49,7 +49,7 @@ public class OrderItemController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<OrderItemResponse> get(@PathVariable("id") Long id) {
-        OrderItem orderItem = this.orderItemService.get(id);
+        OrderItem orderItem = this.orderItemService.getById(id);
         return ResultHelper.success(this.modelMapper.forResponse().map(orderItem, OrderItemResponse.class));
     }
 
@@ -69,7 +69,7 @@ public class OrderItemController {
         OrderItem orderItem = this.modelMapper.forRequest().map(orderItemRequest, OrderItem.class);
         orderItem.setId(id);
 
-        Product product = this.productService.get(orderItemRequest.getProductId());
+        Product product = this.productService.getById(orderItemRequest.getProductId());
         if (product != null) {
             double price = product.getPrice() * orderItem.getQuantity();
             orderItem.setPrice(price);
