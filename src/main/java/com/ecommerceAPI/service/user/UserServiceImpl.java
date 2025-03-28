@@ -19,8 +19,8 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public User save(User user) {
         if (user.getRole() == null) {
             user.setRole(UserRole.CUSTOMER);
@@ -38,23 +38,23 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findAllByOrderByIdAsc();
     }
 
-    @Transactional
     @Override
+    @Transactional
     public User update(User user) {
         User existingUser = this.getById(user.getId());
 
         if (user.getRole() == null) {
             user.setRole(existingUser.getRole());
         }
-        if (user.getCreatedAt() == null){
+        if (user.getCreatedAt() == null) {
             user.setCreatedAt(existingUser.getCreatedAt());
         }
 
         return this.userRepository.save(user);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public void delete(Long id) {
         User user = this.getById(id);
         this.userRepository.delete(user);

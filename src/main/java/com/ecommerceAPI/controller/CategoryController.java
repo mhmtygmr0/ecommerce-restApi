@@ -59,7 +59,7 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<CategoryResponse> update(@PathVariable int id, @Valid @RequestBody CategoryRequest categoryRequest) {
+    public ResultData<CategoryResponse> update(@PathVariable("id") int id, @Valid @RequestBody CategoryRequest categoryRequest) {
         Category category = this.modelMapper.forRequest().map(categoryRequest, Category.class);
         category.setId(id);
         this.categoryService.update(category);

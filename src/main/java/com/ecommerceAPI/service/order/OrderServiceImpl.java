@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
         User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "User")));
 
-        if (!this.addressRepository.existsByIdAndUserId(addressId, userId)) {
+        if (this.addressRepository.existsByIdAndUserId(addressId, userId)) {
             throw new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Address"));
         }
 
@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getById(long id) {
+    public Order getById(Long id) {
         return this.orderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
@@ -66,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
         User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "User")));
 
-        if (!this.addressRepository.existsByIdAndUserId(addressId, userId)) {
+        if (this.addressRepository.existsByIdAndUserId(addressId, userId)) {
             throw new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Address"));
         }
 
@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         Order order = this.getById(id);
         this.orderRepository.delete(order);
     }

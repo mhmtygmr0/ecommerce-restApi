@@ -1,5 +1,6 @@
 package com.ecommerceAPI.entity;
 
+import com.ecommerceAPI.core.utils.Msg;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 
@@ -21,16 +22,16 @@ public class OrderItem {
     private Product product;
 
     @Column(name = "quantity")
-    @Min(value = 1, message = "Quantity must be at least 1")
-    private int quantity;
+    @Min(value = 1, message = Msg.QUANTITY)
+    private Long quantity;
 
     @Column(name = "price")
-    private double price;
+    private Double price;
 
     public OrderItem() {
     }
 
-    public OrderItem(Long id, Order order, Product product, int quantity, double price) {
+    public OrderItem(Long id, Order order, Product product, Long quantity, Double price) {
         this.id = id;
         this.order = order;
         this.product = product;
@@ -62,19 +63,19 @@ public class OrderItem {
         this.product = product;
     }
 
-    public int getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 }

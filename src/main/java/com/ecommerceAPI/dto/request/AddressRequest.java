@@ -1,5 +1,6 @@
 package com.ecommerceAPI.dto.request;
 
+import com.ecommerceAPI.core.utils.Msg;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -24,7 +25,7 @@ public class AddressRequest {
 
     @NotNull(message = "Address postal code cannot be null")
     @NotEmpty(message = "Address postalCode cannot be empty")
-    @Pattern(regexp = "^[0-9]{5}$", message = "Postal code must be exactly 5 digits")
+    @Pattern(regexp = "^[0-9]{5}$", message = Msg.POSTAL_CODE)
     private String postalCode;
 
     private Long userId;

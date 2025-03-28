@@ -65,7 +65,7 @@ public class OrderItemController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<OrderItemResponse> update(@PathVariable Long id, @Valid @RequestBody OrderItemRequest orderItemRequest) {
+    public ResultData<OrderItemResponse> update(@PathVariable("id") Long id, @Valid @RequestBody OrderItemRequest orderItemRequest) {
         OrderItem orderItem = this.modelMapper.forRequest().map(orderItemRequest, OrderItem.class);
         orderItem.setId(id);
 

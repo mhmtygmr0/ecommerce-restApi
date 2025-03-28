@@ -26,7 +26,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address getById(long id) {
+    public Address getById(Long id) {
         return this.addressRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
@@ -47,7 +47,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         Address address = this.getById(id);
         this.addressRepository.delete(address);
     }

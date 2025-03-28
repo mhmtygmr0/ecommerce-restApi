@@ -39,7 +39,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<ProductResponse> save(@Valid @RequestBody ProductRequest productRequest) {
         Product product = this.modelMapper.forRequest().map(productRequest, Product.class);
-        product.setId(0);
+        product.setId(0L);
 
         Category category = this.categoryService.getById(productRequest.getCategoryId());
         product.setCategory(category);
@@ -58,7 +58,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<ProductResponse> get(@PathVariable("id") long id) {
+    public ResultData<ProductResponse> get(@PathVariable("id") Long id) {
         Product product = this.productService.getById(id);
         return ResultHelper.success(this.modelMapper.forResponse().map(product, ProductResponse.class));
     }
@@ -72,7 +72,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResultData<ProductResponse> update(@PathVariable long id, @Valid @RequestBody ProductRequest productRequest) {
+    public ResultData<ProductResponse> update(@PathVariable("id") Long id, @Valid @RequestBody ProductRequest productRequest) {
         Product product = this.productService.getById(id);
 
         product.setName(productRequest.getName());
@@ -97,7 +97,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Result delete(@PathVariable("id") long id) {
+    public Result delete(@PathVariable("id") Long id) {
         this.productService.delete(id);
         return ResultHelper.ok();
     }

@@ -7,26 +7,26 @@ import java.time.LocalDateTime;
 public class StockRequest {
 
     @NotNull(message = "Stock quantity cannot be null")
-    private int quantity;
+    private Long quantity;
 
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    private int productId;
+    private Long productId;
 
     public StockRequest() {
     }
 
-    public StockRequest(int quantity, LocalDateTime updatedAt, int productId) {
+    public StockRequest(Long quantity, LocalDateTime updatedAt, Long productId) {
         this.quantity = quantity;
         this.updatedAt = updatedAt;
         this.productId = productId;
     }
 
-    public int getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 
@@ -38,11 +38,11 @@ public class StockRequest {
         this.updatedAt = updatedAt;
     }
 
-    public int getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 }

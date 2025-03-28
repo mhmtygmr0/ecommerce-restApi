@@ -7,11 +7,11 @@ import java.util.List;
 public interface StockService {
     Stock save(Stock stock);
 
-    Stock getById(long id);
+    Stock getById(Long id);
 
     List<Stock> getStockList();
 
     Stock update(Stock stock);
 
-    void delete(long id);
+    void delete(Long id);
 }

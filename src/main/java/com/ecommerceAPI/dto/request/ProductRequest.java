@@ -23,12 +23,12 @@ public class ProductRequest {
 
     @NotNull(message = "Product stock quantity cannot be null")
     @Min(value = 0, message = "Product stock quantity cannot be negative")
-    private int stockQuantity;
+    private Long stockQuantity;
 
     public ProductRequest() {
     }
 
-    public ProductRequest(String name, String description, Double price, String imageUrl, int categoryId, int stockQuantity) {
+    public ProductRequest(String name, String description, Double price, String imageUrl, int categoryId, Long stockQuantity) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -77,11 +77,11 @@ public class ProductRequest {
         this.categoryId = categoryId;
     }
 
-    public int getStockQuantity() {
+    public Long getStockQuantity() {
         return stockQuantity;
     }
 
-    public void setStockQuantity(int stockQuantity) {
+    public void setStockQuantity(Long stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
 }

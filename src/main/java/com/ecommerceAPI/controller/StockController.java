@@ -37,7 +37,7 @@ public class StockController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<StockResponse> get(@PathVariable("id") int id) {
+    public ResultData<StockResponse> get(@PathVariable("id") Long id) {
         Stock stock = this.stockService.getById(id);
         return ResultHelper.success(this.modelMapper.forResponse().map(stock, StockResponse.class));
     }
@@ -56,7 +56,7 @@ public class StockController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<StockResponse> update(@PathVariable long id, @Valid @RequestBody StockRequest stockRequest) {
+    public ResultData<StockResponse> update(@PathVariable("id") Long id, @Valid @RequestBody StockRequest stockRequest) {
         Stock stock = this.modelMapper.forRequest().map(stockRequest, Stock.class);
         stock.setId(id);
         this.stockService.update(stock);
@@ -65,7 +65,7 @@ public class StockController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Result delete(@PathVariable("id") long id) {
+    public Result delete(@PathVariable("id") Long id) {
         this.stockService.delete(id);
         return ResultHelper.ok();
     }

@@ -18,14 +18,14 @@ public class StockServiceImpl implements StockService {
         this.stockRepository = stockRepository;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public Stock save(Stock stock) {
         return this.stockRepository.save(stock);
     }
 
     @Override
-    public Stock getById(long id) {
+    public Stock getById(Long id) {
         return this.stockRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
@@ -34,16 +34,16 @@ public class StockServiceImpl implements StockService {
         return stockRepository.findAllByOrderByIdAsc();
     }
 
-    @Transactional
     @Override
+    @Transactional
     public Stock update(Stock stock) {
         this.getById(stock.getId());
         return this.stockRepository.save(stock);
     }
 
-    @Transactional
     @Override
-    public void delete(long id) {
+    @Transactional
+    public void delete(Long id) {
         Stock stock = this.getById(id);
         this.stockRepository.delete(stock);
     }

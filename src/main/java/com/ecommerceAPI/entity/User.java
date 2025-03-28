@@ -1,7 +1,8 @@
 package com.ecommerceAPI.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
@@ -28,7 +29,7 @@ public class User {
     private String password;
 
     @Column(name = "phone", nullable = false, unique = true)
-    @Pattern(regexp = "^[0-9]{11}$", message = "Phone number must be 11 digits")
+    @Pattern(regexp = "^[0-9]{11}$", message = Msg.PHONE)
     private String phone;
 
     @Enumerated(EnumType.STRING)

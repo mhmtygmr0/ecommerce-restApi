@@ -51,7 +51,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<UserResponse> update(@PathVariable Long id, @Valid @RequestBody UserRequest userRequest) {
+    public ResultData<UserResponse> update(@PathVariable("id") Long id, @Valid @RequestBody UserRequest userRequest) {
         User user = this.modelMapper.forRequest().map(userRequest, User.class);
         user.setId(id);
         this.userService.update(user);

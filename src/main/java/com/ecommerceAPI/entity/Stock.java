@@ -1,5 +1,6 @@
 package com.ecommerceAPI.entity;
 
+import com.ecommerceAPI.core.utils.Msg;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -17,8 +18,8 @@ public class Stock {
     private Long id;
 
     @Column(name = "quantity", nullable = false)
-    @Min(value = 0, message = "Quantity must be at least 0")
-    private int quantity;
+    @Min(value = 0, message = Msg.QUANTITY)
+    private Long quantity;
 
     @Column(name = "updatedAt", nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -33,7 +34,7 @@ public class Stock {
     public Stock() {
     }
 
-    public Stock(Long id, int quantity, LocalDateTime updatedAt) {
+    public Stock(Long id, Long quantity, LocalDateTime updatedAt) {
         this.id = id;
         this.quantity = quantity;
         this.updatedAt = updatedAt;
@@ -47,14 +48,11 @@ public class Stock {
         this.id = id;
     }
 
-    public int getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        if (quantity < 0) {
-            throw new IllegalArgumentException("Quantity cannot be negative.");
-        }
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 
@@ -65,5 +63,4 @@ public class Stock {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }

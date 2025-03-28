@@ -7,11 +7,11 @@ import java.util.List;
 public interface OrderItemService {
     OrderItem save(OrderItem orderItem);
 
-    OrderItem getById(long id);
+    OrderItem getById(Long id);
 
     List<OrderItem> getAll();
 
     OrderItem update(OrderItem orderItem);
 
-    void delete(long id);
+    void delete(Long id);
 }

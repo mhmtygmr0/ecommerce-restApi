@@ -55,9 +55,7 @@ public class OrderController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<OrderResponse> update(
-            @PathVariable Long id,
-            @Valid @RequestBody OrderRequest orderRequest) {
+    public ResultData<OrderResponse> update(@PathVariable("id") Long id, @Valid @RequestBody OrderRequest orderRequest) {
         Long userId = orderRequest.getUserId();
         Long addressId = orderRequest.getAddressId();
 

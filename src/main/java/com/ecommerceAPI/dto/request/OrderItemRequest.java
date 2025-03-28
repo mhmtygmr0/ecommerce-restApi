@@ -13,12 +13,12 @@ public class OrderItemRequest {
 
     @NotNull(message = "Quantity cannot be null")
     @Min(value = 0, message = "Quantity must be at least 0")
-    private int quantity;
+    private Long quantity;
 
     public OrderItemRequest() {
     }
 
-    public OrderItemRequest(Long orderId, Long productId, int quantity) {
+    public OrderItemRequest(Long orderId, Long productId, Long quantity) {
         this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
@@ -40,11 +40,11 @@ public class OrderItemRequest {
         this.productId = productId;
     }
 
-    public int getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 }

@@ -63,7 +63,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
-    public OrderItem getById(long id) {
+    public OrderItem getById(Long id) {
         return this.orderItemRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
@@ -92,7 +92,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         order.setTotalPrice(order.getTotalPrice() - existingOrderItem.getPrice());
 
-        int quantityDiff = orderItem.getQuantity() - existingOrderItem.getQuantity();
+        Long quantityDiff = orderItem.getQuantity() - existingOrderItem.getQuantity();
         if (quantityDiff > 0) {
 
             if (stock.getQuantity() < quantityDiff) {
@@ -113,7 +113,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     @Transactional
-    public void delete(long id) {
+    public void delete(Long id) {
         OrderItem orderItem = this.getById(id);
 
         Order order = orderRepository.findById(orderItem.getOrder().getId())

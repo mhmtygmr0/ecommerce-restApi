@@ -1,5 +1,6 @@
 package com.ecommerceAPI.entity;
 
+import com.ecommerceAPI.core.utils.Msg;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
@@ -24,7 +25,7 @@ public class Address {
     private String district;
 
     @Column(name = "postal_code", nullable = false)
-    @Pattern(regexp = "^[0-9]{5}$", message = "Postal code must be exactly 5 digits")
+    @Pattern(regexp = "^[0-9]{5}$", message = Msg.POSTAL_CODE)
     private String postalCode;
 
     @ManyToOne
