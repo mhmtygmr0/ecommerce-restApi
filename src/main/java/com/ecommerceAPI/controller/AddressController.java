@@ -51,11 +51,9 @@ public class AddressController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResultData<AddressResponse> update(@PathVariable Long id, @Valid @RequestBody AddressRequest addressRequest) {
-        Address existingAddress = this.addressService.getById(id);
+    public ResultData<AddressResponse> update(@PathVariable("id") Long id, @Valid @RequestBody AddressRequest addressRequest) {
         Address updatedAddress = this.modelMapper.forRequest().map(addressRequest, Address.class);
         updatedAddress.setId(id);
-        updatedAddress.setUser(existingAddress.getUser());
         this.addressService.update(updatedAddress);
         return ResultHelper.success(this.modelMapper.forResponse().map(updatedAddress, AddressResponse.class));
     }
@@ -63,7 +61,6 @@ public class AddressController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
-        Address address = this.addressService.getById(id);
         this.addressService.delete(id);
         return ResultHelper.ok();
     }

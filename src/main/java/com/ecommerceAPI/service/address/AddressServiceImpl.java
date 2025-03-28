@@ -38,7 +38,10 @@ public class AddressServiceImpl implements AddressService {
     @Override
     @Transactional
     public Address update(Address address) {
-        this.getById(address.getId());
+        Address existingAddress = this.getById(address.getId());
+        if (address.getUser() == null) {
+            address.setUser(existingAddress.getUser());
+        }
         return this.addressRepository.save(address);
     }
 
