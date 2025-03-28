@@ -33,17 +33,17 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     @Transactional
     public OrderItem save(OrderItem orderItem) {
-        Order order = orderRepository.findById(orderItem.getOrder().getId())
+        Order order = this.orderRepository.findById(orderItem.getOrder().getId())
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Order")));
 
-        Product product = productRepository.findById(orderItem.getProduct().getId())
+        Product product = this.productRepository.findById(orderItem.getProduct().getId())
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Product")));
 
         if (product.getStock() == null) {
             throw new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Stock for product ID " + product.getId()));
         }
 
-        Stock stock = stockRepository.findById(product.getStock().getId())
+        Stock stock = this.stockRepository.findById(product.getStock().getId())
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Stock")));
 
         if (stock.getQuantity() < orderItem.getQuantity()) {
@@ -51,15 +51,15 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
 
         stock.setQuantity(stock.getQuantity() - orderItem.getQuantity());
-        stockRepository.save(stock);
+        this.stockRepository.save(stock);
 
         double newTotalPrice = order.getTotalPrice() + orderItem.getPrice();
         order.setTotalPrice(newTotalPrice);
-        orderRepository.save(order);
+        this.orderRepository.save(order);
 
         orderItem.setOrder(order);
 
-        return orderItemRepository.save(orderItem);
+        return this.orderItemRepository.save(orderItem);
     }
 
     @Override
@@ -77,17 +77,17 @@ public class OrderItemServiceImpl implements OrderItemService {
     public OrderItem update(OrderItem orderItem) {
         OrderItem existingOrderItem = this.getById(orderItem.getId());
 
-        Order order = orderRepository.findById(existingOrderItem.getOrder().getId())
+        Order order = this.orderRepository.findById(existingOrderItem.getOrder().getId())
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Order")));
 
-        Product product = productRepository.findById(orderItem.getProduct().getId())
+        Product product = this.productRepository.findById(orderItem.getProduct().getId())
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Product")));
 
         if (product.getStock() == null) {
             throw new NotFoundException(Msg.NOT_FOUND);
         }
 
-        Stock stock = stockRepository.findById(product.getStock().getId())
+        Stock stock = this.stockRepository.findById(product.getStock().getId())
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Stock")));
 
         order.setTotalPrice(order.getTotalPrice() - existingOrderItem.getPrice());
@@ -103,12 +103,12 @@ public class OrderItemServiceImpl implements OrderItemService {
 
             stock.setQuantity(stock.getQuantity() + Math.abs(quantityDiff));
         }
-        stockRepository.save(stock);
+        this.stockRepository.save(stock);
 
         order.setTotalPrice(order.getTotalPrice() + orderItem.getPrice());
-        orderRepository.save(order);
+        this.orderRepository.save(order);
 
-        return orderItemRepository.save(orderItem);
+        return this.orderItemRepository.save(orderItem);
     }
 
     @Override
@@ -116,24 +116,24 @@ public class OrderItemServiceImpl implements OrderItemService {
     public void delete(Long id) {
         OrderItem orderItem = this.getById(id);
 
-        Order order = orderRepository.findById(orderItem.getOrder().getId())
+        Order order = this.orderRepository.findById(orderItem.getOrder().getId())
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Order")));
 
-        Product product = productRepository.findById(orderItem.getProduct().getId())
+        Product product = this.productRepository.findById(orderItem.getProduct().getId())
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Product")));
 
         if (product.getStock() == null) {
             throw new NotFoundException(Msg.NOT_FOUND);
         }
 
-        Stock stock = stockRepository.findById(product.getStock().getId())
+        Stock stock = this.stockRepository.findById(product.getStock().getId())
                 .orElseThrow(() -> new NotFoundException(String.format(Msg.NOT_FOUND_ENTITY, "Stock")));
 
         stock.setQuantity(stock.getQuantity() + orderItem.getQuantity());
-        stockRepository.save(stock);
+        this.stockRepository.save(stock);
 
         order.setTotalPrice(order.getTotalPrice() - orderItem.getPrice());
-        orderRepository.save(order);
+        this.orderRepository.save(order);
 
         this.orderItemRepository.delete(orderItem);
     }

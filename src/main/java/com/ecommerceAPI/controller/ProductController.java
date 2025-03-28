@@ -47,7 +47,7 @@ public class ProductController {
         Stock stock = new Stock();
         stock.setQuantity(productRequest.getStockQuantity());
 
-        stockService.save(stock);
+        this.stockService.save(stock);
 
         product.setStock(stock);
 

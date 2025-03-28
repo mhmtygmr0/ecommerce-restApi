@@ -48,7 +48,7 @@ public class StockController {
         List<Stock> stockList = this.stockService.getStockList();
 
         List<StockResponse> stockResponseList = stockList.stream()
-                .map(stock -> modelMapper.forResponse().map(stock, StockResponse.class))
+                .map(stock -> this.modelMapper.forResponse().map(stock, StockResponse.class))
                 .collect(Collectors.toList());
 
         return ResultHelper.success(stockResponseList);

@@ -20,24 +20,24 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(Product product) {
-        return productRepository.save(product);
+        return this.productRepository.save(product);
     }
 
     @Override
     public Product getById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        return this.productRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
     @Override
     public List<Product> getAll() {
-        return productRepository.findAllByOrderByIdAsc();
+        return this.productRepository.findAllByOrderByIdAsc();
     }
 
     @Override
     @Transactional
     public Product update(Product product) {
         this.getById(product.getId());
-        return productRepository.save(product);
+        return this.productRepository.save(product);
     }
 
     @Override
