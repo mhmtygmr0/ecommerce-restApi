@@ -37,7 +37,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public Category update(Category category) {
-        this.getById(category.getId());
+        Category existingCategory = this.getById(category.getId());
+        category.setProducts(existingCategory.getProducts());
         return this.categoryRepository.save(category);
     }
 

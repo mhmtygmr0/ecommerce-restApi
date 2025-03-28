@@ -3,6 +3,7 @@ package com.ecommerceAPI.service.user;
 import com.ecommerceAPI.core.exception.NotFoundException;
 import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.entity.User;
+import com.ecommerceAPI.enums.UserRole;
 import com.ecommerceAPI.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User save(User user) {
+        if (user.getRole() == null) {
+            user.setRole(UserRole.CUSTOMER);
+        }
         return this.userRepository.save(user);
     }
 
@@ -37,7 +41,15 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User update(User user) {
-        this.getById(user.getId());
+        User existingUser = this.getById(user.getId());
+
+        if (user.getRole() == null) {
+            user.setRole(existingUser.getRole());
+        }
+        if (user.getCreatedAt() == null){
+            user.setCreatedAt(existingUser.getCreatedAt());
+        }
+
         return this.userRepository.save(user);
     }
 
