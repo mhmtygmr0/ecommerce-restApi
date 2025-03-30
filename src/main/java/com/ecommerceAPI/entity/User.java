@@ -46,12 +46,15 @@ public class User {
     }
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> addresses;
+    private List<Address> addressList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orderList;
 
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, String phone, UserRole role, LocalDateTime createdAt, List<Address> addresses) {
+    public User(Long id, String name, String email, String password, String phone, UserRole role, LocalDateTime createdAt, List<Address> addressList, List<Order> orderList) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -59,7 +62,8 @@ public class User {
         this.phone = phone;
         this.role = role;
         this.createdAt = createdAt;
-        this.addresses = addresses;
+        this.addressList = addressList;
+        this.orderList = orderList;
     }
 
     public Long getId() {
@@ -118,12 +122,20 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public List<Address> getAddresses() {
-        return addresses;
+    public List<Address> getAddressList() {
+        return addressList;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
+    public void setAddressList(List<Address> addressList) {
+        this.addressList = addressList;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 }
 

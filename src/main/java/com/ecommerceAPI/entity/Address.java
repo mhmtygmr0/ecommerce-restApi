@@ -4,6 +4,8 @@ import com.ecommerceAPI.core.utils.Msg;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.List;
+
 @Entity
 @Table(name = "address")
 public class Address {
@@ -31,6 +33,9 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orderList;
 
     public Address() {
     }
