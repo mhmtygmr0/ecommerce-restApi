@@ -33,7 +33,7 @@ public class ModelMapperServiceImpl implements ModelMapperService {
     public CategoryResponse mapCategoryWithProducts(Category category) {
         CategoryResponse categoryResponse = modelMapper.map(category, CategoryResponse.class);
 
-        List<ProductResponse> productResponseDTOList = category.getProducts().stream().map(product -> modelMapper.map(product, ProductResponse.class)).collect(Collectors.toList());
+        List<ProductResponse> productResponseDTOList = category.getProductList().stream().map(product -> modelMapper.map(product, ProductResponse.class)).collect(Collectors.toList());
 
         categoryResponse.setProductList(productResponseDTOList);
         return categoryResponse;

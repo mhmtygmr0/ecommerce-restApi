@@ -38,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public Category update(Category category) {
         Category existingCategory = this.getById(category.getId());
-        category.setProducts(existingCategory.getProducts());
+        category.setProductList(existingCategory.getProductList());
         return this.categoryRepository.save(category);
     }
 

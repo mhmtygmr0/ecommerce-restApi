@@ -2,7 +2,6 @@ package com.ecommerceAPI.entity;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,17 +19,17 @@ public class Category {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> productList;
 
     public Category() {
     }
 
-    public Category(int id, String name, String imageUrl, List<Product> products) {
+    public Category(int id, String name, String imageUrl, List<Product> productList) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
-        this.products = products;
+        this.productList = productList;
     }
 
     public int getId() {
@@ -57,11 +56,11 @@ public class Category {
         this.imageUrl = imageUrl;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Product> getProductList() {
+        return productList;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 }
