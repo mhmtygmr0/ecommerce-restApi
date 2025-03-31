@@ -2,8 +2,12 @@ package com.ecommerceAPI.service.product;
 
 import com.ecommerceAPI.core.exception.NotFoundException;
 import com.ecommerceAPI.core.utils.Msg;
+import com.ecommerceAPI.entity.Category;
 import com.ecommerceAPI.entity.Product;
+import com.ecommerceAPI.entity.Stock;
 import com.ecommerceAPI.repository.ProductRepository;
+import com.ecommerceAPI.service.category.CategoryService;
+import com.ecommerceAPI.service.stock.StockService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,14 +16,26 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
+    private final StockService stockService;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, StockService stockService) {
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
+        this.stockService = stockService;
     }
 
     @Override
     @Transactional
     public Product save(Product product) {
+        Category category = this.categoryService.getById(product.getCategory().getId());
+        product.setCategory(category);
+
+        Stock stock = new Stock();
+        stock.setQuantity(product.getStock().getQuantity());
+
+        this.stockService.save(stock);
+        product.setStock(stock);
         return this.productRepository.save(product);
     }
 
@@ -36,8 +52,24 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product update(Product product) {
-        this.getById(product.getId());
-        return this.productRepository.save(product);
+        Product existingProduct = this.getById(product.getId());
+
+        existingProduct.setName(product.getName());
+        existingProduct.setPrice(product.getPrice());
+
+        Category category = this.categoryService.getById(product.getCategory().getId());
+        existingProduct.setCategory(category);
+
+        Stock stock = product.getStock();
+        if (stock == null) {
+            stock = new Stock();
+        }
+        stock.setQuantity(product.getStock().getQuantity());
+        this.stockService.save(stock);
+
+        existingProduct.setStock(stock);
+
+        return this.productRepository.save(existingProduct);
     }
 
     @Override
