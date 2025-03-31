@@ -27,10 +27,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResultData<List<String>>> handleValidationException(MethodArgumentNotValidException ex) {
-        List<String> validationErrorList = ex.getBindingResult().getFieldErrors()
-                .stream()
-                .map(FieldError::getDefaultMessage)
-                .toList();
+        List<String> validationErrorList = ex.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
         return new ResponseEntity<>(ResultHelper.validateError(validationErrorList), HttpStatus.BAD_REQUEST);
     }
 
@@ -40,8 +37,7 @@ public class GlobalExceptionHandler {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("status", "400");
         errorResponse.put("error", "Bad Request");
-        errorResponse.put("message", String.format("Parameter '%s' must be of type '%s'.",
-                ex.getName(), ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "Unknown"));
+        errorResponse.put("message", String.format("Parameter '%s' must be of type '%s'.", ex.getName(), ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "Unknown"));
         errorResponse.put("path", ex.getParameter().getExecutable().toString());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -50,18 +46,25 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         Map<String, String> response = new HashMap<>();
-        response.put("error", "Data integrity violation");
-        response.put("message", extractConstraintViolationMessage(ex));
+        String message = extractConstraintViolationMessage(ex);
+        response.put("error", message);
         response.put("status", HttpStatus.BAD_REQUEST.toString());
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
 
     private String extractConstraintViolationMessage(DataIntegrityViolationException ex) {
-        if (ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException constraintViolation) {
-            return "Constraint violation: " + constraintViolation.getConstraintName();
+        String message = ex.getRootCause() != null ? ex.getRootCause().getMessage() : ex.getMessage();
+        System.out.println("🔥 Root Cause Message: " + message);
+
+        if (message.contains("(email)=")) {
+            return "This email address is already registered.";
+        } else if (message.contains("(phone)=")) {
+            return "This phone number is already registered.";
         }
-        return "A database constraint was violated.";
+
+        return "Unknown constraint violation.";
     }
 
 
