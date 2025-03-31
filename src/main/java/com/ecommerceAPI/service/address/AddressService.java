@@ -11,6 +11,8 @@ public interface AddressService {
 
     List<Address> getAll();
 
+    boolean doesAddressBelongToUser(Long addressId, Long userId);
+
     Address update(Address address);
 
     void delete(Long id);

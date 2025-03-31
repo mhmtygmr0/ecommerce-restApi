@@ -26,7 +26,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public Stock getById(Long id) {
-        return this.stockRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        return this.stockRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND, "Stock"));
     }
 
     @Override

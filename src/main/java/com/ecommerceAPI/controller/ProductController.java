@@ -39,7 +39,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<ProductResponse> save(@Valid @RequestBody ProductRequest productRequest) {
         Product product = this.modelMapper.forRequest().map(productRequest, Product.class);
-        product.setId(0L);
+        product.setId(null);
 
         Category category = this.categoryService.getById(productRequest.getCategoryId());
         product.setCategory(category);

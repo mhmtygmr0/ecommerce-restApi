@@ -4,6 +4,7 @@ import com.ecommerceAPI.core.exception.NotFoundException;
 import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.entity.Address;
 import com.ecommerceAPI.repository.AddressRepository;
+import com.ecommerceAPI.service.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,26 +14,34 @@ import java.util.List;
 public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
+    private final UserService userService;
 
-    public AddressServiceImpl(AddressRepository addressRepository) {
+    public AddressServiceImpl(AddressRepository addressRepository, UserService userService) {
         this.addressRepository = addressRepository;
+        this.userService = userService;
     }
 
     @Override
     @Transactional
     public Address save(Address address) {
         address.setId(null);
-        return addressRepository.save(address);
+        this.userService.getById(address.getUser().getId());
+        return this.addressRepository.save(address);
     }
 
     @Override
     public Address getById(Long id) {
-        return this.addressRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        return this.addressRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND, "Address"));
     }
 
     @Override
     public List<Address> getAll() {
         return this.addressRepository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public boolean doesAddressBelongToUser(Long addressId, Long userId) {
+        return this.addressRepository.existsByIdAndUserId(addressId, userId);
     }
 
     @Override
