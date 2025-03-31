@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
 
     private String extractConstraintViolationMessage(DataIntegrityViolationException ex) {
         String message = ex.getRootCause() != null ? ex.getRootCause().getMessage() : ex.getMessage();
-        System.out.println("🔥 Root Cause Message: " + message);
+        System.out.println("Root Cause Message: " + message);
 
         if (message.contains("(email)=")) {
             return "This email address is already registered.";
