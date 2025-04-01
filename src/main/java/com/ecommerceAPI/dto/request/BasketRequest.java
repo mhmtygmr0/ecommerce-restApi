@@ -2,7 +2,7 @@ package com.ecommerceAPI.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 
-public class OrderRequest {
+public class BasketRequest {
 
     @NotNull(message = "User id cannot be null")
     private Long userId;
@@ -10,10 +10,10 @@ public class OrderRequest {
     @NotNull(message = "Address id cannot be null")
     private Long addressId;
 
-    public OrderRequest() {
+    public BasketRequest() {
     }
 
-    public OrderRequest(Long userId, Long addressId) {
+    public BasketRequest(Long userId, Long addressId) {
         this.userId = userId;
         this.addressId = addressId;
     }

@@ -48,13 +48,15 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addressList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orderList;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "basket_id", referencedColumnName = "id")
+    private Basket basket;
+
 
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, String phone, UserRole role, LocalDateTime createdAt, List<Address> addressList, List<Order> orderList) {
+    public User(Long id, String name, String email, String password, String phone, UserRole role, LocalDateTime createdAt, List<Address> addressList, Basket basket) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -63,7 +65,7 @@ public class User {
         this.role = role;
         this.createdAt = createdAt;
         this.addressList = addressList;
-        this.orderList = orderList;
+        this.basket = basket;
     }
 
     public Long getId() {
@@ -130,12 +132,12 @@ public class User {
         this.addressList = addressList;
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
+    public Basket getBasket() {
+        return basket;
     }
 
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
+    public void setBasket(Basket basket) {
+        this.basket = basket;
     }
 }
 

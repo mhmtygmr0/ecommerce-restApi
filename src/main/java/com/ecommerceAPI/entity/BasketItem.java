@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 
 @Entity
-@Table(name = "order_items")
-public class OrderItem {
+@Table(name = "basket_items")
+public class BasketItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,8 +14,8 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @JoinColumn(name = "basket_id")
+    private Basket basket;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -28,12 +28,12 @@ public class OrderItem {
     @Column(name = "price")
     private Double price;
 
-    public OrderItem() {
+    public BasketItem() {
     }
 
-    public OrderItem(Long id, Order order, Product product, Long quantity, Double price) {
+    public BasketItem(Long id, Basket basket, Product product, Long quantity, Double price) {
         this.id = id;
-        this.order = order;
+        this.basket = basket;
         this.product = product;
         this.quantity = quantity;
         this.price = price;
@@ -47,12 +47,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Order getOrder() {
-        return order;
+    public Basket getBasket() {
+        return basket;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setBasket(Basket basket) {
+        this.basket = basket;
     }
 
     public Product getProduct() {

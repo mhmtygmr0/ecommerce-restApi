@@ -1,33 +1,30 @@
 package com.ecommerceAPI.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ecommerceAPI.enums.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class OrderResponse {
+public class BasketResponse {
     private Long id;
     private Double totalPrice;
-    private OrderStatus status;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
     private Long userId;
     private Long addressId;
-    private List<OrderItemResponse> orderItems;
+    private List<BasketItemResponse> basketItems;
 
-    public OrderResponse() {
+    public BasketResponse() {
     }
 
-    public OrderResponse(Long id, Double totalPrice, OrderStatus status, LocalDateTime createdAt, Long userId, Long addressId, List<OrderItemResponse> orderItems) {
+    public BasketResponse(Long id, Double totalPrice, LocalDateTime createdAt, Long userId, Long addressId, List<BasketItemResponse> basketItems) {
         this.id = id;
         this.totalPrice = totalPrice;
-        this.status = status;
         this.createdAt = createdAt;
         this.userId = userId;
         this.addressId = addressId;
-        this.orderItems = orderItems;
+        this.basketItems = basketItems;
     }
 
     public Long getId() {
@@ -44,14 +41,6 @@ public class OrderResponse {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -78,11 +67,11 @@ public class OrderResponse {
         this.addressId = addressId;
     }
 
-    public List<OrderItemResponse> getOrderItems() {
-        return orderItems;
+    public List<BasketItemResponse> getBasketItems() {
+        return basketItems;
     }
 
-    public void setOrderItems(List<OrderItemResponse> orderItems) {
-        this.orderItems = orderItems;
+    public void setBasketItems(List<BasketItemResponse> basketItems) {
+        this.basketItems = basketItems;
     }
 }

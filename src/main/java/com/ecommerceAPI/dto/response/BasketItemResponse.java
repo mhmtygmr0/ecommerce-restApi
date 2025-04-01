@@ -1,19 +1,19 @@
 package com.ecommerceAPI.dto.response;
 
-public class OrderItemResponse {
+public class BasketItemResponse {
 
     private Long id;
-    private Long orderId;
+    private Long basketId;
     private Long productId;
     private int quantity;
     private double price;
 
-    public OrderItemResponse() {
+    public BasketItemResponse() {
     }
 
-    public OrderItemResponse(Long id, Long orderId, Long productId, int quantity, double price) {
+    public BasketItemResponse(Long id, Long basketId, Long productId, int quantity, double price) {
         this.id = id;
-        this.orderId = orderId;
+        this.basketId = basketId;
         this.productId = productId;
         this.quantity = quantity;
         this.price = price;
@@ -27,12 +27,12 @@ public class OrderItemResponse {
         this.id = id;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Long getBasketId() {
+        return basketId;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setBasketId(Long basketId) {
+        this.basketId = basketId;
     }
 
     public Long getProductId() {

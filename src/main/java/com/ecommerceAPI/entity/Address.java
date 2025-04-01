@@ -4,8 +4,6 @@ import com.ecommerceAPI.core.utils.Msg;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
-import java.util.List;
-
 @Entity
 @Table(name = "address")
 public class Address {
@@ -34,13 +32,14 @@ public class Address {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orderList;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "basket_id", referencedColumnName = "id")
+    private Basket basket;
 
     public Address() {
     }
 
-    public Address(Long id, String title, String street, String city, String district, String postalCode, User user) {
+    public Address(Long id, String title, String street, String city, String district, String postalCode, User user, Basket basket) {
         this.id = id;
         this.title = title;
         this.street = street;
@@ -48,6 +47,7 @@ public class Address {
         this.district = district;
         this.postalCode = postalCode;
         this.user = user;
+        this.basket = basket;
     }
 
     public Long getId() {
@@ -104,5 +104,13 @@ public class Address {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Basket getBasket() {
+        return basket;
+    }
+
+    public void setBasket(Basket basket) {
+        this.basket = basket;
     }
 }
