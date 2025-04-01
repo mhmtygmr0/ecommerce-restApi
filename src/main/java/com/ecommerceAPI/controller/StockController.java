@@ -13,12 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/stock")
 public class StockController {
-
     private final StockService stockService;
     private final ModelMapperService modelMapper;
 
@@ -46,11 +44,7 @@ public class StockController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<StockResponse>> getAll() {
         List<Stock> stockList = this.stockService.getStockList();
-
-        List<StockResponse> stockResponseList = stockList.stream()
-                .map(stock -> this.modelMapper.forResponse().map(stock, StockResponse.class))
-                .collect(Collectors.toList());
-
+        List<StockResponse> stockResponseList = stockList.stream().map(stock -> this.modelMapper.forResponse().map(stock, StockResponse.class)).toList();
         return ResultHelper.success(stockResponseList);
     }
 

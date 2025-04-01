@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/basket/item")
 public class BasketItemController {
-
     private final BasketItemService basketItemService;
     private final ModelMapperService modelMapper;
 
@@ -45,9 +44,7 @@ public class BasketItemController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<BasketItemResponse>> getAll() {
         List<BasketItem> basketItemList = this.basketItemService.getAll();
-        List<BasketItemResponse> basketItemResponseList = basketItemList.stream()
-                .map(basketItem -> this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class))
-                .toList();
+        List<BasketItemResponse> basketItemResponseList = basketItemList.stream().map(basketItem -> this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class)).toList();
         return ResultHelper.success(basketItemResponseList);
     }
 

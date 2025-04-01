@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/address")
 public class AddressController {
-
     private final AddressService addressService;
     private final ModelMapperService modelMapper;
 

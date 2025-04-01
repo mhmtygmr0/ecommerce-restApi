@@ -13,12 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-
     private final ProductService productService;
     private final ModelMapperService modelMapper;
 
@@ -47,11 +45,12 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<ProductResponse>> getAll() {
         List<Product> productList = this.productService.getAll();
-        List<ProductResponse> productResponseList = productList.stream().map(product -> modelMapper.forResponse().map(product, ProductResponse.class)).collect(Collectors.toList());
+        List<ProductResponse> productResponseList = productList.stream().map(product -> modelMapper.forResponse().map(product, ProductResponse.class)).toList();
         return ResultHelper.success(productResponseList);
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ResultData<ProductResponse> update(@PathVariable("id") Long id, @Valid @RequestBody ProductRequest productRequest) {
         Product product = this.modelMapper.forRequest().map(productRequest, Product.class);
         product.setId(id);
