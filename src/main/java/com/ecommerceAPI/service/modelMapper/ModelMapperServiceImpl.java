@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ModelMapperServiceImpl implements ModelMapperService {
+
     private final ModelMapper modelMapper;
 
     public ModelMapperServiceImpl(ModelMapper modelMapper) {

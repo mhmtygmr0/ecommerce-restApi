@@ -29,7 +29,6 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<ProductResponse> save(@Valid @RequestBody ProductRequest productRequest) {
         Product product = this.modelMapper.forRequest().map(productRequest, Product.class);
-        product.setId(null);
         this.productService.save(product);
         return ResultHelper.created(this.modelMapper.forResponse().map(product, ProductResponse.class));
     }

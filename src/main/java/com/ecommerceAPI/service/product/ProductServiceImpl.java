@@ -15,6 +15,7 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
     private final StockService stockService;
@@ -28,6 +29,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product save(Product product) {
+        product.setId(null);
+
         Category category = this.categoryService.getById(product.getCategory().getId());
         product.setCategory(category);
 
