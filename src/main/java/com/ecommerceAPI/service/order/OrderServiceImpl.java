@@ -28,7 +28,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order save(Order order, Long userId, Long addressId) {
+    public Order save(Order order) {
+        Long userId = order.getUser().getId();
+        Long addressId = order.getAddress().getId();
         User user = this.userService.getById(userId);
         Address address = this.addressService.getById(addressId);
 
@@ -56,13 +58,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order update(Order order, Long userId, Long addressId) {
+    public Order update(Order order) {
         Order existingOrder = this.getById(order.getId());
+        Long userId = order.getUser().getId();
+        Long addressId = order.getAddress().getId();
 
         User user = this.userService.getById(userId);
         Address address = this.addressService.getById(addressId);
 
-        if (!addressService.doesAddressBelongToUser(addressId, userId)) {
+        if (!this.addressService.doesAddressBelongToUser(addressId, userId)) {
             throw new NotFoundException(Msg.NOT_FOUND, "Address");
         }
 

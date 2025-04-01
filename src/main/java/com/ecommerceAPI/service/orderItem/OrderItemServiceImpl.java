@@ -53,7 +53,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         double newTotalPrice = order.getTotalPrice() + orderItem.getPrice();
         order.setTotalPrice(newTotalPrice);
 
-        this.orderService.save(order, order.getUser().getId(), order.getAddress().getId());
+        this.orderService.update(order);
 
         orderItem.setOrder(order);
 
@@ -102,7 +102,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         order.setTotalPrice(order.getTotalPrice() + orderItem.getPrice());
 
-        this.orderService.save(order, order.getUser().getId(), order.getAddress().getId());
+        this.orderService.update(order);
 
         return this.orderItemRepository.save(orderItem);
     }
@@ -127,7 +127,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         order.setTotalPrice(order.getTotalPrice() - orderItem.getPrice());
 
-        this.orderService.save(order, order.getUser().getId(), order.getAddress().getId());
+        this.orderService.update(order);
 
         this.orderItemRepository.delete(orderItem);
     }

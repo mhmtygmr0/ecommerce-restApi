@@ -28,14 +28,9 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<OrderResponse> save(@Valid @RequestBody OrderRequest orderRequest) {
-        Long userId = orderRequest.getUserId();
-        Long addressId = orderRequest.getAddressId();
-
         Order order = this.modelMapper.forRequest().map(orderRequest, Order.class);
-
-        Order savedOrder = this.orderService.save(order, userId, addressId);
-
-        return ResultHelper.created(this.modelMapper.forResponse().map(savedOrder, OrderResponse.class));
+        this.orderService.save(order);
+        return ResultHelper.created(this.modelMapper.forResponse().map(order, OrderResponse.class));
     }
 
     @GetMapping("/{id}")
@@ -56,15 +51,10 @@ public class OrderController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<OrderResponse> update(@PathVariable("id") Long id, @Valid @RequestBody OrderRequest orderRequest) {
-        Long userId = orderRequest.getUserId();
-        Long addressId = orderRequest.getAddressId();
-
         Order order = this.modelMapper.forRequest().map(orderRequest, Order.class);
         order.setId(id);
-
-        Order updatedOrder = this.orderService.update(order, userId, addressId);
-
-        return ResultHelper.success(this.modelMapper.forResponse().map(updatedOrder, OrderResponse.class));
+        this.orderService.update(order);
+        return ResultHelper.success(this.modelMapper.forResponse().map(order, OrderResponse.class));
     }
 
     @DeleteMapping("/{id}")
