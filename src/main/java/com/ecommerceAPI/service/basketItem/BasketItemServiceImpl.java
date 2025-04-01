@@ -36,27 +36,15 @@ public class BasketItemServiceImpl implements BasketItemService {
         Basket basket = this.basketService.getById(basketItem.getBasket().getId());
 
         Product product = this.productService.getById(basketItem.getProduct().getId());
-
-        if (product != null) {
-            double price = product.getPrice() * basketItem.getQuantity();
-            basketItem.setPrice(price);
-        }
-
-        if (product.getStock() == null) {
-            throw new NotFoundException(Msg.INSUFFICIENT_STOCK);
-        }
+        basketItem.setPrice(product.getPrice() * basketItem.getQuantity());
 
         Stock stock = this.stockService.getById(product.getStock().getId());
-
         if (stock.getQuantity() < basketItem.getQuantity()) {
             throw new IllegalArgumentException(Msg.INSUFFICIENT_STOCK);
         }
 
-        double newTotalPrice = basket.getTotalPrice() + basketItem.getPrice();
-        basket.setTotalPrice(newTotalPrice);
-
+        basket.setTotalPrice(basket.getTotalPrice() + basketItem.getPrice());
         this.basketService.update(basket);
-
         basketItem.setBasket(basket);
 
         return this.basketItemRepository.save(basketItem);
@@ -75,34 +63,20 @@ public class BasketItemServiceImpl implements BasketItemService {
     @Override
     @Transactional
     public BasketItem update(BasketItem basketItem) {
-        BasketItem existingBasketItem = this.getById(basketItem.getId());
-
+        this.getById(basketItem.getId());
         Basket basket = this.basketService.getById(basketItem.getBasket().getId());
 
         Product product = this.productService.getById(basketItem.getProduct().getId());
-
-        if (product != null) {
-            double price = product.getPrice() * basketItem.getQuantity();
-            basketItem.setPrice(price);
-        }
-
-        if (product.getStock() == null) {
-            throw new NotFoundException(Msg.NOT_FOUND, "Stock");
-        }
+        basketItem.setPrice(product.getPrice() * basketItem.getQuantity());
 
         Stock stock = this.stockService.getById(product.getStock().getId());
-
-        Long quantityDiff = basketItem.getQuantity() - existingBasketItem.getQuantity();
-        if (quantityDiff > 0) {
-            if (stock.getQuantity() < quantityDiff) {
-                throw new IllegalArgumentException(Msg.INSUFFICIENT_STOCK);
-            }
+        if (stock.getQuantity() < basketItem.getQuantity()) {
+            throw new IllegalArgumentException(Msg.INSUFFICIENT_STOCK);
         }
 
-        basket.setTotalPrice(basket.getTotalPrice() - existingBasketItem.getPrice());
         basket.setTotalPrice(basket.getTotalPrice() + basketItem.getPrice());
-
         this.basketService.update(basket);
+        basketItem.setBasket(basket);
 
         return this.basketItemRepository.save(basketItem);
     }
@@ -111,21 +85,9 @@ public class BasketItemServiceImpl implements BasketItemService {
     @Transactional
     public void delete(Long id) {
         BasketItem basketItem = this.getById(id);
-
         Basket basket = this.basketService.getById(basketItem.getBasket().getId());
-
-        Product product = this.productService.getById(basketItem.getProduct().getId());
-
-        if (product.getStock() == null) {
-            throw new NotFoundException(Msg.NOT_FOUND, "Stock");
-        }
-
-        Stock stock = this.stockService.getById(product.getStock().getId());
-
         basket.setTotalPrice(basket.getTotalPrice() - basketItem.getPrice());
-
         this.basketService.update(basket);
-
         this.basketItemRepository.delete(basketItem);
     }
 
