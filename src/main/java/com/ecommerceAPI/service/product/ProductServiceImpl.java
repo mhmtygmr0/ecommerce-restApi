@@ -33,9 +33,9 @@ public class ProductServiceImpl implements ProductService {
 
         Stock stock = new Stock();
         stock.setQuantity(product.getStock().getQuantity());
-
         this.stockService.save(stock);
         product.setStock(stock);
+
         return this.productRepository.save(product);
     }
 
