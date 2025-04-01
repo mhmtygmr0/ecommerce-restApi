@@ -37,6 +37,11 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         Product product = this.productService.getById(orderItem.getProduct().getId());
 
+        if (product != null) {
+            double price = product.getPrice() * orderItem.getQuantity();
+            orderItem.setPrice(price);
+        }
+
         if (product.getStock() == null) {
             throw new NotFoundException(Msg.INSUFFICIENT_STOCK);
         }
@@ -78,6 +83,11 @@ public class OrderItemServiceImpl implements OrderItemService {
         Order order = this.orderService.getById(orderItem.getOrder().getId());
 
         Product product = this.productService.getById(orderItem.getProduct().getId());
+
+        if (product != null) {
+            double price = product.getPrice() * orderItem.getQuantity();
+            orderItem.setPrice(price);
+        }
 
         if (product.getStock() == null) {
             throw new NotFoundException(Msg.NOT_FOUND, "Stock");

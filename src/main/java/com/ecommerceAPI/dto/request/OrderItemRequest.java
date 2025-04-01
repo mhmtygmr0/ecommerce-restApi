@@ -12,7 +12,7 @@ public class OrderItemRequest {
     private Long productId;
 
     @NotNull(message = "Quantity cannot be null")
-    @Min(value = 0, message = "Quantity must be at least 0")
+    @Min(value = 1, message = "Quantity must be at least 1")
     private Long quantity;
 
     public OrderItemRequest() {

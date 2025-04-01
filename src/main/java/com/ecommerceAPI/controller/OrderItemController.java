@@ -34,15 +34,7 @@ public class OrderItemController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<OrderItemResponse> save(@Valid @RequestBody OrderItemRequest orderItemRequest) {
         OrderItem orderItem = this.modelMapper.forRequest().map(orderItemRequest, OrderItem.class);
-
-        Product product = this.productService.getById(orderItemRequest.getProductId());
-        if (product != null) {
-            double price = product.getPrice() * orderItem.getQuantity();
-            orderItem.setPrice(price);
-        }
-
         this.orderItemService.save(orderItem);
-
         return ResultHelper.created(this.modelMapper.forResponse().map(orderItem, OrderItemResponse.class));
     }
 
@@ -68,13 +60,6 @@ public class OrderItemController {
     public ResultData<OrderItemResponse> update(@PathVariable("id") Long id, @Valid @RequestBody OrderItemRequest orderItemRequest) {
         OrderItem orderItem = this.modelMapper.forRequest().map(orderItemRequest, OrderItem.class);
         orderItem.setId(id);
-
-        Product product = this.productService.getById(orderItemRequest.getProductId());
-        if (product != null) {
-            double price = product.getPrice() * orderItem.getQuantity();
-            orderItem.setPrice(price);
-        }
-
         this.orderItemService.update(orderItem);
         return ResultHelper.success(this.modelMapper.forResponse().map(orderItem, OrderItemResponse.class));
     }
