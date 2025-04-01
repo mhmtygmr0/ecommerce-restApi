@@ -52,24 +52,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product update(Product product) {
-        Product existingProduct = this.getById(product.getId());
+        Product updateProduct = this.getById(product.getId());
 
-        existingProduct.setName(product.getName());
-        existingProduct.setPrice(product.getPrice());
-
-        Category category = this.categoryService.getById(product.getCategory().getId());
-        existingProduct.setCategory(category);
-
-        Stock stock = product.getStock();
-        if (stock == null) {
-            stock = new Stock();
+        if (product.getCategory() != null && product.getCategory().getName() != null) {
+            updateProduct.getCategory().setName(product.getCategory().getName());
         }
-        stock.setQuantity(product.getStock().getQuantity());
-        this.stockService.save(stock);
 
-        existingProduct.setStock(stock);
+        if (product.getStock() != null && product.getStock().getQuantity() != null) {
+            updateProduct.getStock().setQuantity(product.getStock().getQuantity());
+        }
 
-        return this.productRepository.save(existingProduct);
+        return this.productRepository.save(updateProduct);
     }
 
     @Override

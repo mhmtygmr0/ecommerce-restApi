@@ -52,9 +52,6 @@ public class BasketItemServiceImpl implements BasketItemService {
             throw new IllegalArgumentException(Msg.INSUFFICIENT_STOCK);
         }
 
-        stock.setQuantity(stock.getQuantity() - basketItem.getQuantity());
-        this.stockService.save(stock);
-
         double newTotalPrice = basket.getTotalPrice() + basketItem.getPrice();
         basket.setTotalPrice(newTotalPrice);
 
@@ -95,21 +92,14 @@ public class BasketItemServiceImpl implements BasketItemService {
 
         Stock stock = this.stockService.getById(product.getStock().getId());
 
-        basket.setTotalPrice(basket.getTotalPrice() - existingBasketItem.getPrice());
-
         Long quantityDiff = basketItem.getQuantity() - existingBasketItem.getQuantity();
         if (quantityDiff > 0) {
-
             if (stock.getQuantity() < quantityDiff) {
                 throw new IllegalArgumentException(Msg.INSUFFICIENT_STOCK);
             }
-            stock.setQuantity(stock.getQuantity() - quantityDiff);
-        } else if (quantityDiff < 0) {
-
-            stock.setQuantity(stock.getQuantity() + Math.abs(quantityDiff));
         }
-        this.stockService.save(stock);
 
+        basket.setTotalPrice(basket.getTotalPrice() - existingBasketItem.getPrice());
         basket.setTotalPrice(basket.getTotalPrice() + basketItem.getPrice());
 
         this.basketService.update(basket);
@@ -131,9 +121,6 @@ public class BasketItemServiceImpl implements BasketItemService {
         }
 
         Stock stock = this.stockService.getById(product.getStock().getId());
-
-        stock.setQuantity(stock.getQuantity() + basketItem.getQuantity());
-        this.stockService.save(stock);
 
         basket.setTotalPrice(basket.getTotalPrice() - basketItem.getPrice());
 

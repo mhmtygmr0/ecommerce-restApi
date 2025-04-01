@@ -25,6 +25,10 @@ public class Stock {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime updatedAt;
 
+    @OneToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
+
     @PrePersist
     @PreUpdate
     void onUpdate() {
