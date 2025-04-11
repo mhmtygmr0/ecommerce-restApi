@@ -9,4 +9,6 @@ public class Msg {
     public static final String PHONE = "Phone number must be 11 digits";
     public static final String QUANTITY = "Quantity must be at least 0";
     public static final String POSTAL_CODE = "Postal code must be exactly 5 digits";
+    public static final String PRICE = "Price must be greater than 0";
+    public static final String EMAIL = "Email must be valid";
 }

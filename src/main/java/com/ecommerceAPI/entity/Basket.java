@@ -25,7 +25,7 @@ public class Basket {
     private Address address;
 
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
-    private List<BasketItem> basketItems;
+    private List<BasketItem> basketItemList;
 
     @PrePersist
     protected void onCreate() {
@@ -35,12 +35,12 @@ public class Basket {
     public Basket() {
     }
 
-    public Basket(Long id, Double totalPrice, User user, Address address, List<BasketItem> basketItems) {
+    public Basket(Long id, Double totalPrice, User user, Address address, List<BasketItem> basketItemList) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.user = user;
         this.address = address;
-        this.basketItems = basketItems;
+        this.basketItemList = basketItemList;
     }
 
     public Long getId() {
@@ -75,11 +75,11 @@ public class Basket {
         this.address = address;
     }
 
-    public List<BasketItem> getBasketItems() {
-        return basketItems;
+    public List<BasketItem> getBasketItemList() {
+        return basketItemList;
     }
 
-    public void setBasketItems(List<BasketItem> basketItems) {
-        this.basketItems = basketItems;
+    public void setBasketItemList(List<BasketItem> basketItemList) {
+        this.basketItemList = basketItemList;
     }
 }

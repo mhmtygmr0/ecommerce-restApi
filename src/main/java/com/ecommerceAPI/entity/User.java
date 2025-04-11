@@ -4,6 +4,7 @@ import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Email(message = Msg.EMAIL)
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 

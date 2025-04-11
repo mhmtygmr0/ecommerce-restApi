@@ -1,6 +1,8 @@
 package com.ecommerceAPI.entity;
 
+import com.ecommerceAPI.core.utils.Msg;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 
 @Entity
 @Table(name = "product")
@@ -17,6 +19,7 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @Min(value = 0, message = Msg.PRICE)
     @Column(name = "price", nullable = false)
     private Double price;
 
