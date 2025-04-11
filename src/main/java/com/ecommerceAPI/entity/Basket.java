@@ -1,11 +1,19 @@
 package com.ecommerceAPI.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "basket")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Basket {
 
     @Id
@@ -30,56 +38,5 @@ public class Basket {
     @PrePersist
     protected void onCreate() {
         this.totalPrice = 0.0;
-    }
-
-    public Basket() {
-    }
-
-    public Basket(Long id, Double totalPrice, User user, Address address, List<BasketItem> basketItemList) {
-        this.id = id;
-        this.totalPrice = totalPrice;
-        this.user = user;
-        this.address = address;
-        this.basketItemList = basketItemList;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public List<BasketItem> getBasketItemList() {
-        return basketItemList;
-    }
-
-    public void setBasketItemList(List<BasketItem> basketItemList) {
-        this.basketItemList = basketItemList;
     }
 }

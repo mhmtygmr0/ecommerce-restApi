@@ -2,7 +2,15 @@ package com.ecommerceAPI.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BasketItemRequest {
 
     @NotNull(message = "Basket id cannot be null")
@@ -14,37 +22,4 @@ public class BasketItemRequest {
     @NotNull(message = "Quantity cannot be null")
     @Min(value = 1, message = "Quantity must be at least 1")
     private Long quantity;
-
-    public BasketItemRequest() {
-    }
-
-    public BasketItemRequest(Long basketId, Long productId, Long quantity) {
-        this.basketId = basketId;
-        this.productId = productId;
-        this.quantity = quantity;
-    }
-
-    public Long getBasketId() {
-        return basketId;
-    }
-
-    public void setBasketId(Long basketId) {
-        this.basketId = basketId;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
 }

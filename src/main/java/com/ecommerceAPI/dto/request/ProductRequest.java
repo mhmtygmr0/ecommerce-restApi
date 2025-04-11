@@ -3,7 +3,15 @@ package com.ecommerceAPI.dto.request;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductRequest {
 
     @NotNull(message = "Product name cannot be null")
@@ -24,64 +32,4 @@ public class ProductRequest {
     @NotNull(message = "Product stock quantity cannot be null")
     @Min(value = 0, message = "Product stock quantity cannot be negative")
     private Long stockQuantity;
-
-    public ProductRequest() {
-    }
-
-    public ProductRequest(String name, String description, Double price, String imageUrl, int categoryId, Long stockQuantity) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.imageUrl = imageUrl;
-        this.categoryId = categoryId;
-        this.stockQuantity = stockQuantity;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Long getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(Long stockQuantity) {
-        this.stockQuantity = stockQuantity;
-    }
 }
