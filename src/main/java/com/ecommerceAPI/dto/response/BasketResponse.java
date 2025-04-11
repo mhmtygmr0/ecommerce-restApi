@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -21,5 +20,4 @@ public class BasketResponse {
     private LocalDateTime createdAt;
     private Long userId;
     private Long addressId;
-    private List<BasketItemResponse> basketItems;
 }
