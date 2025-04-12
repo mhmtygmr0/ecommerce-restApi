@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,10 +38,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException ex) {
         List<String> validationErrorList = ex.getBindingResult().getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage).toList();
-        
+
         Map<String, Object> response = new HashMap<>();
         response.put("success", false);
-        response.put("message", validationErrorList.get(0)); // İlk hata mesajını alıyoruz
+        response.put("message", validationErrorList.get(0));
         response.put("status", "400");
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -50,9 +50,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
         Map<String, Object> response = new HashMap<>();
         response.put("success", false);
-        response.put("message", String.format("Parameter '%s' must be of type '%s'", 
-            ex.getName(), 
-            ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "Unknown"));
+        response.put("message", String.format("Parameter '%s' must be of type '%s'",
+                ex.getName(),
+                ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "Unknown"));
         response.put("status", "400");
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
