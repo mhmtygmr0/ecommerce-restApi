@@ -63,6 +63,7 @@ public class BasketItemServiceImpl implements BasketItemService {
     @Override
     @Transactional
     public BasketItem update(BasketItem basketItem) {
+        BasketItem oldBasketItem = this.getById(basketItem.getId());
         this.getById(basketItem.getId());
         Basket basket = this.basketService.getById(basketItem.getBasket().getId());
 
@@ -74,6 +75,7 @@ public class BasketItemServiceImpl implements BasketItemService {
             throw new IllegalArgumentException(Msg.INSUFFICIENT_STOCK);
         }
 
+        basket.setTotalPrice(basket.getTotalPrice() - oldBasketItem.getPrice());
         basket.setTotalPrice(basket.getTotalPrice() + basketItem.getPrice());
         this.basketService.update(basket);
         basketItem.setBasket(basket);
