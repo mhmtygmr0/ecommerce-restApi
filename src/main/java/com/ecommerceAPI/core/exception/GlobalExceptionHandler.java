@@ -1,58 +1,70 @@
 package com.ecommerceAPI.core.exception;
 
-import com.ecommerceAPI.core.utils.Result;
-import com.ecommerceAPI.core.utils.ResultData;
-import com.ecommerceAPI.core.utils.ResultHelper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Result> handleNotFoundException(NotFoundException ex) {
-        return new ResponseEntity<>(ResultHelper.notFoundError(ex.getMessage()), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Map<String, Object>> handleBusinessException(BusinessException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", ex.getMessage());
+        response.put("status", "400");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFoundException(NotFoundException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", ex.getMessage());
+        response.put("status", "404");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ResultData<List<String>>> handleValidationException(MethodArgumentNotValidException ex) {
-        List<String> validationErrorList = ex.getBindingResult().getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
-        return new ResponseEntity<>(ResultHelper.validateError(validationErrorList), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException ex) {
+        List<String> validationErrorList = ex.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage).toList();
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", validationErrorList.get(0)); // İlk hata mesajını alıyoruz
+        response.put("status", "400");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Map<String, String>> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("status", "400");
-        errorResponse.put("error", "Bad Request");
-        errorResponse.put("message", String.format("Parameter '%s' must be of type '%s'.", ex.getName(), ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "Unknown"));
-        errorResponse.put("path", ex.getParameter().getExecutable().toString());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Map<String, Object>> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", String.format("Parameter '%s' must be of type '%s'", 
+            ex.getName(), 
+            ex.getRequiredType() != null ? ex.getRequiredType().getSimpleName() : "Unknown"));
+        response.put("status", "400");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        Map<String, String> response = new HashMap<>();
-        String message = extractConstraintViolationMessage(ex);
-        response.put("error", message);
-        response.put("status", HttpStatus.BAD_REQUEST.toString());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    public ResponseEntity<Map<String, Object>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("message", extractConstraintViolationMessage(ex));
+        response.put("status", "400");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-
 
     private String extractConstraintViolationMessage(DataIntegrityViolationException ex) {
         String message = ex.getRootCause() != null ? ex.getRootCause().getMessage() : ex.getMessage();
@@ -67,14 +79,12 @@ public class GlobalExceptionHandler {
         return "Unknown constraint violation.";
     }
 
-
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
-        Map<String, String> response = new HashMap<>();
-        response.put("error", "Internal Server Error");
+    public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
         response.put("message", ex.getMessage() != null ? ex.getMessage() : "An unexpected error occurred.");
-        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.toString());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        response.put("status", "500");
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }

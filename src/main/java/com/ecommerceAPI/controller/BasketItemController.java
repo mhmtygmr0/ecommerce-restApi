@@ -1,7 +1,5 @@
 package com.ecommerceAPI.controller;
 
-import com.ecommerceAPI.core.utils.Result;
-import com.ecommerceAPI.core.utils.ResultData;
 import com.ecommerceAPI.core.utils.ResultHelper;
 import com.ecommerceAPI.dto.request.BasketItemRequest;
 import com.ecommerceAPI.dto.response.BasketItemResponse;
@@ -10,9 +8,11 @@ import com.ecommerceAPI.service.basketItem.BasketItemService;
 import com.ecommerceAPI.service.modelMapper.ModelMapperService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/basket/item")
@@ -26,41 +26,36 @@ public class BasketItemController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResultData<BasketItemResponse> save(@Valid @RequestBody BasketItemRequest basketItemRequest) {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody BasketItemRequest basketItemRequest) {
         BasketItem basketItem = this.modelMapper.forRequest().map(basketItemRequest, BasketItem.class);
         this.basketItemService.save(basketItem);
-        return ResultHelper.created(this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResultHelper.created(this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class)));
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<BasketItemResponse> get(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, Object>> get(@PathVariable("id") Long id) {
         BasketItem basketItem = this.basketItemService.getById(id);
-        return ResultHelper.success(this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class));
+        return ResponseEntity.ok(ResultHelper.success(this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class)));
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<List<BasketItemResponse>> getAll() {
+    public ResponseEntity<Map<String, Object>> getAll() {
         List<BasketItem> basketItemList = this.basketItemService.getAll();
         List<BasketItemResponse> basketItemResponseList = basketItemList.stream().map(basketItem -> this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class)).toList();
-        return ResultHelper.success(basketItemResponseList);
+        return ResponseEntity.ok(ResultHelper.success(basketItemResponseList));
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<BasketItemResponse> update(@PathVariable("id") Long id, @Valid @RequestBody BasketItemRequest basketItemRequest) {
+    public ResponseEntity<Map<String, Object>> update(@PathVariable("id") Long id, @Valid @RequestBody BasketItemRequest basketItemRequest) {
         BasketItem basketItem = this.modelMapper.forRequest().map(basketItemRequest, BasketItem.class);
         basketItem.setId(id);
         this.basketItemService.update(basketItem);
-        return ResultHelper.success(this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class));
+        return ResponseEntity.ok(ResultHelper.success(this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class)));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Result delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") Long id) {
         this.basketItemService.delete(id);
-        return ResultHelper.ok();
+        return ResponseEntity.ok(ResultHelper.ok());
     }
 }

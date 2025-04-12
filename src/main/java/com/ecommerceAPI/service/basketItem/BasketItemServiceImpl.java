@@ -1,6 +1,7 @@
 package com.ecommerceAPI.service.basketItem;
 
 import com.ecommerceAPI.core.exception.NotFoundException;
+import com.ecommerceAPI.core.exception.BusinessException;
 import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.entity.Basket;
 import com.ecommerceAPI.entity.BasketItem;
@@ -34,13 +35,21 @@ public class BasketItemServiceImpl implements BasketItemService {
     @Transactional
     public BasketItem save(BasketItem basketItem) {
         Basket basket = this.basketService.getById(basketItem.getBasket().getId());
-
         Product product = this.productService.getById(basketItem.getProduct().getId());
+
+        // Check if the product already exists in the basket
+        boolean productExists = basket.getBasketItemList().stream()
+                .anyMatch(item -> item.getProduct().getId().equals(product.getId()));
+        
+        if (productExists) {
+            throw new BusinessException(Msg.PRODUCT_ALREADY_IN_BASKET);
+        }
+
         basketItem.setPrice(product.getPrice() * basketItem.getQuantity());
 
         Stock stock = this.stockService.getById(product.getStock().getId());
         if (stock.getQuantity() < basketItem.getQuantity()) {
-            throw new IllegalArgumentException(Msg.INSUFFICIENT_STOCK);
+            throw new BusinessException(Msg.INSUFFICIENT_STOCK);
         }
 
         basket.setTotalPrice(basket.getTotalPrice() + basketItem.getPrice());
@@ -64,15 +73,23 @@ public class BasketItemServiceImpl implements BasketItemService {
     @Transactional
     public BasketItem update(BasketItem basketItem) {
         BasketItem oldBasketItem = this.getById(basketItem.getId());
-        this.getById(basketItem.getId());
         Basket basket = this.basketService.getById(basketItem.getBasket().getId());
-
         Product product = this.productService.getById(basketItem.getProduct().getId());
+
+        // Check if the product already exists in the basket (excluding the current item being updated)
+        boolean productExists = basket.getBasketItemList().stream()
+                .filter(item -> !item.getId().equals(oldBasketItem.getId()))
+                .anyMatch(item -> item.getProduct().getId().equals(product.getId()));
+        
+        if (productExists) {
+            throw new BusinessException(Msg.PRODUCT_ALREADY_IN_BASKET);
+        }
+
         basketItem.setPrice(product.getPrice() * basketItem.getQuantity());
 
         Stock stock = this.stockService.getById(product.getStock().getId());
         if (stock.getQuantity() < basketItem.getQuantity()) {
-            throw new IllegalArgumentException(Msg.INSUFFICIENT_STOCK);
+            throw new BusinessException(Msg.INSUFFICIENT_STOCK);
         }
 
         basket.setTotalPrice(basket.getTotalPrice() - oldBasketItem.getPrice());

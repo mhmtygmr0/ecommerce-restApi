@@ -1,7 +1,5 @@
 package com.ecommerceAPI.controller;
 
-import com.ecommerceAPI.core.utils.Result;
-import com.ecommerceAPI.core.utils.ResultData;
 import com.ecommerceAPI.core.utils.ResultHelper;
 import com.ecommerceAPI.dto.request.CategoryRequest;
 import com.ecommerceAPI.dto.response.CategoryResponse;
@@ -10,9 +8,11 @@ import com.ecommerceAPI.service.category.CategoryService;
 import com.ecommerceAPI.service.modelMapper.ModelMapperService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/category")
@@ -26,41 +26,37 @@ public class CategoryController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResultData<CategoryResponse> save(@Valid @RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody CategoryRequest categoryRequest) {
         Category category = this.modelMapper.forRequest().map(categoryRequest, Category.class);
         this.categoryService.save(category);
-        return ResultHelper.created(this.modelMapper.forResponse().map(category, CategoryResponse.class));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ResultHelper.created(this.modelMapper.forResponse().map(category, CategoryResponse.class)));
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<CategoryResponse> get(@PathVariable("id") int id) {
+    public ResponseEntity<Map<String, Object>> get(@PathVariable("id") int id) {
         Category category = this.categoryService.getById(id);
-        return ResultHelper.success(modelMapper.forResponse().map(category, CategoryResponse.class));
+        return ResponseEntity.ok(ResultHelper.success(this.modelMapper.forResponse().map(category, CategoryResponse.class)));
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<List<CategoryResponse>> getAll() {
+    public ResponseEntity<Map<String, Object>> getAll() {
         List<Category> categoryList = this.categoryService.getCategoryList();
         List<CategoryResponse> categoryResponseList = categoryList.stream().map(category -> this.modelMapper.forResponse().map(category, CategoryResponse.class)).toList();
-        return ResultHelper.success(categoryResponseList);
+        return ResponseEntity.ok(ResultHelper.success(categoryResponseList));
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResultData<CategoryResponse> update(@PathVariable("id") int id, @Valid @RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Map<String, Object>> update(@PathVariable("id") int id, @Valid @RequestBody CategoryRequest categoryRequest) {
         Category category = this.modelMapper.forRequest().map(categoryRequest, Category.class);
         category.setId(id);
         this.categoryService.update(category);
-        return ResultHelper.success(this.modelMapper.forResponse().map(category, CategoryResponse.class));
+        return ResponseEntity.ok(ResultHelper.success(this.modelMapper.forResponse().map(category, CategoryResponse.class)));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Result delete(@PathVariable("id") int id) {
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") int id) {
         this.categoryService.delete(id);
-        return ResultHelper.ok();
+        return ResponseEntity.ok(ResultHelper.ok());
     }
 }

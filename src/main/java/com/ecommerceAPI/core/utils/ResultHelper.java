@@ -1,28 +1,66 @@
 package com.ecommerceAPI.core.utils;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class ResultHelper {
 
-    public static <T> ResultData<T> created(T data) {
-        return new ResultData<>(true, Msg.CREATED, "201", data);
+    public static <T> Map<String, Object> created(T data) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("success", true);
+        response.put("message", Msg.CREATED);
+        response.put("status", "201");
+        response.put("data", data);
+        return response;
     }
 
-    public static <T> ResultData<T> validateError(T data) {
-        return new ResultData<>(false, Msg.VALIDATE_ERROR, "400", data);
+    public static <T> Map<String, Object> validateError(T data) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("success", false);
+        response.put("message", Msg.VALIDATE_ERROR);
+        response.put("status", "400");
+        response.put("data", data);
+        return response;
     }
 
-    public static <T> ResultData<T> success(T data) {
-        return new ResultData<>(true, Msg.SUCCESS, "200", data);
+    public static <T> Map<String, Object> success(T data) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("success", true);
+        response.put("message", Msg.SUCCESS);
+        response.put("status", "200");
+        response.put("data", data);
+        return response;
     }
 
-    public static Result ok() {
-        return new Result(true, Msg.SUCCESS, "200");
+    public static Map<String, Object> ok() {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("success", true);
+        response.put("message", Msg.SUCCESS);
+        response.put("status", "200");
+        return response;
     }
 
-    public static Result notFoundError(String msg) {
-        return new Result(false, msg, "404");
+    public static Map<String, Object> notFoundError(String msg) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("success", false);
+        response.put("message", msg);
+        response.put("status", "404");
+        return response;
     }
 
-    public static Result forbiddenError(String message) {
-        return new Result(false, message, "403");
+    public static Map<String, Object> forbiddenError(String message) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("success", false);
+        response.put("message", message);
+        response.put("status", "403");
+        return response;
+    }
+
+    public static Map<String, Object> businessError(String message) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("success", false);
+        response.put("message", message);
+        response.put("status", "400");
+        return response;
     }
 }
