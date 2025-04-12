@@ -21,6 +21,13 @@ public class BasketItem {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "quantity")
+    @Min(value = 1, message = Msg.QUANTITY)
+    private Long quantity;
+
+    @Column(name = "price")
+    private Double price;
+
     @ManyToOne
     @JoinColumn(name = "basket_id")
     private Basket basket;
@@ -28,11 +35,4 @@ public class BasketItem {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
-    @Column(name = "quantity")
-    @Min(value = 1, message = Msg.QUANTITY)
-    private Long quantity;
-
-    @Column(name = "price")
-    private Double price;
 }
