@@ -12,5 +12,5 @@ public class Msg {
     public static final String PRICE = "Price must be greater than 0";
     public static final String EMAIL = "Email must be valid";
     public static final String PRODUCT_ALREADY_IN_BASKET = "This product is already in your basket!";
-    
+    public static final String USER_ALREADY_HAS_BASKET = "You already have an active basket!";
 }
