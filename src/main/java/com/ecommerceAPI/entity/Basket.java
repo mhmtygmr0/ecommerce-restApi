@@ -30,10 +30,6 @@ public class Basket {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "address_id", nullable = false)
-    private Address address;
-
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<BasketItem> basketItemList;
 

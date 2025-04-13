@@ -15,7 +15,4 @@ public class BasketRequest {
 
     @NotNull(message = Msg.BASKET_USER_ID_NULL)
     private Long userId;
-
-    @NotNull(message = Msg.BASKET_ADDRESS_ID_NULL)
-    private Long addressId;
 }

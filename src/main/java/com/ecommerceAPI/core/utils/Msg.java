@@ -41,7 +41,6 @@ public class Msg {
     public static final String CATEGORY_NAME_EMPTY = "Category name cannot be empty";
 
     public static final String BASKET_USER_ID_NULL = "User id cannot be null";
-    public static final String BASKET_ADDRESS_ID_NULL = "Address id cannot be null";
 
     public static final String BASKET_ID_NULL = "Basket id cannot be null";
     public static final String BASKET_PRODUCT_ID_NULL = "Product id cannot be null";

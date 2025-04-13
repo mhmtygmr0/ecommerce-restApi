@@ -39,8 +39,4 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "basket_id", referencedColumnName = "id")
-    private Basket basket;
 }

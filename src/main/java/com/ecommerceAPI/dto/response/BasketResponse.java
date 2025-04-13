@@ -13,5 +13,4 @@ public class BasketResponse {
     private Long id;
     private Double totalPrice;
     private Long userId;
-    private Long addressId;
 }
