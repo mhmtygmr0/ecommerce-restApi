@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "basket", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "user_id")
+        @UniqueConstraint(columnNames = "user_id")
 })
 @Getter
 @Setter
