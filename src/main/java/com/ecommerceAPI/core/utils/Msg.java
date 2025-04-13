@@ -40,11 +40,17 @@ public class Msg {
     public static final String CATEGORY_NAME_NULL = "Category name cannot be null";
     public static final String CATEGORY_NAME_EMPTY = "Category name cannot be empty";
 
-    public static final String BASKET_USER_ID_NULL = "User id cannot be null";
-
     public static final String BASKET_ID_NULL = "Basket id cannot be null";
     public static final String BASKET_PRODUCT_ID_NULL = "Product id cannot be null";
     public static final String BASKET_QUANTITY_NULL = "Quantity cannot be null";
 
     public static final String STOCK_QUANTITY_NULL = "Stock quantity cannot be null";
+
+    public static final String EMAIL_ALREADY_REGISTERED = "This email address is already registered.";
+    public static final String PHONE_ALREADY_REGISTERED = "This phone number is already registered.";
+    public static final String CATEGORY_NAME_ALREADY_EXISTS = "This category name is already registered.";
+    public static final String UNKNOWN_CONSTRAINT_VIOLATION = "Unknown constraint violation.";
+    public static final String GENERIC_INTERNAL_ERROR = "An unexpected error occurred.";
+    public static final String UNKNOWN = "Unknown";
+
 }
