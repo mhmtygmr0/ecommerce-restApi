@@ -4,7 +4,6 @@ import com.ecommerceAPI.core.exception.NotFoundException;
 import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.entity.Basket;
 import com.ecommerceAPI.repository.BasketRepository;
-import com.ecommerceAPI.service.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,18 +13,15 @@ import java.util.List;
 public class BasketServiceImpl implements BasketService {
 
     private final BasketRepository basketRepository;
-    private final UserService userService;
 
-    public BasketServiceImpl(BasketRepository basketRepository, UserService userService) {
+    public BasketServiceImpl(BasketRepository basketRepository) {
         this.basketRepository = basketRepository;
-        this.userService = userService;
     }
 
     @Override
     @Transactional
     public Basket save(Basket basket) {
         basket.setId(null);
-        basket.setUser(this.userService.getById(basket.getUser().getId()));
         basket.setTotalPrice(basket.getTotalPrice() != null ? basket.getTotalPrice() : 0.0);
         return this.basketRepository.save(basket);
     }
@@ -44,7 +40,7 @@ public class BasketServiceImpl implements BasketService {
     @Transactional
     public Basket update(Basket basket) {
         Basket existingBasket = this.getById(basket.getId());
-        basket.setUser(this.userService.getById(basket.getUser().getId()));
+        basket.setUser(existingBasket.getUser());
         basket.setTotalPrice(basket.getTotalPrice() != null ? basket.getTotalPrice() : existingBasket.getTotalPrice());
         return this.basketRepository.save(basket);
     }

@@ -9,9 +9,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "basket", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "user_id")
-})
+@Table(name = "basket")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,7 +25,7 @@ public class Basket {
     private Double totalPrice;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)

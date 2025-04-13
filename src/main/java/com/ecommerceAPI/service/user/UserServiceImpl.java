@@ -2,9 +2,11 @@ package com.ecommerceAPI.service.user;
 
 import com.ecommerceAPI.core.exception.NotFoundException;
 import com.ecommerceAPI.core.utils.Msg;
+import com.ecommerceAPI.entity.Basket;
 import com.ecommerceAPI.entity.User;
 import com.ecommerceAPI.enums.UserRole;
 import com.ecommerceAPI.repository.UserRepository;
+import com.ecommerceAPI.service.basket.BasketService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +16,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BasketService basketService;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BasketService basketService) {
         this.userRepository = userRepository;
+        this.basketService = basketService;
     }
 
     @Override
@@ -25,6 +29,10 @@ public class UserServiceImpl implements UserService {
         if (user.getRole() == null) {
             user.setRole(UserRole.CUSTOMER);
         }
+        Basket basket = new Basket();
+        basket.setUser(user);
+        this.basketService.save(basket);
+        user.setBasket(basket);
         return this.userRepository.save(user);
     }
 
