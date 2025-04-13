@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.ecommerceAPI.core.utils.Msg;
 
 @Getter
 @Setter
@@ -13,19 +14,20 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserRequest {
 
-    @NotNull(message = "Username cannot be null")
-    @NotEmpty(message = "Username cannot be empty")
+    @NotNull(message = Msg.USERNAME_NULL)
+    @NotEmpty(message = Msg.USERNAME_EMPTY)
     private String name;
 
-    @Email(message = "Invalid email format")
+    @Email(message = Msg.EMAIL)
     @NotBlank(message = "Email cannot be empty")
     private String email;
 
-    @NotNull(message = "Password cannot be null")
-    @NotEmpty(message = "Password cannot be empty")
+    @NotNull(message = Msg.PASSWORD_NULL)
+    @NotEmpty(message = Msg.PASSWORD_EMPTY)
     private String password;
 
-    @Pattern(regexp = "^[0-9]{11}$", message = "Phone number must be 11 digits")
+    @NotNull(message = Msg.PHONE_NULL)
+    @Pattern(regexp = "^[0-9]{11}$", message = Msg.PHONE)
     private String phone;
 
     private UserRole role;

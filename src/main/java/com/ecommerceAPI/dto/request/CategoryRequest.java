@@ -6,14 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.ecommerceAPI.core.utils.Msg;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryRequest {
-    @NotNull(message = "Category name cannot be null")
-    @NotEmpty(message = "Category name cannot be empty")
+    @NotNull(message = Msg.CATEGORY_NAME_NULL)
+    @NotEmpty(message = Msg.CATEGORY_NAME_EMPTY)
     private String name;
 
     private String imageUrl;

@@ -15,24 +15,24 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AddressRequest {
 
-    @NotNull(message = "Address title cannot be null")
-    @NotEmpty(message = "Address title cannot be empty")
+    @NotNull(message = Msg.ADDRESS_TITLE_NULL)
+    @NotEmpty(message = Msg.ADDRESS_TITLE_EMPTY)
     private String title;
 
-    @NotNull(message = "Address street cannot be null")
-    @NotEmpty(message = "Address street cannot be empty")
+    @NotNull(message = Msg.ADDRESS_STREET_NULL)
+    @NotEmpty(message = Msg.ADDRESS_STREET_EMPTY)
     private String street;
 
-    @NotNull(message = "Address city cannot be null")
-    @NotEmpty(message = "Address city cannot be empty")
+    @NotNull(message = Msg.ADDRESS_CITY_NULL)
+    @NotEmpty(message = Msg.ADDRESS_CITY_EMPTY)
     private String city;
 
-    @NotNull(message = "Address district cannot be null")
-    @NotEmpty(message = "Address district cannot be empty")
+    @NotNull(message = Msg.ADDRESS_DISTRICT_NULL)
+    @NotEmpty(message = Msg.ADDRESS_DISTRICT_EMPTY)
     private String district;
 
-    @NotNull(message = "Address postal code cannot be null")
-    @NotEmpty(message = "Address postalCode cannot be empty")
+    @NotNull(message = Msg.ADDRESS_POSTAL_CODE_NULL)
+    @NotEmpty(message = Msg.ADDRESS_POSTAL_CODE_EMPTY)
     @Pattern(regexp = "^[0-9]{5}$", message = Msg.POSTAL_CODE)
     private String postalCode;
 

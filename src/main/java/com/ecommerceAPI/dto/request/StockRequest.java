@@ -1,5 +1,6 @@
 package com.ecommerceAPI.dto.request;
 
+import com.ecommerceAPI.core.utils.Msg;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class StockRequest {
 
-    @NotNull(message = "Stock quantity cannot be null")
+    @NotNull(message = Msg.STOCK_QUANTITY_NULL)
     private Long quantity;
 
     private LocalDateTime updatedAt = LocalDateTime.now();

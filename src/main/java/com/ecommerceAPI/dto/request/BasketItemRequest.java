@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.ecommerceAPI.core.utils.Msg;
 
 @Getter
 @Setter
@@ -13,13 +14,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BasketItemRequest {
 
-    @NotNull(message = "Basket id cannot be null")
+    @NotNull(message = Msg.BASKET_ID_NULL)
     private Long basketId;
 
-    @NotNull(message = "Product id cannot be null")
+    @NotNull(message = Msg.BASKET_PRODUCT_ID_NULL)
     private Long productId;
 
-    @NotNull(message = "Quantity cannot be null")
-    @Min(value = 1, message = "Quantity must be at least 1")
+    @NotNull(message = Msg.BASKET_QUANTITY_NULL)
+    @Min(value = 1, message = Msg.QUANTITY)
     private Long quantity;
 }

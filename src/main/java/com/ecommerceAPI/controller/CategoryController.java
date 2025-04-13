@@ -34,7 +34,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> get(@PathVariable("id") int id) {
+    public ResponseEntity<Map<String, Object>> get(@PathVariable("id") Long id) {
         Category category = this.categoryService.getById(id);
         return ResponseEntity.ok(ResultHelper.success(this.modelMapper.forResponse().map(category, CategoryResponse.class)));
     }
@@ -47,7 +47,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@PathVariable("id") int id, @Valid @RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Map<String, Object>> update(@PathVariable("id") Long id, @Valid @RequestBody CategoryRequest categoryRequest) {
         Category category = this.modelMapper.forRequest().map(categoryRequest, Category.class);
         category.setId(id);
         this.categoryService.update(category);
@@ -55,7 +55,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") int id) {
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("id") Long id) {
         this.categoryService.delete(id);
         return ResponseEntity.ok(ResultHelper.ok());
     }

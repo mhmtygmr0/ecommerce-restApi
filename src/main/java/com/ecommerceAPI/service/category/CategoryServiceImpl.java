@@ -25,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getById(int id) {
+    public Category getById(Long id) {
         return this.categoryRepository.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND, "Category"));
     }
 
@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void delete(Long id) {
         Category category = this.getById(id);
         this.categoryRepository.delete(category);
     }

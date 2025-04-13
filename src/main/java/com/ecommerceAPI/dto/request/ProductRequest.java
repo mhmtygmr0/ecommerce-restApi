@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.ecommerceAPI.core.utils.Msg;
 
 @Getter
 @Setter
@@ -14,22 +15,22 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ProductRequest {
 
-    @NotNull(message = "Product name cannot be null")
-    @NotEmpty(message = "Product name cannot be empty")
+    @NotNull(message = Msg.PRODUCT_NAME_NULL)
+    @NotEmpty(message = Msg.PRODUCT_NAME_EMPTY)
     private String name;
 
     private String description;
 
-    @NotNull(message = "Product price cannot be null")
-    @Min(value = 0, message = "Price cannot be negative")
+    @NotNull(message = Msg.PRODUCT_PRICE_NULL)
+    @Min(value = 0, message = Msg.PRICE)
     private Double price;
 
     private String imageUrl;
 
-    @NotNull(message = "Product category id cannot be null")
-    private int categoryId;
+    @NotNull(message = Msg.PRODUCT_CATEGORY_ID_NULL)
+    private Long categoryId;
 
-    @NotNull(message = "Product stock quantity cannot be null")
-    @Min(value = 0, message = "Product stock quantity cannot be negative")
+    @NotNull(message = Msg.PRODUCT_STOCK_NULL)
+    @Min(value = 0, message = Msg.QUANTITY)
     private Long stockQuantity;
 }
