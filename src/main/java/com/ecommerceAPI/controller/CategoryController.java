@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,10 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody CategoryRequest categoryRequest, @RequestPart("image") MultipartFile imageFile) {
         Category category = this.modelMapper.forRequest().map(categoryRequest, Category.class);
-        this.categoryService.save(category);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ResultHelper.created(this.modelMapper.forResponse().map(category, CategoryResponse.class)));
+        this.categoryService.save(category, imageFile);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResultHelper.created(this.modelMapper.forResponse().map(category, CategoryResponse.class)));
     }
 
     @GetMapping("/{id}")
@@ -47,10 +47,10 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> update(@PathVariable("id") Long id, @Valid @RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<Map<String, Object>> update(@PathVariable("id") Long id, @Valid @RequestBody CategoryRequest categoryRequest, @RequestPart("image") MultipartFile imageFile) {
         Category category = this.modelMapper.forRequest().map(categoryRequest, Category.class);
         category.setId(id);
-        this.categoryService.update(category);
+        this.categoryService.update(category, imageFile);
         return ResponseEntity.ok(ResultHelper.success(this.modelMapper.forResponse().map(category, CategoryResponse.class)));
     }
 
