@@ -81,4 +81,12 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(new ErrorResponse(false, Msg.GENERIC_INTERNAL_ERROR, HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ImageSaveException.class)
+    public ResponseEntity<ErrorResponse> handleImageSaveException(ImageSaveException ex) {
+        return new ResponseEntity<>(
+                new ErrorResponse(false, ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()),
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
 }
