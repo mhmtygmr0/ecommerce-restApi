@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAll() {
-        List<User> userList = this.userService.getUserList();
+        List<User> userList = this.userService.getAll();
         List<UserResponse> userResponseList = userList.stream().map(user -> this.modelMapper.forResponse().map(user, UserResponse.class)).toList();
         return ResponseEntity.ok(ResultHelper.success(userResponseList));
     }

@@ -9,7 +9,7 @@ public interface StockService {
 
     Stock getById(Long id);
 
-    List<Stock> getStockList();
+    List<Stock> getAll();
 
     Stock update(Stock stock);
 

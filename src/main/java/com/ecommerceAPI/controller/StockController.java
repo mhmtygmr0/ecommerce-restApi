@@ -41,7 +41,7 @@ public class StockController {
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAll() {
-        List<Stock> stockList = this.stockService.getStockList();
+        List<Stock> stockList = this.stockService.getAll();
         List<StockResponse> stockResponseList = stockList.stream().map(stock -> this.modelMapper.forResponse().map(stock, StockResponse.class)).toList();
         return ResponseEntity.ok(ResultHelper.success(stockResponseList));
     }

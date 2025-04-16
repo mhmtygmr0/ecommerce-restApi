@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> getCategoryList() {
+    public List<Category> getAll() {
         return this.categoryRepository.findAllByOrderByIdAsc();
     }
 

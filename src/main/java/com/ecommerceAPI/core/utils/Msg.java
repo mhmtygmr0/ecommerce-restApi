@@ -46,6 +46,9 @@ public class Msg {
 
     public static final String STOCK_QUANTITY_NULL = "Stock quantity cannot be null";
 
+    public static final String ORDER_USER_ID_NULL = "User id cannot be null";
+    public static final String ORDER_ADDRESS_ID_NULL = "Address id cannot be null";
+
     public static final String EMAIL_ALREADY_REGISTERED = "This email address is already registered.";
     public static final String PHONE_ALREADY_REGISTERED = "This phone number is already registered.";
     public static final String CATEGORY_NAME_ALREADY_EXISTS = "This category name is already registered.";

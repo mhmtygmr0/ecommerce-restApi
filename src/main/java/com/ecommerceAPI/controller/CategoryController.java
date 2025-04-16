@@ -29,8 +29,7 @@ public class CategoryController {
     public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody CategoryRequest categoryRequest) {
         Category category = this.modelMapper.forRequest().map(categoryRequest, Category.class);
         this.categoryService.save(category);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ResultHelper.created(this.modelMapper.forResponse().map(category, CategoryResponse.class)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResultHelper.created(this.modelMapper.forResponse().map(category, CategoryResponse.class)));
     }
 
     @GetMapping("/{id}")
@@ -41,7 +40,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAll() {
-        List<Category> categoryList = this.categoryService.getCategoryList();
+        List<Category> categoryList = this.categoryService.getAll();
         List<CategoryResponse> categoryResponseList = categoryList.stream().map(category -> this.modelMapper.forResponse().map(category, CategoryResponse.class)).toList();
         return ResponseEntity.ok(ResultHelper.success(categoryResponseList));
     }

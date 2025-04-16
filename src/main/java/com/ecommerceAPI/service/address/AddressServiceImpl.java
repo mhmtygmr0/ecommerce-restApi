@@ -40,11 +40,6 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public boolean doesAddressBelongToUser(Long addressId, Long userId) {
-        return this.addressRepository.existsByIdAndUserId(addressId, userId);
-    }
-
-    @Override
     @Transactional
     public Address update(Address address) {
         Address existingAddress = this.getById(address.getId());
