@@ -52,5 +52,5 @@ public class Msg {
     public static final String UNKNOWN_CONSTRAINT_VIOLATION = "Unknown constraint violation.";
     public static final String GENERIC_INTERNAL_ERROR = "An unexpected error occurred.";
     public static final String UNKNOWN = "Unknown";
-    public static final String ROLE_ERROR = "Invalid role value!";
+    public static final String ROLE_ERROR = "Invalid role value2";
 }
