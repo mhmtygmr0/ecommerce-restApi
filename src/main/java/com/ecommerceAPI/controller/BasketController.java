@@ -41,9 +41,7 @@ public class BasketController {
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAll() {
         List<Basket> basketList = this.basketService.getAll();
-        List<BasketResponse> basketResponseList = basketList.stream()
-                .map(basket -> this.modelMapper.forResponse().map(basket, BasketResponse.class))
-                .toList();
+        List<BasketResponse> basketResponseList = basketList.stream().map(basket -> this.modelMapper.forResponse().map(basket, BasketResponse.class)).toList();
         return ResponseEntity.ok(ResultHelper.success(basketResponseList));
     }
 

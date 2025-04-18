@@ -29,8 +29,7 @@ public class StockController {
     public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody StockRequest stockRequest) {
         Stock stock = this.modelMapper.forRequest().map(stockRequest, Stock.class);
         this.stockService.save(stock);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ResultHelper.created(this.modelMapper.forResponse().map(stock, StockResponse.class)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResultHelper.created(this.modelMapper.forResponse().map(stock, StockResponse.class)));
     }
 
     @GetMapping("/{id}")

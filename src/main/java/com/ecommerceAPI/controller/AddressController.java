@@ -41,9 +41,7 @@ public class AddressController {
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAll() {
         List<Address> addressList = this.addressService.getAll();
-        List<AddressResponse> addressResponseList = addressList.stream()
-                .map(address -> this.modelMapper.forResponse().map(address, AddressResponse.class))
-                .toList();
+        List<AddressResponse> addressResponseList = addressList.stream().map(address -> this.modelMapper.forResponse().map(address, AddressResponse.class)).toList();
         return ResponseEntity.ok(ResultHelper.success(addressResponseList));
     }
 
