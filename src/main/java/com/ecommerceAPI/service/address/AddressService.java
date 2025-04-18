@@ -14,4 +14,6 @@ public interface AddressService {
     Address update(Address address);
 
     void delete(Long id);
+
+    void checkAddressBelongsToUser(Long addressId, Long userId);
 }

@@ -55,4 +55,12 @@ public class AddressServiceImpl implements AddressService {
         Address address = this.getById(id);
         this.addressRepository.delete(address);
     }
+
+    @Override
+    public void checkAddressBelongsToUser(Long addressId, Long userId) {
+        boolean exists = this.addressRepository.existsByIdAndUserId(addressId, userId);
+        if (!exists) {
+            throw new NotFoundException(Msg.ADDRESS_NOT_BELONG_TO_USER);
+        }
+    }
 }

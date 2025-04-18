@@ -2,7 +2,6 @@ package com.ecommerceAPI.core.utils;
 
 public class Msg {
     public static final String CREATED = "Resource created successfully.";
-    public static final String VALIDATE_ERROR = "Validation error.";
     public static final String SUCCESS = "Request processed successfully.";
     public static final String NOT_FOUND = "id not found.";
     public static final String INSUFFICIENT_STOCK = "Insufficient stock!";
@@ -24,6 +23,7 @@ public class Msg {
     public static final String ADDRESS_DISTRICT_EMPTY = "Address district cannot be empty";
     public static final String ADDRESS_POSTAL_CODE_NULL = "Address postal code cannot be null";
     public static final String ADDRESS_POSTAL_CODE_EMPTY = "Address postalCode cannot be empty";
+    public static final String ADDRESS_NOT_BELONG_TO_USER = "The address does not belong to the specified user.";
 
     public static final String USERNAME_NULL = "Username cannot be null";
     public static final String USERNAME_EMPTY = "Username cannot be empty";
