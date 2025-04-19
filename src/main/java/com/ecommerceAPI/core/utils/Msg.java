@@ -40,9 +40,9 @@ public class Msg {
     public static final String CATEGORY_NAME_NULL = "Category name cannot be null";
     public static final String CATEGORY_NAME_EMPTY = "Category name cannot be empty";
 
-    public static final String BASKET_ID_NULL = "Basket id cannot be null";
-    public static final String BASKET_PRODUCT_ID_NULL = "Product id cannot be null";
-    public static final String BASKET_QUANTITY_NULL = "Quantity cannot be null";
+    public static final String BASKET_ITEM_ID_NULL = "Basket id cannot be null";
+    public static final String BASKET_ITEM_PRODUCT_ID_NULL = "Product id cannot be null";
+    public static final String BASKET_ITEM_QUANTITY_NULL = "Quantity cannot be null";
 
     public static final String STOCK_QUANTITY_NULL = "Stock quantity cannot be null";
 
