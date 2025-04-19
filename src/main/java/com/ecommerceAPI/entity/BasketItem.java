@@ -25,8 +25,8 @@ public class BasketItem {
     @Min(value = 1, message = Msg.QUANTITY)
     private Long quantity;
 
-    @Column(name = "price")
-    private Double price;
+    @Column(name = "total_price")
+    private Double totalPrice;
 
     @ManyToOne
     @JoinColumn(name = "basket_id")
