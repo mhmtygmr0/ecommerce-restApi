@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -41,6 +42,9 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItemList;
 
     @PrePersist
     protected void onCreate() {
