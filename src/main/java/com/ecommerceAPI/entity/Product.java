@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "product")
 @Getter
@@ -41,4 +43,10 @@ public class Product {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stock;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<BasketItem> basketItemList;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItemList;
 }
