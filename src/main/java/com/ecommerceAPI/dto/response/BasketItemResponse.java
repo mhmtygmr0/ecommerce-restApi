@@ -13,6 +13,6 @@ public class BasketItemResponse {
     private Long id;
     private Long basketId;
     private Long productId;
-    private int quantity;
-    private double price;
+    private Long quantity;
+    private Double totalPrice;
 }
