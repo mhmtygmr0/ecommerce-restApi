@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequest {
-
     @NotNull(message = Msg.ORDER_USER_ID_NULL)
     private Long userId;
 
