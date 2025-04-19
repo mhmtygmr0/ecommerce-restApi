@@ -31,29 +31,17 @@ public class BasketItemServiceImpl implements BasketItemService {
         this.productService = productService;
     }
 
-    @Override
     @Transactional
     public BasketItem save(BasketItem basketItem) {
         Basket basket = this.basketService.getById(basketItem.getBasket().getId());
-        Product product = this.productService.getById(basketItem.getProduct().getId());
 
-        boolean productExists = basket.getBasketItemList().stream().anyMatch(item -> item.getProduct().getId().equals(product.getId()));
+        boolean productExists = basket.getBasketItemList().stream().anyMatch(item -> item.getProduct().getId().equals(basketItem.getProduct().getId()));
 
         if (productExists) {
             throw new BusinessException(Msg.PRODUCT_ALREADY_IN_BASKET);
         }
 
-        basketItem.setTotalPrice(product.getPrice() * basketItem.getQuantity());
-
-        Stock stock = this.stockService.getById(product.getStock().getId());
-        if (stock.getQuantity() < basketItem.getQuantity()) {
-            throw new BusinessException(Msg.INSUFFICIENT_STOCK);
-        }
-
-        basket.setTotalPrice(basket.getTotalPrice() + basketItem.getTotalPrice());
-        this.basketService.update(basket);
-        basketItem.setBasket(basket);
-
+        this.calculateBasketItemPriceAndUpdateBasket(basketItem, basket, false, 0.0);
         return this.basketItemRepository.save(basketItem);
     }
 
@@ -67,31 +55,18 @@ public class BasketItemServiceImpl implements BasketItemService {
         return this.basketItemRepository.findAllByOrderByIdAsc();
     }
 
-    @Override
     @Transactional
     public BasketItem update(BasketItem basketItem) {
         BasketItem oldBasketItem = this.getById(basketItem.getId());
         Basket basket = this.basketService.getById(basketItem.getBasket().getId());
-        Product product = this.productService.getById(basketItem.getProduct().getId());
 
-        boolean productExists = basket.getBasketItemList().stream().filter(item -> !item.getId().equals(oldBasketItem.getId())).anyMatch(item -> item.getProduct().getId().equals(product.getId()));
+        boolean productExists = basket.getBasketItemList().stream().filter(item -> !item.getId().equals(oldBasketItem.getId())).anyMatch(item -> item.getProduct().getId().equals(basketItem.getProduct().getId()));
 
         if (productExists) {
             throw new BusinessException(Msg.PRODUCT_ALREADY_IN_BASKET);
         }
 
-        basketItem.setTotalPrice(product.getPrice() * basketItem.getQuantity());
-
-        Stock stock = this.stockService.getById(product.getStock().getId());
-        if (stock.getQuantity() < basketItem.getQuantity()) {
-            throw new BusinessException(Msg.INSUFFICIENT_STOCK);
-        }
-
-        basket.setTotalPrice(basket.getTotalPrice() - oldBasketItem.getTotalPrice());
-        basket.setTotalPrice(basket.getTotalPrice() + basketItem.getTotalPrice());
-        this.basketService.update(basket);
-        basketItem.setBasket(basket);
-
+        calculateBasketItemPriceAndUpdateBasket(basketItem, basket, true, oldBasketItem.getTotalPrice());
         return this.basketItemRepository.save(basketItem);
     }
 
@@ -99,8 +74,14 @@ public class BasketItemServiceImpl implements BasketItemService {
     @Transactional
     public void delete(Long id) {
         BasketItem basketItem = this.getById(id);
-        Basket basket = this.basketService.getById(basketItem.getBasket().getId());
-        basket.setTotalPrice(basket.getTotalPrice() - basketItem.getTotalPrice());
+        Basket basket = basketItem.getBasket();
+
+        Double currentTotal = basket.getTotalPrice() != null ? basket.getTotalPrice() : 0.0;
+        Double itemPrice = basketItem.getTotalPrice() != null ? basketItem.getTotalPrice() : 0.0;
+
+        double updatedTotal = currentTotal - itemPrice;
+        basket.setTotalPrice(Math.max(updatedTotal, 0.0));
+
         this.basketService.update(basket);
         this.basketItemRepository.delete(basketItem);
     }
@@ -111,12 +92,39 @@ public class BasketItemServiceImpl implements BasketItemService {
         Basket basket = this.basketService.getById(basketId);
         List<BasketItem> items = basket.getBasketItemList();
 
-        double totalToRemove = items.stream().mapToDouble(BasketItem::getTotalPrice).sum();
+        if (items == null || items.isEmpty()) {
+            return;
+        }
 
-        basket.setTotalPrice(basket.getTotalPrice() - totalToRemove);
+        double totalToRemove = items.stream()
+                .mapToDouble(item -> item.getTotalPrice() != null ? item.getTotalPrice() : 0.0)
+                .sum();
+
+        double currentTotal = basket.getTotalPrice() != null ? basket.getTotalPrice() : 0.0;
+        basket.setTotalPrice(Math.max(currentTotal - totalToRemove, 0.0));
+
         this.basketService.update(basket);
-
         this.basketItemRepository.deleteAll(items);
     }
 
+    private void calculateBasketItemPriceAndUpdateBasket(BasketItem basketItem, Basket basket, boolean isUpdate, Double oldItemTotalPrice) {
+        Product product = this.productService.getById(basketItem.getProduct().getId());
+        Stock stock = this.stockService.getById(product.getStock().getId());
+
+        if (stock.getQuantity() < basketItem.getQuantity()) {
+            throw new BusinessException(Msg.INSUFFICIENT_STOCK);
+        }
+
+        double newTotalPrice = product.getPrice() * basketItem.getQuantity();
+        basketItem.setTotalPrice(newTotalPrice);
+
+        if (isUpdate) {
+            basket.setTotalPrice(basket.getTotalPrice() - oldItemTotalPrice + newTotalPrice);
+        } else {
+            basket.setTotalPrice(basket.getTotalPrice() + newTotalPrice);
+        }
+
+        this.basketService.update(basket);
+        basketItem.setBasket(basket);
+    }
 }
