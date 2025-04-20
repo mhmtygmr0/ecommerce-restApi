@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OrderResponse {
     private Long id;
-    private Long totalPrice;
+    private Double totalPrice;
     private StatusType status;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
