@@ -81,4 +81,9 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(new ErrorResponse(false, Msg.GENERIC_INTERNAL_ERROR, HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex) {
+        return new ResponseEntity<>(new ErrorResponse(false, ex.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+    }
 }
