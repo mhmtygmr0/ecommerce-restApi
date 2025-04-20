@@ -9,6 +9,7 @@ import com.ecommerceAPI.service.address.AddressService;
 import com.ecommerceAPI.service.basket.BasketService;
 import com.ecommerceAPI.service.basketItem.BasketItemService;
 import com.ecommerceAPI.service.orderItem.OrderItemService;
+import com.ecommerceAPI.service.stock.StockService;
 import com.ecommerceAPI.service.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +25,16 @@ public class OrderServiceImpl implements OrderService {
     private final BasketService basketService;
     private final BasketItemService basketItemService;
     private final OrderItemService orderItemService;
+    private final StockService stockService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, AddressService addressService, BasketService basketService, BasketItemService basketItemService, OrderItemService orderItemService) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, AddressService addressService, BasketService basketService, BasketItemService basketItemService, OrderItemService orderItemService, StockService stockService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.addressService = addressService;
         this.basketService = basketService;
         this.basketItemService = basketItemService;
         this.orderItemService = orderItemService;
+        this.stockService = stockService;
     }
 
     @Override
@@ -57,6 +60,10 @@ public class OrderServiceImpl implements OrderService {
         Order savedOrder = this.orderRepository.save(order);
 
         for (BasketItem basketItem : basketItems) {
+            Stock stock = basketItem.getProduct().getStock();
+            long updatedQuantity = stock.getQuantity() - basketItem.getQuantity();
+            stock.setQuantity(updatedQuantity);
+            this.stockService.update(stock);
             OrderItem orderItem = new OrderItem();
             orderItem.setQuantity(basketItem.getQuantity());
             orderItem.setPrice(basketItem.getProduct().getPrice());
