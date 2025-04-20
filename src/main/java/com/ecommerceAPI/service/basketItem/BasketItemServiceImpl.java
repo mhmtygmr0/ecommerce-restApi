@@ -104,7 +104,8 @@ public class BasketItemServiceImpl implements BasketItemService {
         basket.setTotalPrice(Math.max(currentTotal - totalToRemove, 0.0));
 
         this.basketService.update(basket);
-        this.basketItemRepository.deleteAll(items);
+
+        this.basketItemRepository.deleteByBasketId(basketId);
     }
 
     private void calculateBasketItemPriceAndUpdateBasket(BasketItem basketItem, Basket basket, boolean isUpdate, Double oldItemTotalPrice) {
