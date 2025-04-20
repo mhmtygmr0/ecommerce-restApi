@@ -103,14 +103,7 @@ public class OrderServiceImpl implements OrderService {
 
     private void processBasketItems(Order order, List<BasketItem> basketItems) {
         for (BasketItem basketItem : basketItems) {
-            Stock stock = basketItem.getProduct().getStock();
-            long updatedQuantity = stock.getQuantity() - basketItem.getQuantity();
-            if (updatedQuantity < 0) {
-                throw new BusinessException(Msg.INSUFFICIENT_STOCK);
-            }
-
-            stock.setQuantity(updatedQuantity);
-            this.stockService.update(stock);
+            this.updateStock(basketItem);
 
             OrderItem orderItem = new OrderItem();
             orderItem.setQuantity(basketItem.getQuantity());
@@ -123,4 +116,13 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    private void updateStock(BasketItem item) {
+        Stock stock = item.getProduct().getStock();
+        long updatedQuantity = stock.getQuantity() - item.getQuantity();
+        if (updatedQuantity < 0) {
+            throw new BusinessException(Msg.INSUFFICIENT_STOCK);
+        }
+        stock.setQuantity(updatedQuantity);
+        stockService.update(stock);
+    }
 }

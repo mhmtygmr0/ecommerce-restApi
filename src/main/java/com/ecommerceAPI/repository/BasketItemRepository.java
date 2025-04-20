@@ -17,4 +17,6 @@ public interface BasketItemRepository extends JpaRepository<BasketItem, Long> {
     @Modifying
     @Query("DELETE FROM BasketItem b WHERE b.basket.id = :basketId")
     void deleteByBasketId(Long basketId);
+
+    List<BasketItem> findAllByBasketId(Long basketId);
 }

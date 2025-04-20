@@ -55,6 +55,11 @@ public class BasketItemServiceImpl implements BasketItemService {
         return this.basketItemRepository.findAllByOrderByIdAsc();
     }
 
+    @Override
+    public List<BasketItem> getBasketItemsByBasketId(Long basketId) {
+        return this.basketItemRepository.findAllByBasketId(basketId);
+    }
+
     @Transactional
     public BasketItem update(BasketItem basketItem) {
         BasketItem oldBasketItem = this.getById(basketItem.getId());

@@ -45,6 +45,13 @@ public class BasketItemController {
         return ResponseEntity.ok(ResultHelper.success(basketItemResponseList));
     }
 
+    @GetMapping("/basket/{basketId}")
+    public ResponseEntity<Map<String, Object>> getBasketItemsByBasketId(@PathVariable("basketId") Long basketId) {
+        List<BasketItem> basketItemList = this.basketItemService.getBasketItemsByBasketId(basketId);
+        List<BasketItemResponse> basketItemResponseList = basketItemList.stream().map(basketItem -> this.modelMapper.forResponse().map(basketItem, BasketItemResponse.class)).toList();
+        return ResponseEntity.ok(ResultHelper.success(basketItemResponseList));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> update(@PathVariable("id") Long id, @Valid @RequestBody BasketItemRequest basketItemRequest) {
         BasketItem basketItem = this.modelMapper.forRequest().map(basketItemRequest, BasketItem.class);

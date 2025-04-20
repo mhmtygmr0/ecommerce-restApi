@@ -11,6 +11,8 @@ public interface BasketItemService {
 
     List<BasketItem> getAll();
 
+    List<BasketItem> getBasketItemsByBasketId(Long basketId);
+
     BasketItem update(BasketItem basketItem);
 
     void delete(Long id);
