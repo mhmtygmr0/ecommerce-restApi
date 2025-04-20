@@ -60,22 +60,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order savedOrder = this.orderRepository.save(order);
 
-        for (BasketItem basketItem : basketItems) {
-            Stock stock = basketItem.getProduct().getStock();
-            long updatedQuantity = stock.getQuantity() - basketItem.getQuantity();
-            if (updatedQuantity < 0) {
-                throw new BusinessException(Msg.INSUFFICIENT_STOCK);
-            }
-            stock.setQuantity(updatedQuantity);
-            this.stockService.update(stock);
-            OrderItem orderItem = new OrderItem();
-            orderItem.setQuantity(basketItem.getQuantity());
-            orderItem.setPrice(basketItem.getProduct().getPrice());
-            orderItem.setTotalPrice(basketItem.getTotalPrice());
-            orderItem.setOrder(savedOrder);
-            orderItem.setProduct(basketItem.getProduct());
-            this.orderItemService.save(orderItem);
-        }
+        this.processBasketItems(savedOrder, basketItems);
 
         this.basketItemService.deleteByBasketId(basket.getId());
 
@@ -115,4 +100,27 @@ public class OrderServiceImpl implements OrderService {
         Order order = this.getById(id);
         this.orderRepository.delete(order);
     }
+
+    private void processBasketItems(Order order, List<BasketItem> basketItems) {
+        for (BasketItem basketItem : basketItems) {
+            Stock stock = basketItem.getProduct().getStock();
+            long updatedQuantity = stock.getQuantity() - basketItem.getQuantity();
+            if (updatedQuantity < 0) {
+                throw new BusinessException(Msg.INSUFFICIENT_STOCK);
+            }
+
+            stock.setQuantity(updatedQuantity);
+            this.stockService.update(stock);
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setQuantity(basketItem.getQuantity());
+            orderItem.setPrice(basketItem.getProduct().getPrice());
+            orderItem.setTotalPrice(basketItem.getTotalPrice());
+            orderItem.setOrder(order);
+            orderItem.setProduct(basketItem.getProduct());
+
+            this.orderItemService.save(orderItem);
+        }
+    }
+
 }
