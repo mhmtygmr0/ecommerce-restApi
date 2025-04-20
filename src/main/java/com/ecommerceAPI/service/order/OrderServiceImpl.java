@@ -1,6 +1,7 @@
 package com.ecommerceAPI.service.order;
 
 import com.ecommerceAPI.core.exception.BadRequestException;
+import com.ecommerceAPI.core.exception.BusinessException;
 import com.ecommerceAPI.core.exception.NotFoundException;
 import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.entity.*;
@@ -62,6 +63,9 @@ public class OrderServiceImpl implements OrderService {
         for (BasketItem basketItem : basketItems) {
             Stock stock = basketItem.getProduct().getStock();
             long updatedQuantity = stock.getQuantity() - basketItem.getQuantity();
+            if (updatedQuantity < 0) {
+                throw new BusinessException(Msg.INSUFFICIENT_STOCK);
+            }
             stock.setQuantity(updatedQuantity);
             this.stockService.update(stock);
             OrderItem orderItem = new OrderItem();
