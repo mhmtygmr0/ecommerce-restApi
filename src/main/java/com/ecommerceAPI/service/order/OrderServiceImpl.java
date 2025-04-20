@@ -1,5 +1,6 @@
 package com.ecommerceAPI.service.order;
 
+import com.ecommerceAPI.core.exception.BadRequestException;
 import com.ecommerceAPI.core.exception.NotFoundException;
 import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.entity.*;
@@ -44,13 +45,16 @@ public class OrderServiceImpl implements OrderService {
 
         this.addressService.checkAddressBelongsToUser(address.getId(), user.getId());
 
+        List<BasketItem> basketItems = basket.getBasketItemList();
+        if (basketItems == null || basketItems.isEmpty()) {
+            throw new BadRequestException(Msg.CART_IS_EMPTY);
+        }
+
         order.setUser(user);
         order.setAddress(address);
         order.setTotalPrice(basket.getTotalPrice());
 
         Order savedOrder = this.orderRepository.save(order);
-
-        List<BasketItem> basketItems = basket.getBasketItemList();
 
         for (BasketItem basketItem : basketItems) {
             OrderItem orderItem = new OrderItem();
