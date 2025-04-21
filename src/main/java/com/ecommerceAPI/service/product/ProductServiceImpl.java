@@ -34,9 +34,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = this.categoryService.getById(product.getCategory().getId());
         product.setCategory(category);
 
-        Stock stock = new Stock();
-        stock.setQuantity(product.getStock().getQuantity());
-        this.stockService.save(stock);
+        Stock stock = this.handleStock(null, product.getStock().getQuantity());
         product.setStock(stock);
 
         return this.productRepository.save(product);
@@ -61,18 +59,7 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(category);
 
         if (product.getStock() != null && product.getStock().getQuantity() != null) {
-            Stock stock;
-
-            if (existingProduct.getStock() != null) {
-                stock = existingProduct.getStock();
-                stock.setQuantity(product.getStock().getQuantity());
-                this.stockService.update(stock);
-            } else {
-                stock = new Stock();
-                stock.setQuantity(product.getStock().getQuantity());
-                this.stockService.save(stock);
-            }
-
+            Stock stock = this.handleStock(existingProduct.getStock(), product.getStock().getQuantity());
             product.setStock(stock);
         }
 
@@ -84,5 +71,18 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         Product product = this.getById(id);
         this.productRepository.delete(product);
+    }
+
+    private Stock handleStock(Stock existingStock, Long quantity) {
+        if (existingStock != null) {
+            existingStock.setQuantity(quantity);
+            this.stockService.update(existingStock);
+            return existingStock;
+        } else {
+            Stock newStock = new Stock();
+            newStock.setQuantity(quantity);
+            this.stockService.save(newStock);
+            return newStock;
+        }
     }
 }
