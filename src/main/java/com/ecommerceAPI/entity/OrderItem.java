@@ -31,6 +31,15 @@ public class OrderItem {
     @Column(name = "total_price")
     private Double totalPrice;
 
+    @Column(name = "product_name")
+    private String productName;
+
+    @Column(name = "product_price")
+    private Double productPrice;
+
+    @Column(name = "product_image_url")
+    private String productImageUrl;
+
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;

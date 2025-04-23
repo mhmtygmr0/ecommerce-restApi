@@ -29,13 +29,15 @@ public class OrderItemController {
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> get(@PathVariable("id") Long id) {
         OrderItem orderItem = this.orderItemService.getById(id);
-        return ResponseEntity.ok(ResultHelper.success(this.modelMapper.forResponse().map(orderItem, OrderItemResponse.class)));
+        return ResponseEntity.ok(ResultHelper.success(this.modelMapper.mapToResponse(orderItem)));
     }
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAll() {
         List<OrderItem> orderItemList = this.orderItemService.getAll();
-        List<OrderItemResponse> orderItemResponseList = orderItemList.stream().map(orderItem -> this.modelMapper.forResponse().map(orderItem, OrderItemResponse.class)).toList();
+        List<OrderItemResponse> orderItemResponseList = orderItemList.stream()
+                .map(this.modelMapper::mapToResponse)
+                .toList();
         return ResponseEntity.ok(ResultHelper.success(orderItemResponseList));
     }
 }
