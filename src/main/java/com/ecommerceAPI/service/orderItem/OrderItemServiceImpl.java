@@ -22,9 +22,6 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Transactional
     public OrderItem save(OrderItem orderItem) {
         orderItem.setId(null);
-        orderItem.setProductName(orderItem.getProduct().getName());
-        orderItem.setProductPrice(orderItem.getProduct().getPrice());
-        orderItem.setProductImageUrl(orderItem.getProduct().getImageUrl());
         return this.orderItemRepository.save(orderItem);
     }
 

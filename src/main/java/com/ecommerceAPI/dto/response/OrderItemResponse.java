@@ -17,6 +17,5 @@ public class OrderItemResponse {
     private String productImageUrl;
     private Double productPrice;
     private Long quantity;
-    private Double price;
     private Double totalPrice;
 }
