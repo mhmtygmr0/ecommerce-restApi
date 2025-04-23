@@ -110,9 +110,9 @@ public class OrderServiceImpl implements OrderService {
             orderItem.setTotalPrice(basketItem.getTotalPrice());
             orderItem.setOrder(order);
             orderItem.setProduct(basketItem.getProduct());
-            orderItem.setProductName(basketItem.getProduct().getName());
-            orderItem.setProductPrice(basketItem.getProduct().getPrice());
-            orderItem.setProductImageUrl(basketItem.getProduct().getImageUrl());
+            orderItem.setName(basketItem.getProduct().getName());
+            orderItem.setPrice(basketItem.getProduct().getPrice());
+            orderItem.setImageUrl(basketItem.getProduct().getImageUrl());
 
             this.orderItemService.save(orderItem);
         }

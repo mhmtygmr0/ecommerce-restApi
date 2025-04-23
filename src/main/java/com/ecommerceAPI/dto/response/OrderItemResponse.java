@@ -13,9 +13,9 @@ public class OrderItemResponse {
     private Long id;
     private Long orderId;
     private Long productId;
-    private String productName;
-    private String productImageUrl;
-    private Double productPrice;
+    private String name;
+    private String imageUrl;
+    private Double price;
     private Long quantity;
     private Double totalPrice;
 }

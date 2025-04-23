@@ -21,6 +21,12 @@ public class OrderItem {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "price")
+    private Double price;
+
     @Column(name = "quantity")
     @Min(value = 1, message = Msg.QUANTITY)
     private Long quantity;
@@ -28,14 +34,8 @@ public class OrderItem {
     @Column(name = "total_price")
     private Double totalPrice;
 
-    @Column(name = "product_name")
-    private String productName;
-
-    @Column(name = "product_price")
-    private Double productPrice;
-
-    @Column(name = "product_image_url")
-    private String productImageUrl;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
