@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OrderItemResponse {
     private Long id;
-    private Long basketId;
+    private Long orderId;
     private Long productId;
     private String productName;
     private String productImageUrl;
