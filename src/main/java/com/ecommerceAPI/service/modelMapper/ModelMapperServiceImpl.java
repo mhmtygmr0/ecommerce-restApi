@@ -25,7 +25,7 @@ public class ModelMapperServiceImpl implements ModelMapperService {
     public ModelMapper forResponse() {
         this.modelMapper.getConfiguration().setAmbiguityIgnored(true).setMatchingStrategy(MatchingStrategies.LOOSE);
 
-        modelMapper.typeMap(OrderItem.class, OrderItemResponse.class)
+        this.modelMapper.typeMap(OrderItem.class, OrderItemResponse.class)
                 .addMapping(src -> src.getProduct().getName(), OrderItemResponse::setProductName)
                 .addMapping(src -> src.getProduct().getPrice(), OrderItemResponse::setProductPrice)
                 .addMapping(src -> src.getProduct().getImageUrl(), OrderItemResponse::setProductImageUrl);
