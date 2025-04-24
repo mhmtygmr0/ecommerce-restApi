@@ -1,6 +1,6 @@
 package com.ecommerceAPI.dto.response;
 
-import com.ecommerceAPI.enums.StatusType;
+import com.ecommerceAPI.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class OrderResponse {
     private Long id;
     private Double totalPrice;
-    private StatusType status;
+    private OrderStatus status;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
