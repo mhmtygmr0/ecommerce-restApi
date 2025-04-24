@@ -1,6 +1,6 @@
 package com.ecommerceAPI.entity;
 
-import com.ecommerceAPI.enums.StatusType;
+import com.ecommerceAPI.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,7 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private StatusType status;
+    private OrderStatus status;
 
     @Column(name = "created_at", updatable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -49,6 +49,6 @@ public class Order {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        this.status = StatusType.PENDING;
+        this.status = OrderStatus.PENDING;
     }
 }
