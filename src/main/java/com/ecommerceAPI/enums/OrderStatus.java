@@ -1,6 +1,6 @@
 package com.ecommerceAPI.enums;
 
-public enum StatusType {
+public enum OrderStatus {
     PENDING,
     SHIPPED,
     DELIVERED,
