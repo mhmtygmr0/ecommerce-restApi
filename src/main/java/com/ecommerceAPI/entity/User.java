@@ -16,7 +16,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_role_email", columnNames = {"role", "email"}),
+                @UniqueConstraint(name = "uk_role_phone", columnNames = {"role", "phone"})
+        })
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,12 +43,12 @@ public class User {
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
-    @Column(name = "phone", nullable = false, unique = true)
+    @Column(name = "phone", nullable = false)
     @Pattern(regexp = "^[0-9]{11}$", message = Msg.PHONE)
     private String phone;
 
     @Email(message = Msg.EMAIL)
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -77,15 +82,6 @@ public class User {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDate.now();
-        this.validateCourierStatus();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.validateCourierStatus();
-    }
-
-    private void validateCourierStatus() {
         if (this.role != UserRole.COURIER) {
             this.courierStatus = null;
         } else {
@@ -93,4 +89,3 @@ public class User {
         }
     }
 }
-

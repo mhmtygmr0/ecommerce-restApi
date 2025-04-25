@@ -26,13 +26,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User save(User user) {
-        if (user.getRole() == null) {
-            user.setRole(UserRole.CUSTOMER);
+        if (user.getRole() == UserRole.CUSTOMER) {
+            Basket basket = new Basket();
+            basket.setUser(user);
+            this.basketService.save(basket);
+            user.setBasket(basket);
         }
-        Basket basket = new Basket();
-        basket.setUser(user);
-        this.basketService.save(basket);
-        user.setBasket(basket);
         return this.userRepository.save(user);
     }
 

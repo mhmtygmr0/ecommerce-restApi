@@ -49,13 +49,13 @@ public class GlobalExceptionHandler {
 
     private String extractConstraintViolationMessage(DataIntegrityViolationException ex) {
         String message = ex.getRootCause() != null ? ex.getRootCause().getMessage() : ex.getMessage();
-        System.out.println("Root Cause Message: " + message);
+        System.err.println("Root Cause Message: " + message);
 
-        if (message.contains("(email)=")) {
+        if (message.contains("uk_role_email")) {
             return Msg.EMAIL_ALREADY_REGISTERED;
-        } else if (message.contains("(phone)=")) {
+        } else if (message.contains("uk_role_phone")) {
             return Msg.PHONE_ALREADY_REGISTERED;
-        } else if (message.contains("(user_id)=")) {
+        } else if (message.contains("user_id")) {
             return Msg.USER_ALREADY_HAS_BASKET;
         } else if (message.contains("(name)=")) {
             return Msg.CATEGORY_NAME_ALREADY_EXISTS;

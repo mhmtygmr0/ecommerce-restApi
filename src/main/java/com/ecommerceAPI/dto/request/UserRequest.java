@@ -2,6 +2,7 @@ package com.ecommerceAPI.dto.request;
 
 import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class UserRequest {
     private String surname;
 
     @NotNull(message = Msg.BIRTH_DATE_NULL)
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate birthDate;
 
     @Email(message = Msg.EMAIL)
