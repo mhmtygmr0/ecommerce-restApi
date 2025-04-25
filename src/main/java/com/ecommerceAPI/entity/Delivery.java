@@ -42,7 +42,7 @@ public class Delivery {
 
     @ManyToOne
     @JoinColumn(name = "courier_id", referencedColumnName = "id")
-    private Courier courier;
+    private User courier;
 
     @PrePersist
     protected void onCreate() {

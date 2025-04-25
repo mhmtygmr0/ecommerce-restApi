@@ -1,12 +1,14 @@
 package com.ecommerceAPI.dto.request;
 
+import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.enums.UserRole;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.ecommerceAPI.core.utils.Msg;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,8 +20,15 @@ public class UserRequest {
     @NotEmpty(message = Msg.USERNAME_EMPTY)
     private String name;
 
+    @NotNull(message = Msg.SURNAME_NULL)
+    @NotEmpty(message = Msg.SURNAME_EMPTY)
+    private String surname;
+
+    @NotNull(message = Msg.BIRTH_DATE_NULL)
+    private LocalDate birthDate;
+
     @Email(message = Msg.EMAIL)
-    @NotBlank(message = "Email cannot be empty")
+    @NotBlank(message = Msg.EMAIL_NULL)
     private String email;
 
     @NotNull(message = Msg.PASSWORD_NULL)

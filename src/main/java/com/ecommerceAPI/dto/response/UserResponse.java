@@ -1,5 +1,6 @@
 package com.ecommerceAPI.dto.response;
 
+import com.ecommerceAPI.enums.CourierStatus;
 import com.ecommerceAPI.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -7,20 +8,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
-    private long id;
+    private Long id;
     private String name;
-    private String password;
-    private String email;
+    private String surname;
+    private LocalDate birthDate;
     private String phone;
+    private String email;
     private UserRole role;
+    private CourierStatus courierStatus;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate createdAt;
 }

@@ -26,7 +26,11 @@ public class Msg {
     public static final String ADDRESS_NOT_BELONG_TO_USER = "The address does not belong to the specified user.";
 
     public static final String USERNAME_NULL = "Username cannot be null";
+    public static final String SURNAME_NULL = "Surname cannot be null";
     public static final String USERNAME_EMPTY = "Username cannot be empty";
+    public static final String SURNAME_EMPTY = "Surname cannot be empty";
+    public static final String BIRTH_DATE_NULL = "Birth date cannot be null";
+    public static final String EMAIL_NULL = "Email cannot be null";
     public static final String PASSWORD_NULL = "Password cannot be null";
     public static final String PASSWORD_EMPTY = "Password cannot be empty";
     public static final String PHONE_NULL = "Phone number cannot be null";
