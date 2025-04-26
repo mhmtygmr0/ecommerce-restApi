@@ -13,14 +13,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uk_role_email", columnNames = {"role", "email"}),
-                @UniqueConstraint(name = "uk_role_phone", columnNames = {"role", "phone"})
-        })
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(name = "uk_role_email", columnNames = {"role", "email"}), @UniqueConstraint(name = "uk_role_phone", columnNames = {"role", "phone"})})
 
 @Getter
 @Setter
@@ -62,6 +59,10 @@ public class User {
     @Column(name = "courier_status")
     private CourierStatus courierStatus;
 
+    @Column(name = "available_since")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime availableSince;
+
     @Column(name = "created_at", updatable = false)
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdAt;
@@ -86,6 +87,7 @@ public class User {
             this.courierStatus = null;
         } else {
             this.courierStatus = CourierStatus.AVAILABLE;
+            this.availableSince = LocalDateTime.now();
         }
     }
 }
