@@ -4,4 +4,4 @@
 #### NOT: Proje henüz tamamlanmamıştır. Devam eden geliştirmeler ve iyileştirmeler yapılacaktır.
 
 ## DB Şeması
-![diagram2.PNG](src/main/resources/images/diagram2.PNG)
+![diagram.png](src/main/resources/images/diagram.png)
