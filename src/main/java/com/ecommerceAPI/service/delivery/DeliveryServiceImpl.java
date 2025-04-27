@@ -5,6 +5,7 @@ import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.entity.Delivery;
 import com.ecommerceAPI.repository.DeliveryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
+    @Transactional
     public Delivery save(Delivery delivery) {
         delivery.setId(null);
         return this.deliveryRepository.save(delivery);
@@ -34,12 +36,14 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
+    @Transactional
     public Delivery update(Delivery delivery) {
         this.getById(delivery.getId());
         return this.deliveryRepository.save(delivery);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Delivery delivery = this.getById(id);
         this.deliveryRepository.delete(delivery);
