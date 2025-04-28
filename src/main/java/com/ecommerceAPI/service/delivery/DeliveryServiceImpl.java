@@ -81,7 +81,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     @Transactional
     public void markAsDelivered(Long deliveryId) {
-        Delivery delivery = getById(deliveryId);
+        Delivery delivery = this.getById(deliveryId);
         delivery.setStatus(DeliveryStatus.DELIVERED);
         delivery.setDeliveredAt(LocalDateTime.now());
 
