@@ -3,19 +3,27 @@ package com.ecommerceAPI.service.delivery;
 import com.ecommerceAPI.core.exception.NotFoundException;
 import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.entity.Delivery;
+import com.ecommerceAPI.entity.Order;
+import com.ecommerceAPI.entity.User;
+import com.ecommerceAPI.enums.CourierStatus;
+import com.ecommerceAPI.enums.DeliveryStatus;
 import com.ecommerceAPI.repository.DeliveryRepository;
+import com.ecommerceAPI.service.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
+    private final UserService userService;
 
-    public DeliveryServiceImpl(DeliveryRepository deliveryRepository) {
+    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, UserService userService) {
         this.deliveryRepository = deliveryRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -47,5 +55,40 @@ public class DeliveryServiceImpl implements DeliveryService {
     public void delete(Long id) {
         Delivery delivery = this.getById(id);
         this.deliveryRepository.delete(delivery);
+    }
+
+    @Override
+    @Transactional
+    public void assignCourierToOrder(Order order) {
+        List<User> availableCouriers = this.userService.findAvailableCouriers();
+
+        Delivery delivery = new Delivery();
+        delivery.setOrder(order);
+        delivery.setAssignedAt(LocalDateTime.now());
+
+        if (availableCouriers.isEmpty()) {
+            delivery.setStatus(DeliveryStatus.PENDING);
+        } else {
+            User courier = availableCouriers.get(0);
+            delivery.setCourier(courier);
+            delivery.setStatus(DeliveryStatus.ASSIGNED);
+            this.userService.updateCourierStatus(courier.getId(), CourierStatus.BUSY);
+        }
+
+        this.deliveryRepository.save(delivery);
+    }
+
+    @Override
+    @Transactional
+    public void markAsDelivered(Long deliveryId) {
+        Delivery delivery = getById(deliveryId);
+        delivery.setStatus(DeliveryStatus.DELIVERED);
+        delivery.setDeliveredAt(LocalDateTime.now());
+
+        if (delivery.getCourier() != null) {
+            this.userService.updateCourierStatus(delivery.getCourier().getId(), CourierStatus.AVAILABLE);
+        }
+
+        this.deliveryRepository.save(delivery);
     }
 }

@@ -9,6 +9,7 @@ import com.ecommerceAPI.repository.OrderRepository;
 import com.ecommerceAPI.service.address.AddressService;
 import com.ecommerceAPI.service.basket.BasketService;
 import com.ecommerceAPI.service.basketItem.BasketItemService;
+import com.ecommerceAPI.service.delivery.DeliveryService;
 import com.ecommerceAPI.service.orderItem.OrderItemService;
 import com.ecommerceAPI.service.stock.StockService;
 import com.ecommerceAPI.service.user.UserService;
@@ -27,8 +28,9 @@ public class OrderServiceImpl implements OrderService {
     private final BasketItemService basketItemService;
     private final OrderItemService orderItemService;
     private final StockService stockService;
+    private final DeliveryService deliveryService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, AddressService addressService, BasketService basketService, BasketItemService basketItemService, OrderItemService orderItemService, StockService stockService) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserService userService, AddressService addressService, BasketService basketService, BasketItemService basketItemService, OrderItemService orderItemService, StockService stockService, DeliveryService deliveryService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.addressService = addressService;
@@ -36,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
         this.basketItemService = basketItemService;
         this.orderItemService = orderItemService;
         this.stockService = stockService;
+        this.deliveryService = deliveryService;
     }
 
     @Override
@@ -63,6 +66,8 @@ public class OrderServiceImpl implements OrderService {
         this.processBasketItems(savedOrder, basketItems);
 
         this.basketItemService.deleteByBasketId(basket.getId());
+
+        this.deliveryService.assignCourierToOrder(savedOrder);
 
         return savedOrder;
     }

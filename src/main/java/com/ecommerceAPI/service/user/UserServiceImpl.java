@@ -4,12 +4,14 @@ import com.ecommerceAPI.core.exception.NotFoundException;
 import com.ecommerceAPI.core.utils.Msg;
 import com.ecommerceAPI.entity.Basket;
 import com.ecommerceAPI.entity.User;
+import com.ecommerceAPI.enums.CourierStatus;
 import com.ecommerceAPI.enums.UserRole;
 import com.ecommerceAPI.repository.UserRepository;
 import com.ecommerceAPI.service.basket.BasketService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -65,5 +67,33 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         User user = this.getById(id);
         this.userRepository.delete(user);
+    }
+
+    @Override
+    public List<User> findAvailableCouriers() {
+        return this.userRepository.findByRoleAndCourierStatusOrderByAvailableSinceAsc(
+                UserRole.COURIER,
+                CourierStatus.AVAILABLE
+        );
+    }
+
+    @Override
+    @Transactional
+    public void updateCourierStatus(Long userId, CourierStatus status) {
+        User courier = this.getById(userId);
+
+        if (courier.getRole() != UserRole.COURIER) {
+            throw new NotFoundException(Msg.NOT_FOUND, "Courier");
+        }
+
+        courier.setCourierStatus(status);
+
+        if (status == CourierStatus.AVAILABLE) {
+            courier.setAvailableSince(LocalDateTime.now());
+        } else {
+            courier.setAvailableSince(null);
+        }
+
+        this.userRepository.save(courier);
     }
 }

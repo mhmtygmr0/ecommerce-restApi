@@ -1,6 +1,7 @@
 package com.ecommerceAPI.service.delivery;
 
 import com.ecommerceAPI.entity.Delivery;
+import com.ecommerceAPI.entity.Order;
 
 import java.util.List;
 
@@ -14,4 +15,8 @@ public interface DeliveryService {
     Delivery update(Delivery delivery);
 
     void delete(Long id);
+
+    void assignCourierToOrder(Order order);
+
+    void markAsDelivered(Long deliveryId);
 }
