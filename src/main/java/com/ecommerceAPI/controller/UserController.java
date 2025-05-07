@@ -1,9 +1,11 @@
 package com.ecommerceAPI.controller;
 
 import com.ecommerceAPI.core.utils.ResultHelper;
+import com.ecommerceAPI.dto.request.CourierStatusRequest;
 import com.ecommerceAPI.dto.request.UserRequest;
 import com.ecommerceAPI.dto.response.UserResponse;
 import com.ecommerceAPI.entity.User;
+import com.ecommerceAPI.enums.CourierStatus;
 import com.ecommerceAPI.enums.UserRole;
 import com.ecommerceAPI.service.modelMapper.ModelMapperService;
 import com.ecommerceAPI.service.user.UserService;
@@ -58,6 +60,13 @@ public class UserController {
         User user = this.modelMapper.forRequest().map(userRequest, User.class);
         user.setId(id);
         this.userService.update(user);
+        return ResponseEntity.ok(ResultHelper.success(this.modelMapper.forResponse().map(user, UserResponse.class)));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Map<String, Object>> updateCourierStatus(@PathVariable("id") Long id, @Valid @RequestBody CourierStatusRequest statusRequest) {
+        this.userService.updateCourierStatus(id, statusRequest.getStatus());
+        User user = this.userService.getById(id);
         return ResponseEntity.ok(ResultHelper.success(this.modelMapper.forResponse().map(user, UserResponse.class)));
     }
 
