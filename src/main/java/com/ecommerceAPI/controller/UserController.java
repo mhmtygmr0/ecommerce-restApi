@@ -4,6 +4,7 @@ import com.ecommerceAPI.core.utils.ResultHelper;
 import com.ecommerceAPI.dto.request.UserRequest;
 import com.ecommerceAPI.dto.response.UserResponse;
 import com.ecommerceAPI.entity.User;
+import com.ecommerceAPI.enums.UserRole;
 import com.ecommerceAPI.service.modelMapper.ModelMapperService;
 import com.ecommerceAPI.service.user.UserService;
 import jakarta.validation.Valid;
@@ -41,6 +42,13 @@ public class UserController {
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAll() {
         List<User> userList = this.userService.getAll();
+        List<UserResponse> userResponseList = userList.stream().map(user -> this.modelMapper.forResponse().map(user, UserResponse.class)).toList();
+        return ResponseEntity.ok(ResultHelper.success(userResponseList));
+    }
+
+    @GetMapping("/role/{role}")
+    public ResponseEntity<Map<String, Object>> getAllByRole(@PathVariable("role") UserRole role) {
+        List<User> userList = this.userService.getAllByRole(role);
         List<UserResponse> userResponseList = userList.stream().map(user -> this.modelMapper.forResponse().map(user, UserResponse.class)).toList();
         return ResponseEntity.ok(ResultHelper.success(userResponseList));
     }
