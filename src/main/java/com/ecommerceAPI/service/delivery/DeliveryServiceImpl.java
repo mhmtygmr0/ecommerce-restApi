@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -89,6 +90,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         delivery.setStatus(DeliveryStatus.DELIVERED);
         delivery.setDeliveredAt(LocalDateTime.now());
+        delivery.setDeliveredAt(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
 
         if (delivery.getCourier() != null) {
             this.userService.updateCourierStatus(delivery.getCourier().getId(), CourierStatus.AVAILABLE);
