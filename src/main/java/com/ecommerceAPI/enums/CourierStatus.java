@@ -1,7 +1,7 @@
 package com.ecommerceAPI.enums;
 
 public enum CourierStatus {
-    AVAILABLE,
-    BUSY,
-    OFFLINE
+    AVAILABLE,   // Kurye müsait durumda
+    BUSY,        // Kurye meşgul durumda (teslimat yapıyor)
+    OFFLINE      // Kurye çevrimdışı durumda
 }

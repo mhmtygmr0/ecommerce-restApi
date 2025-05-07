@@ -1,7 +1,7 @@
 package com.ecommerceAPI.enums;
 
 public enum DeliveryStatus {
-    PENDING,
-    ASSIGNED,
-    DELIVERED
+    PENDING,    // Teslimat beklemede
+    ASSIGNED,   // Teslimat bir kuryeye atandı
+    DELIVERED   // Teslimat başarıyla gerçekleştirildi
 }
