@@ -2,6 +2,7 @@ package com.ecommerceAPI.service.user;
 
 import com.ecommerceAPI.entity.User;
 import com.ecommerceAPI.enums.CourierStatus;
+import com.ecommerceAPI.enums.UserRole;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ public interface UserService {
     User getById(Long id);
 
     List<User> getAll();
+
+    List<User> getAllByRole(UserRole role);
 
     User update(User user);
 

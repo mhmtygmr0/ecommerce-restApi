@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getAllByRole(UserRole role) {
+        return this.userRepository.findByRoleOrderByIdAsc(role);
+    }
+
+    @Override
     @Transactional
     public User update(User user) {
         User existingUser = this.getById(user.getId());

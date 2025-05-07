@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllByOrderByIdAsc();
 
     List<User> findByRoleAndCourierStatusOrderByAvailableSinceAsc(UserRole role, CourierStatus courierStatus);
+
+    List<User> findByRoleOrderByIdAsc(UserRole role);
 }
