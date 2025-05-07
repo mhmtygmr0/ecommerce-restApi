@@ -82,11 +82,26 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Transactional
     public void markAsDelivered(Long deliveryId) {
         Delivery delivery = this.getById(deliveryId);
+
+        if (delivery.getStatus() == DeliveryStatus.DELIVERED) {
+            throw new IllegalStateException(Msg.DELIVERY_ALREADY_MARKED);
+        }
+
         delivery.setStatus(DeliveryStatus.DELIVERED);
         delivery.setDeliveredAt(LocalDateTime.now());
 
         if (delivery.getCourier() != null) {
             this.userService.updateCourierStatus(delivery.getCourier().getId(), CourierStatus.AVAILABLE);
+
+            List<Delivery> pendingDeliveries = this.deliveryRepository.findByStatusOrderByAssignedAtAsc(DeliveryStatus.PENDING);
+            if (!pendingDeliveries.isEmpty()) {
+                Delivery nextDelivery = pendingDeliveries.get(0);
+                nextDelivery.setCourier(delivery.getCourier());
+                nextDelivery.setStatus(DeliveryStatus.ASSIGNED);
+                nextDelivery.setAssignedAt(LocalDateTime.now());
+                this.userService.updateCourierStatus(delivery.getCourier().getId(), CourierStatus.BUSY);
+                this.deliveryRepository.save(nextDelivery);
+            }
         }
 
         this.deliveryRepository.save(delivery);

@@ -54,6 +54,8 @@ public class Msg {
     public static final String ORDER_ADDRESS_ID_NULL = "Address id cannot be null";
     public static final String CART_IS_EMPTY = "Your cart is empty. Order cannot be placed.";
 
+    public static final String DELIVERY_ALREADY_MARKED = "Delivery is already marked as delivered.";
+
     public static final String EMAIL_ALREADY_REGISTERED = "This email address is already registered.";
     public static final String PHONE_ALREADY_REGISTERED = "This phone number is already registered.";
     public static final String CATEGORY_NAME_ALREADY_EXISTS = "This category name is already registered.";
