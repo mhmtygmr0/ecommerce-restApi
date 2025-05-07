@@ -86,7 +86,7 @@ public class User {
         if (this.role != UserRole.COURIER) {
             this.courierStatus = null;
         } else {
-            this.courierStatus = CourierStatus.AVAILABLE;
+            this.courierStatus = CourierStatus.OFFLINE;
             this.availableSince = LocalDateTime.now();
         }
     }
