@@ -7,6 +7,7 @@ import com.ecommerceAPI.entity.Order;
 import com.ecommerceAPI.entity.User;
 import com.ecommerceAPI.enums.CourierStatus;
 import com.ecommerceAPI.enums.DeliveryStatus;
+import com.ecommerceAPI.enums.OrderStatus;
 import com.ecommerceAPI.repository.DeliveryRepository;
 import com.ecommerceAPI.service.user.UserService;
 import org.springframework.context.annotation.Lazy;
@@ -73,6 +74,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         } else {
             User courier = availableCouriers.getFirst();
             this.assignCourier(delivery, courier);
+            delivery.getOrder().setStatus(OrderStatus.SHIPPED);
         }
 
         this.deliveryRepository.save(delivery);
@@ -95,7 +97,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         delivery.setCourier(courier);
         delivery.setStatus(DeliveryStatus.ASSIGNED);
         delivery.setAssignedAt(LocalDateTime.now());
-
+        delivery.getOrder().setStatus(OrderStatus.SHIPPED);
         this.userService.updateCourierStatus(courier.getId(), CourierStatus.BUSY);
         this.deliveryRepository.save(delivery);
     }
@@ -111,6 +113,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         delivery.setStatus(DeliveryStatus.DELIVERED);
         delivery.setDeliveredAt(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
+        delivery.getOrder().setStatus(OrderStatus.DELIVERED);
 
         if (delivery.getCourier() != null) {
             Long courierId = delivery.getCourier().getId();
