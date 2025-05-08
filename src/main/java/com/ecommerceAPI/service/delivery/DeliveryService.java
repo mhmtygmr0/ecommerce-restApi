@@ -19,4 +19,6 @@ public interface DeliveryService {
     void assignCourierToOrder(Order order);
 
     void markAsDelivered(Long deliveryId);
+
+    void assignAvailableCourierToPendingDelivery();
 }

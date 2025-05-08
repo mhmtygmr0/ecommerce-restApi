@@ -8,6 +8,8 @@ import com.ecommerceAPI.enums.CourierStatus;
 import com.ecommerceAPI.enums.UserRole;
 import com.ecommerceAPI.repository.UserRepository;
 import com.ecommerceAPI.service.basket.BasketService;
+import com.ecommerceAPI.service.delivery.DeliveryService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +21,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BasketService basketService;
+    private final DeliveryService deliveryService;
 
-    public UserServiceImpl(UserRepository userRepository, BasketService basketService) {
+    public UserServiceImpl(UserRepository userRepository, BasketService basketService, @Lazy DeliveryService deliveryService) {
         this.userRepository = userRepository;
         this.basketService = basketService;
+        this.deliveryService = deliveryService;
     }
 
     @Override
@@ -100,5 +104,9 @@ public class UserServiceImpl implements UserService {
         }
 
         this.userRepository.save(courier);
+
+        if (status == CourierStatus.AVAILABLE) {
+            this.deliveryService.assignAvailableCourierToPendingDelivery();
+        }
     }
 }

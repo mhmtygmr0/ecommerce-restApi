@@ -28,7 +28,7 @@ public class Delivery {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime assignedAt;
 
-    @Column(name = "delivered_at", updatable = false)
+    @Column(name = "delivered_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime deliveredAt;
 

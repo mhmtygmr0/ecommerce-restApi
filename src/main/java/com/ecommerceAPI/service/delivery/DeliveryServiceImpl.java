@@ -9,6 +9,7 @@ import com.ecommerceAPI.enums.CourierStatus;
 import com.ecommerceAPI.enums.DeliveryStatus;
 import com.ecommerceAPI.repository.DeliveryRepository;
 import com.ecommerceAPI.service.user.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryRepository deliveryRepository;
     private final UserService userService;
 
-    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, UserService userService) {
+    public DeliveryServiceImpl(DeliveryRepository deliveryRepository, @Lazy UserService userService) {
         this.deliveryRepository = deliveryRepository;
         this.userService = userService;
     }
@@ -89,23 +90,33 @@ public class DeliveryServiceImpl implements DeliveryService {
         }
 
         delivery.setStatus(DeliveryStatus.DELIVERED);
-        delivery.setDeliveredAt(LocalDateTime.now());
         delivery.setDeliveredAt(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
 
         if (delivery.getCourier() != null) {
-            this.userService.updateCourierStatus(delivery.getCourier().getId(), CourierStatus.AVAILABLE);
-
-            List<Delivery> pendingDeliveries = this.deliveryRepository.findByStatusOrderByAssignedAtAsc(DeliveryStatus.PENDING);
-            if (!pendingDeliveries.isEmpty()) {
-                Delivery nextDelivery = pendingDeliveries.get(0);
-                nextDelivery.setCourier(delivery.getCourier());
-                nextDelivery.setStatus(DeliveryStatus.ASSIGNED);
-                nextDelivery.setAssignedAt(LocalDateTime.now());
-                this.userService.updateCourierStatus(delivery.getCourier().getId(), CourierStatus.BUSY);
-                this.deliveryRepository.save(nextDelivery);
-            }
+            Long courierId = delivery.getCourier().getId();
+            this.userService.updateCourierStatus(courierId, CourierStatus.AVAILABLE);
+            this.assignAvailableCourierToPendingDelivery();
         }
 
         this.deliveryRepository.save(delivery);
+    }
+
+    @Override
+    @Transactional
+    public void assignAvailableCourierToPendingDelivery() {
+        List<Delivery> pendingDeliveries = this.deliveryRepository.findByStatusOrderByAssignedAtAsc(DeliveryStatus.PENDING);
+        List<User> availableCouriers = this.userService.findAvailableCouriers();
+
+        if (!pendingDeliveries.isEmpty() && !availableCouriers.isEmpty()) {
+            Delivery pendingDelivery = pendingDeliveries.get(0);
+            User availableCourier = availableCouriers.get(0);
+
+            pendingDelivery.setCourier(availableCourier);
+            pendingDelivery.setStatus(DeliveryStatus.ASSIGNED);
+            pendingDelivery.setAssignedAt(LocalDateTime.now());
+
+            this.userService.updateCourierStatus(availableCourier.getId(), CourierStatus.BUSY);
+            this.deliveryRepository.save(pendingDelivery);
+        }
     }
 }
