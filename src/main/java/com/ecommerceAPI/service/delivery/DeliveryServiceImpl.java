@@ -71,12 +71,32 @@ public class DeliveryServiceImpl implements DeliveryService {
         if (availableCouriers.isEmpty()) {
             delivery.setStatus(DeliveryStatus.PENDING);
         } else {
-            User courier = availableCouriers.get(0);
-            delivery.setCourier(courier);
-            delivery.setStatus(DeliveryStatus.ASSIGNED);
-            this.userService.updateCourierStatus(courier.getId(), CourierStatus.BUSY);
+            User courier = availableCouriers.getFirst();
+            this.assignCourier(delivery, courier);
         }
 
+        this.deliveryRepository.save(delivery);
+    }
+
+    @Override
+    @Transactional
+    public void assignAvailableCourierToPendingDelivery() {
+        List<Delivery> pendingDeliveries = this.deliveryRepository.findByStatusOrderByAssignedAtAsc(DeliveryStatus.PENDING);
+        List<User> availableCouriers = this.userService.findAvailableCouriers();
+
+        if (!pendingDeliveries.isEmpty() && !availableCouriers.isEmpty()) {
+            Delivery pendingDelivery = pendingDeliveries.getFirst();
+            User availableCourier = availableCouriers.getFirst();
+            this.assignCourier(pendingDelivery, availableCourier);
+        }
+    }
+
+    private void assignCourier(Delivery delivery, User courier) {
+        delivery.setCourier(courier);
+        delivery.setStatus(DeliveryStatus.ASSIGNED);
+        delivery.setAssignedAt(LocalDateTime.now());
+
+        this.userService.updateCourierStatus(courier.getId(), CourierStatus.BUSY);
         this.deliveryRepository.save(delivery);
     }
 
@@ -99,24 +119,5 @@ public class DeliveryServiceImpl implements DeliveryService {
         }
 
         this.deliveryRepository.save(delivery);
-    }
-
-    @Override
-    @Transactional
-    public void assignAvailableCourierToPendingDelivery() {
-        List<Delivery> pendingDeliveries = this.deliveryRepository.findByStatusOrderByAssignedAtAsc(DeliveryStatus.PENDING);
-        List<User> availableCouriers = this.userService.findAvailableCouriers();
-
-        if (!pendingDeliveries.isEmpty() && !availableCouriers.isEmpty()) {
-            Delivery pendingDelivery = pendingDeliveries.get(0);
-            User availableCourier = availableCouriers.get(0);
-
-            pendingDelivery.setCourier(availableCourier);
-            pendingDelivery.setStatus(DeliveryStatus.ASSIGNED);
-            pendingDelivery.setAssignedAt(LocalDateTime.now());
-
-            this.userService.updateCourierStatus(availableCourier.getId(), CourierStatus.BUSY);
-            this.deliveryRepository.save(pendingDelivery);
-        }
     }
 }
