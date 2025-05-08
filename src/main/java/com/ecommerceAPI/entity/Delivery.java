@@ -37,11 +37,11 @@ public class Delivery {
     private DeliveryStatus status;
 
     @OneToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "courier_id", referencedColumnName = "id")
+    @JoinColumn(name = "courier_id", referencedColumnName = "id", nullable = true)
     private User courier;
 
     @PrePersist

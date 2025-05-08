@@ -36,15 +36,14 @@ public class Order {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "delivery_id")
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Delivery delivery;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

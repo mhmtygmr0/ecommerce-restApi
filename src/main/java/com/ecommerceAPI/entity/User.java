@@ -67,17 +67,17 @@ public class User {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "basket_id", referencedColumnName = "id")
     private Basket basket;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addressList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user")
     private List<Order> orderList;
 
-    @OneToMany(mappedBy = "courier", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "courier")
     private List<Delivery> deliveries;
 
     @PrePersist
