@@ -42,4 +42,6 @@ public class UserRequest {
     private String phone;
 
     private UserRole role;
+
+    private String imageUrl;
 }

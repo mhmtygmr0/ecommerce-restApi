@@ -23,6 +23,7 @@ public class UserResponse {
     private String email;
     private UserRole role;
     private CourierStatus courierStatus;
+    private String imageUrl;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdAt;

@@ -80,6 +80,9 @@ public class User {
     @OneToMany(mappedBy = "courier")
     private List<Delivery> deliveries;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDate.now();
