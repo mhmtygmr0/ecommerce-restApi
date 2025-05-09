@@ -10,6 +10,7 @@ import com.ecommerceAPI.repository.UserRepository;
 import com.ecommerceAPI.service.basket.BasketService;
 import com.ecommerceAPI.service.delivery.DeliveryService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,16 +23,20 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BasketService basketService;
     private final DeliveryService deliveryService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, BasketService basketService, @Lazy DeliveryService deliveryService) {
+    public UserServiceImpl(UserRepository userRepository, BasketService basketService, @Lazy DeliveryService deliveryService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.basketService = basketService;
         this.deliveryService = deliveryService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
     public User save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        
         if (user.getRole() == UserRole.CUSTOMER) {
             Basket basket = new Basket();
             basket.setUser(user);

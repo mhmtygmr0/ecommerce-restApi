@@ -1,10 +1,10 @@
 package com.ecommerceAPI.controller;
 
+import com.ecommerceAPI.core.modelMapper.ModelMapperService;
 import com.ecommerceAPI.core.utils.ResultHelper;
 import com.ecommerceAPI.dto.request.StockRequest;
 import com.ecommerceAPI.dto.response.StockResponse;
 import com.ecommerceAPI.entity.Stock;
-import com.ecommerceAPI.service.modelMapper.ModelMapperService;
 import com.ecommerceAPI.service.stock.StockService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

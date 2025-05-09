@@ -1,13 +1,12 @@
 package com.ecommerceAPI.controller;
 
+import com.ecommerceAPI.core.modelMapper.ModelMapperService;
 import com.ecommerceAPI.core.utils.ResultHelper;
 import com.ecommerceAPI.dto.request.CourierStatusRequest;
 import com.ecommerceAPI.dto.request.UserRequest;
 import com.ecommerceAPI.dto.response.UserResponse;
 import com.ecommerceAPI.entity.User;
-import com.ecommerceAPI.enums.CourierStatus;
 import com.ecommerceAPI.enums.UserRole;
-import com.ecommerceAPI.service.modelMapper.ModelMapperService;
 import com.ecommerceAPI.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

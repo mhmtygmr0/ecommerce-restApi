@@ -1,10 +1,10 @@
 package com.ecommerceAPI.controller;
 
+import com.ecommerceAPI.core.modelMapper.ModelMapperService;
 import com.ecommerceAPI.core.utils.ResultHelper;
 import com.ecommerceAPI.dto.request.ProductRequest;
 import com.ecommerceAPI.dto.response.ProductResponse;
 import com.ecommerceAPI.entity.Product;
-import com.ecommerceAPI.service.modelMapper.ModelMapperService;
 import com.ecommerceAPI.service.product.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
